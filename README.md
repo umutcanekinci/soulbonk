@@ -36,7 +36,7 @@
 
 ## 📅 Roadmap & Kanban
 
-We follow an Agile methodology. You can track our live progress on our [**GitHub Project Board**](#).
+We follow an Agile methodology. You can track our live progress on our [**GitHub Project Board**](https://github.com/users/umutcanekinci/projects/6).
 
 ### Sprint 1: Foundation (Completed) ✅
 - [x] **Core Movement:** Fluid 2D Movement & Physics-based Dash.
@@ -59,25 +59,16 @@ We follow an Agile methodology. You can track our live progress on our [**GitHub
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/YourUsername/Soulbonk.git](https://github.com/YourUsername/Soulbonk.git)
+    git clone [https://github.com/umutcanekinci/soulbonk.git](https://github.com/umutcanekinci/soulbonk.git)
     ```
 2.  Open **Unity Hub**.
-3.  Add the project folder and open with **Unity 2022.3 LTS** (or newer).
+3.  Add the project folder and open with **Unity 6.2 (6000.2.9.f1)** (or newer).
 4.  Navigate to `Assets/Scenes` and open **MainScene**.
 5.  Press **Play**!
 
 ## 🤝 Assets & Credits
 
 This project is developed by **Umutcan Ekinci**.
-
-**Third-Party Assets Used:**
-* **Characters:** [Top Down Adventurer by Xzany](https://xzany.itch.io/top-down-adventurer-character)
-* **Environment:** [Small Forest by Rowdy41](https://rowdy41.itch.io/small-forest) & [Top Down Tilesets](https://itch.io/c/1574579/top-down)
-* **Enemies:** [Monster Packs by Admurin](https://admurin.itch.io/)
-* **UI/Icons:** [Input Prompts](https://www.kenney.nl/assets/input-prompts) & [Mobile Controls](https://www.kenney.nl/assets/mobile-controls) by Kenney
-
----
-*License: MIT*
 
 **Third-Party Assets:**
 - [Character Sprite Pack by Xzany](https://xzany.itch.io/top-down-adventurer-character)
@@ -88,30 +79,16 @@ This project is developed by **Umutcan Ekinci**.
 - [Environment: Top Down Assets Collection by Itch.io Community](https://itch.io/queue/c/1574579/top-down?game_id=3307044&password=)
 - [Enemies: Monster Packs by Admurin](https://admurin.itch.io/monster-pack-40), [Monster Pack 21](https://admurin.itch.io/monster-pack-21), [Monster Pack Collection](https://admurin.itch.io/monster-pack)
 
-Future
-https://admurin.itch.io/free-monster-pack-character
-https://admurin.itch.io/free-monster-pack-character-2
-https://admurin.itch.io/top-down-mobs-warhog
-https://admurin.itch.io/top-down-mobs-dog
-https://admurin.itch.io/top-down-mobs-bee
-https://admurin.itch.io/monster-pack-85
-https://admurin.itch.io/monster-pack-83
-https://admurin.itch.io/monster-pack-82
-https://admurin.itch.io/monster-pack-66
+Future Usage Plans
+- https://admurin.itch.io/free-monster-pack-character
+- https://admurin.itch.io/free-monster-pack-character-2
+- https://admurin.itch.io/top-down-mobs-warhog
+- https://admurin.itch.io/top-down-mobs-dog
+- https://admurin.itch.io/top-down-mobs-bee
+- https://admurin.itch.io/monster-pack-85
+- https://admurin.itch.io/monster-pack-83
+- https://admurin.itch.io/monster-pack-82
+- https://admurin.itch.io/monster-pack-66
 
 ---
-*Developed by Umutcan Ekinci*
-
-
----
-*License: MIT (or whatever you choose)*
-
-TODO
-Player attack and entity attack connection
-- [ ] Add GIF to README
-- [ ] Add Tilemap
-- [ ] Enemy dead effect and animations
-- [ ] Enemy sound effects
-- [ ] Walk vfx and sfx (?)
-- [ ] Player hit effect and sfx
-- [ ] Fixing canvas to be scaled with screen size
+*License: MIT*
