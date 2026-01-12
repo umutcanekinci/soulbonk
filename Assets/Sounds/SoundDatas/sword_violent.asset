@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa760f8036d15c4cb7f1ceb8e125d70, type: 3}
+  m_Name: sword_violent
+  m_EditorClassIdentifier: ProSoundManager::VectorViolet.Core.Audio.SoundData
+  clip: {fileID: 8300000, guid: 68e637b74bb93e1479ca118aa6333a4f, type: 3}
+  volume: 0.62
+  pitch: 1
+  loop: 0
+  useRandomPitch: 0
+  randomPitchRange: 0.1
+  spatialBlend: 0
+  rolloffMode: 1
+  minDistance: 1
+  maxDistance: 50

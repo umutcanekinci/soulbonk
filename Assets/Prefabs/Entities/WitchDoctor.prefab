@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4481925688736797184
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.9403157
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.843806
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422691103465046231, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2107713889, guid: d5367df5ffc0f7a449380251941867fa, type: 3}
+    - target: {fileID: 4422691103465046231, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6270725609877569548, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: efdc203ede6d03141a042b2cf01f97fd, type: 2}
+    - target: {fileID: 8177875545299866544, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_Name
+      value: WitchDoctor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8177875545299866544, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: attributes.Array.data[0]._baseValue
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: attributes.Array.data[1]._baseValue
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: attributes.Array.data[2]._baseValue
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: attributes.Array.data[3]._baseValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: attributes.Array.data[4]._baseValue
+      value: 0.3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb163b367843a234db9baf2e4262322d, type: 3}

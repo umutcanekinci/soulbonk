@@ -1,0 +1,743 @@
+fileFormatVersion: 2
+guid: 198c051c068508447b8cdfd469341dcd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5414187065153055682
+    second: WitchDoctor_Attack_Down_0
+  - first:
+      213: 4549426212399551866
+    second: WitchDoctor_Attack_Down_1
+  - first:
+      213: 6858929075640312953
+    second: WitchDoctor_Attack_Down_2
+  - first:
+      213: -8559074778460575346
+    second: WitchDoctor_Attack_Down_3
+  - first:
+      213: -7829266250030278734
+    second: WitchDoctor_Attack_Down_4
+  - first:
+      213: 189349604873007316
+    second: WitchDoctor_Attack_Down_5
+  - first:
+      213: 8320597935832470898
+    second: WitchDoctor_Attack_Right_0
+  - first:
+      213: -6063770471386183483
+    second: WitchDoctor_Attack_Right_1
+  - first:
+      213: -3869332968337656422
+    second: WitchDoctor_Attack_Right_2
+  - first:
+      213: -8091276205118442213
+    second: WitchDoctor_Attack_Right_3
+  - first:
+      213: 1655855337943038957
+    second: WitchDoctor_Attack_Right_4
+  - first:
+      213: 8086155604275736056
+    second: WitchDoctor_Attack_Right_5
+  - first:
+      213: 4554503468843776515
+    second: WitchDoctor_Attack_Left_0
+  - first:
+      213: -5883199708852800001
+    second: WitchDoctor_Attack_Left_1
+  - first:
+      213: 1398341099873733371
+    second: WitchDoctor_Attack_Left_2
+  - first:
+      213: 3600369597648316448
+    second: WitchDoctor_Attack_Left_3
+  - first:
+      213: -1233511932835706075
+    second: WitchDoctor_Attack_Left_4
+  - first:
+      213: 2492555301300320589
+    second: WitchDoctor_Attack_Left_5
+  - first:
+      213: -8381560122186077362
+    second: WitchDoctor_Attack_Up_0
+  - first:
+      213: -5960510769615084283
+    second: WitchDoctor_Attack_Up_1
+  - first:
+      213: -3491202117682711352
+    second: WitchDoctor_Attack_Up_2
+  - first:
+      213: 541612658864642524
+    second: WitchDoctor_Attack_Up_3
+  - first:
+      213: -2849506012079139474
+    second: WitchDoctor_Attack_Up_4
+  - first:
+      213: -6316570516279179304
+    second: WitchDoctor_Attack_Up_5
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b38d977c4662ae149af5663fdbdf40b7
+      internalID: -113309013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c98aa6dda52e5e4c86cbd9c8a1f9690
+      internalID: -253360201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 588f95a18233e1e48bbccb481962af3b
+      internalID: 1738492927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45bc1cc1cb22e7f49ac0cf7e7fbc90c9
+      internalID: -1651682536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 269c210eacaa1cd48a022dfaa93da6e3
+      internalID: -98882680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10fef8856db1d794fb9d8e08d645da99
+      internalID: -1815614632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9248249845355154e8eab4cde465e35c
+      internalID: 1128156806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_7
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 256
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d51c69b325ed5ce4e92d0d2ab06bc750
+      internalID: 1565789415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d38fa340f427784494f247581797b53
+      internalID: -1834935185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_9
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 256
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3eeda572fc190414b9547e1f792c4f59
+      internalID: -1807712634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_10
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 256
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb27c360e8dcf9f4ea1488200f9702e7
+      internalID: -1135628792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_11
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 256
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c91b2a703dfaff54b83ae80a38791201
+      internalID: -1378366705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f9f10f439ad8e147bfa7344b8641095
+      internalID: 1760287175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_13
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f47ff12a9aa4aa48b8c66c2f666588a
+      internalID: 1843324431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_14
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d918197546fa0347894a36391c55562
+      internalID: 1214758704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_15
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df11c2bb87001994d810867473f4502b
+      internalID: 560710377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_16
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02a3d638964cc84d8c19f6c35a0328d
+      internalID: -2129874060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_17
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a670f8b6f58e4a469b11c3984ea484a
+      internalID: -540258503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccdd4265579dae84f8229f850ac76635
+      internalID: -1862250127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_19
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e90fffd53dc4c34a9d3df9f6f2e9eb5
+      internalID: -1636006416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_20
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e012c39cff277f43851fa87771b18c9
+      internalID: -1949885598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_21
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47044daad9398834db5c31982597ea07
+      internalID: 114941576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_22
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 828a47de733b11f4db4a1dee89af5721
+      internalID: 1825699191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Witch_Doctor_Skill_23
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.496, y: 0.3802805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1cb89ef0f77cf945bb94ebcab923fb5
+      internalID: -1610702488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f6b16ed3a8ce8304f8117d66b00b6da6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":4.0},"gridSpriteSize":{"x":128.0,"y":128.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.4959999918937683,"y":0.3802804946899414},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Witch_Doctor_Skill_0: -113309013
+      Witch_Doctor_Skill_1: -253360201
+      Witch_Doctor_Skill_10: -1135628792
+      Witch_Doctor_Skill_11: -1378366705
+      Witch_Doctor_Skill_12: 1760287175
+      Witch_Doctor_Skill_13: 1843324431
+      Witch_Doctor_Skill_14: 1214758704
+      Witch_Doctor_Skill_15: 560710377
+      Witch_Doctor_Skill_16: -2129874060
+      Witch_Doctor_Skill_17: -540258503
+      Witch_Doctor_Skill_18: -1862250127
+      Witch_Doctor_Skill_19: -1636006416
+      Witch_Doctor_Skill_2: 1738492927
+      Witch_Doctor_Skill_20: -1949885598
+      Witch_Doctor_Skill_21: 114941576
+      Witch_Doctor_Skill_22: 1825699191
+      Witch_Doctor_Skill_23: -1610702488
+      Witch_Doctor_Skill_3: -1651682536
+      Witch_Doctor_Skill_4: -98882680
+      Witch_Doctor_Skill_5: -1815614632
+      Witch_Doctor_Skill_6: 1128156806
+      Witch_Doctor_Skill_7: 1565789415
+      Witch_Doctor_Skill_8: -1834935185
+      Witch_Doctor_Skill_9: -1807712634
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
