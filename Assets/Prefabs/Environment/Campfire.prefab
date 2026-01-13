@@ -1,5 +1,39 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &65486750470649600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8679664053527754109}
+  m_Layer: 0
+  m_Name: Art
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8679664053527754109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65486750470649600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5983336562199566612}
+  - {fileID: 5749284098627880494}
+  - {fileID: 6588768650109475745}
+  m_Father: {fileID: 4245387965810245965}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &698632431136747244
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,10 +64,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4245387965810245965}
+  m_Father: {fileID: 8679664053527754109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6952183025880940813
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -79,6 +114,7 @@ SpriteRenderer:
   m_SortingLayerID: 796846971
   m_SortingLayer: 2
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 58cd378ec74e25d478dc98abf723cda2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -88,7 +124,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!1 &4911651558355850723
 GameObject:
@@ -115,12 +150,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4911651558355850723}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.28, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.2800002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4245387965810245965}
+  m_Father: {fileID: 8679664053527754109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3651532500140713613
 MonoBehaviour:
@@ -201,11 +236,11 @@ Transform:
   m_GameObject: {fileID: 8141036193338847554}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.42, z: 0}
+  m_LocalPosition: {x: 0, y: 0.42000008, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4245387965810245965}
+  m_Father: {fileID: 8679664053527754109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &1726875697008242321
 ParticleSystem:
@@ -4932,7 +4967,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &5788362179345637699
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4978,6 +5013,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: -1668553171
   m_SortingLayer: 1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5009,7 +5045,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &9190077522356124770
 GameObject:
   m_ObjectHideFlags: 0
@@ -5041,9 +5076,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6759954257720216060}
-  - {fileID: 6588768650109475745}
-  - {fileID: 5749284098627880494}
-  - {fileID: 5983336562199566612}
+  - {fileID: 8679664053527754109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &1286794543866943268
@@ -5091,6 +5124,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4245387965810245965}
     m_Modifications:
+    - target: {fileID: 1304937570356014582, guid: 4a2860b96e97e7b4f853542ed9e54992, type: 3}
+      propertyPath: centerOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304937570356014582, guid: 4a2860b96e97e7b4f853542ed9e54992, type: 3}
+      propertyPath: centerOffset.y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304937570356014582, guid: 4a2860b96e97e7b4f853542ed9e54992, type: 3}
+      propertyPath: interactionDistance
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 1304937570356014582, guid: 4a2860b96e97e7b4f853542ed9e54992, type: 3}
       propertyPath: onDeinteract.m_PersistentCalls.m_Calls.Array.size
       value: 1

@@ -5,6 +5,8 @@ using VectorViolet.Core.Stats;
 public class CollisionDamage : MonoBehaviour
 {
     private StatBase collisionDamageStat;
+    private float lastDamageTime = 0f;
+    private float damageCooldown = 0.5f; // Hasar verme aralığı
 
     private void Start()
     {
@@ -14,18 +16,18 @@ public class CollisionDamage : MonoBehaviour
             collisionDamageStat = statHolder.GetStat("CollisionDamage");
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collisionDamageStat == null) return;
 
         EntityHP entityHP = collision.gameObject.GetComponent<EntityHP>();
-        if (entityHP == null)
-            return;
-        
-        if (entityHP.CompareTag(this.tag))
-            return;
-        
-        entityHP.TakeDamage(collisionDamageStat.GetValue());
+        if (entityHP == null) return;
+
+        if (Time.time - lastDamageTime >= damageCooldown)
+        {
+            entityHP.TakeDamage(collisionDamageStat.GetValue());
+            lastDamageTime = Time.time;
+        }
     }
 }

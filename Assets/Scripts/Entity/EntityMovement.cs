@@ -14,7 +14,7 @@ public class EntityMovement : MonoBehaviour
     public bool usePhysicsMovement = true;
     private Rigidbody2D rb;
     private StatBase speedStat;
-    private Vector2 moveInput;
+    [SerializeField] private Vector2 moveInput;
 
     private void Awake()
     {
@@ -50,6 +50,11 @@ public class EntityMovement : MonoBehaviour
             animator.SetFloat("Horizontal", moveInput.x);
             animator.SetFloat("Vertical", moveInput.y);
         }
+    }
+
+    public void Stop()
+    {
+        SetMoveInput(Vector2.zero);
     }
 
     public void SetMoveInput(Vector2 input)

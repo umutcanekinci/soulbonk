@@ -34,7 +34,7 @@ public class IdleState : EnemyState
     public override void Exit(EnemyAI enemy) { }
 }
 
-public class PatrolState : EnemyState
+public class PatrolState : EnemyState 
 {
     public override void Enter(EnemyAI enemy)
     {
@@ -93,7 +93,7 @@ public class AttackState : EnemyState
     public override void Enter(EnemyAI enemy)
     {
         enemy.Agent.ResetPath();
-        enemy.EntityMovement.SetMoveInput(Vector2.zero);
+        enemy.EntityMovement.Stop();
     }
 
     public override void Update(EnemyAI enemy)
@@ -105,7 +105,6 @@ public class AttackState : EnemyState
             enemy.SwitchState(new ChaseState());
             return;
         }
-
         if (enemy.EntityAttack != null)
         {
             enemy.EntityAttack.AttackLogic();

@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.43964958
+      value: 0.44284958
       objectReference: {fileID: 0}
     - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.6360876
+      value: -0.9492876
       objectReference: {fileID: 0}
     - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.size
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: resources.Array.data[0].MaxValue
@@ -82,28 +82,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[0]._baseValue
-      value: 0.18
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[0].definition
       value: 
-      objectReference: {fileID: 11400000, guid: 257e83d1baccd7c41980b331886c458b, type: 2}
+      objectReference: {fileID: 11400000, guid: 2027b545db324cd4398b30a8ea15dd2e, type: 2}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[1]._baseValue
-      value: 8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[1].definition
       value: 
-      objectReference: {fileID: 11400000, guid: 2027b545db324cd4398b30a8ea15dd2e, type: 2}
+      objectReference: {fileID: 11400000, guid: 939ecb569d662b9478ac7c8fe32faa8a, type: 2}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[2]._baseValue
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[2].definition
       value: 
-      objectReference: {fileID: 11400000, guid: 939ecb569d662b9478ac7c8fe32faa8a, type: 2}
+      objectReference: {fileID: 11400000, guid: 59be2f373de882a43b5e30c249443d66, type: 2}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[3]._baseValue
       value: 1
@@ -111,15 +111,15 @@ PrefabInstance:
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[3].definition
       value: 
-      objectReference: {fileID: 11400000, guid: 59be2f373de882a43b5e30c249443d66, type: 2}
+      objectReference: {fileID: 11400000, guid: d7de12216ece8ad43aa306109209717a, type: 2}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[4]._baseValue
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[4].definition
       value: 
-      objectReference: {fileID: 11400000, guid: d7de12216ece8ad43aa306109209717a, type: 2}
+      objectReference: {fileID: 11400000, guid: 9f33060d4ccec3d4a86496b257776126, type: 2}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[5]._baseValue
       value: 5

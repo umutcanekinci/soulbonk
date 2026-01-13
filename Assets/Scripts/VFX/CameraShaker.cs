@@ -10,6 +10,12 @@ public class CameraShaker : MonoBehaviour
     void OnEnable()
     {
         originalPosition = transform.localPosition;
+        EventBus.OnShake += Shake;
+    }
+
+    void OnDisable()
+    {
+        EventBus.OnShake -= Shake;
     }
 
     void Update()
