@@ -9,16 +9,29 @@ public class EntityMovement : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Animator animator;
+
+    // --- OPTIMIZATION: Hashed Animator Parameters ---
+    private static readonly int SpeedHash = Animator.StringToHash("Speed");
+    private static readonly int HorizontalHash = Animator.StringToHash("Horizontal");
+    private static readonly int VerticalHash = Animator.StringToHash("Vertical");
+    // ------------------------------------------------
+
+    /// <summary>
+    /// Gets the last non-zero direction vector the entity faced.
+    /// Default is Vector2.down.
+    /// </summary>
     public Vector2 LastFacingDirection { get; private set; } = Vector2.down;
     
+    [Tooltip("If false, FixedUpdate movement logic is skipped (useful for cutscenes and navmesh).")]
     public bool usePhysicsMovement = true;
-    private Rigidbody2D rb;
-    private StatBase speedStat;
-    [SerializeField] private Vector2 moveInput;
+
+    private Rigidbody2D _rb;
+    private StatBase _speedStat;
+    private Vector2 _moveInput;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -27,11 +40,11 @@ public class EntityMovement : MonoBehaviour
 
         if (StatHolder == null)
         {
-            Debug.LogError("StatHolder component not found on Player.");
+            Debug.LogError($"StatHolder component not found on {gameObject.name}.");
             return;
         }
 
-        speedStat = StatHolder.GetStat("MoveSpeed");
+        _speedStat = StatHolder.GetStat("MoveSpeed");
     }
 
     private void Update()
@@ -44,26 +57,33 @@ public class EntityMovement : MonoBehaviour
         if (animator == null ||animator.runtimeAnimatorController == null)
             return;
 
-        animator.SetFloat("Speed", moveInput.sqrMagnitude);
-        if (moveInput.sqrMagnitude > 0.01f) // When not moving, don't update direction params and remember last direction
+        // Optimization: Use Hash IDs instead of Strings
+        animator.SetFloat(SpeedHash, _moveInput.sqrMagnitude);
+        if (_moveInput.sqrMagnitude > 0.01f) // When not moving, don't update direction params and remember last direction
         {
-            animator.SetFloat("Horizontal", moveInput.x);
-            animator.SetFloat("Vertical", moveInput.y);
+            animator.SetFloat(HorizontalHash, _moveInput.x);
+            animator.SetFloat(VerticalHash, _moveInput.y);
         }
     }
 
     public void Stop()
     {
         SetMoveInput(Vector2.zero);
+        _rb.linearVelocity = Vector2.zero;
     }
 
+    /// <summary>
+    /// Sets the movement input vector. Should be called from an Input Manager or AI Script.
+    /// </summary>
+    /// <param name="input">Normalized or raw input vector.</param>
     public void SetMoveInput(Vector2 input)
     {
         //moveInput = input.normalized; // This causes diagonal speed boost
-        moveInput = Vector2.ClampMagnitude(input, 1f); // Same as Mathf.Clamp(input.magnitude, 0f, 1f) * input.normalized;
-        if (moveInput.sqrMagnitude > 0.01f)
+        // Clamping prevents diagonal speed boost while keeping analog control
+        _moveInput = Vector2.ClampMagnitude(input, 1f); // Same as Mathf.Clamp(input.magnitude, 0f, 1f) * input.normalized;
+        if (_moveInput.sqrMagnitude > 0.01f)
         {
-            LastFacingDirection = moveInput.normalized;
+            LastFacingDirection = _moveInput.normalized;
         }
     }
 
@@ -72,38 +92,43 @@ public class EntityMovement : MonoBehaviour
         if (!usePhysicsMovement)
             return;
 
-        rb.linearVelocity = moveInput * speedStat.GetValue();
+        _rb.linearVelocity = _moveInput * _speedStat.GetValue();
     }
 
+    /// <summary>
+    /// Forces the entity to face a specific direction without moving physically.
+    /// Useful for attacking towards a target while standing still.
+    /// </summary>
+    /// <param name="direction">The direction to face.</param>
     public void FaceDirection(Vector2 direction)
     {
-        // Yön vektörü çok küçükse işlem yapma (0,0 gelirse sapıtmasın)
         if (direction.sqrMagnitude < 0.01f) return;
 
-        // 1. Yönü kaydet
         LastFacingDirection = direction.normalized;
 
-        // 2. Animator'a sadece yön bilgisini ver (Speed vermiyoruz!)
         if (animator != null)
         {
-            animator.SetFloat("Horizontal", LastFacingDirection.x);
-            animator.SetFloat("Vertical", LastFacingDirection.y);
-            
-            // Speed parametresini ellemiyoruz veya 0 olduğundan emin olmak istersen:
-            // animator.SetFloat("Speed", 0); 
+            animator.SetFloat(HorizontalHash, LastFacingDirection.x);
+            animator.SetFloat(VerticalHash, LastFacingDirection.y);
         }
     }
 
+    /// <summary>
+    /// Coroutine that handles automated movement to a point (for cutscenes/interactions).
+    /// </summary>
     public IEnumerator MoveToPositionCoroutine(Vector2 targetPosition)
     {
         usePhysicsMovement = true;
-        while (Vector2.Distance(transform.position, targetPosition) > 0.1f)
+        float stoppingTreshold = 0.1f;
+
+        while (Vector2.Distance(transform.position, targetPosition) > stoppingTreshold)
         {
-            Vector2 dir = (targetPosition - (Vector2)transform.position).normalized;
+            Vector2 dir = (targetPosition - _rb.position).normalized;
             SetMoveInput(dir);
-            yield return null; // Bir sonraki kareyi bekle
+            yield return null;
         }
-        SetMoveInput(Vector2.zero);
+        Stop();
+        _rb.MovePosition(targetPosition);
     }
 
     public void Sit()

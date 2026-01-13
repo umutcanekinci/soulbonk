@@ -29,6 +29,9 @@ public class InteractionController : MonoBehaviour
 
     private IEnumerator InteractionRoutine(Interactable target)
     {
+        if (target == null || player == null)
+            yield break;
+
         GameManager.Instance.SetState(GameState.Cutscene);
         Vector2 targetPos = target.GetClosestInteractionPoint(player.transform.position);
 
@@ -44,6 +47,9 @@ public class InteractionController : MonoBehaviour
 
     private IEnumerator DeinteractionRoutine()
     {
+        if (player == null)
+            yield break;
+
         yield return EventBus.TriggerResetZoom(1f);
         player.StandUp();
         GameManager.Instance.SetState(GameState.Gameplay);

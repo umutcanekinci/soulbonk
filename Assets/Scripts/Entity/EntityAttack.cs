@@ -17,6 +17,10 @@ public class EntityAttack : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField, Range(0f, 1f)] private float attackImpactPoint = 0.5f; 
     
+    // Animator parameter hashes
+    private static readonly int AttackSpeedHash = Animator.StringToHash("AttackSpeed");
+    private static readonly int AttackTriggerHash = Animator.StringToHash("Attack");
+
     public bool IsAttacking => isAttacking;
     private float lastAttackTime;
     private bool isAttacking = false;
@@ -56,8 +60,8 @@ public class EntityAttack : MonoBehaviour
         float currentAttackSpeed = attackSpeedStat.GetValue();
         if (animator != null)
         {
-            animator.SetFloat("AttackSpeed", currentAttackSpeed);
-            animator.SetTrigger("Attack");
+            animator.SetFloat(AttackSpeedHash, currentAttackSpeed);
+            animator.SetTrigger(AttackTriggerHash);
         }
 
         float delayUntilHit = (1f / currentAttackSpeed) * attackImpactPoint; 

@@ -39,7 +39,6 @@ public class EnemyAI : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log(GameManager.Instance != null ? "GameManager instance found." : "GameManager instance NOT found.");
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
