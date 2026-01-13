@@ -6,67 +6,46 @@ using VectorViolet.Core.Stats;
 [RequireStat("CoinSource")]
 public class EnemyHP : MonoBehaviour
 {
-    [Tooltip("When damaged, the sprite renderer to apply flash effect on.")]
-    [SerializeField] private SpriteRenderer targetSpriteRenderer;
-
-    [Tooltip("Prefab to instantiate upon death.")]
     [SerializeField] private GameObject deathVFXPrefab;
-    [SerializeField] private Material flashMaterial;
     [SerializeField] private SpriteShatter spriteShatter;
 
     private StatBase coinSourceStat;
-    private Material originalMaterial;
     private EntityHP entityHP;
-    private bool isFlashing = false;
 
     private void Awake() {
         entityHP = GetComponent<EntityHP>();
+    }
+
+    private void OnEnable() {
         if (entityHP != null) {
-            entityHP.OnTakeDamage += OnTakeDamage;
             entityHP.OnDeath += OnDeath;
         }
         if (spriteShatter != null) {
-            spriteShatter.OnDestroy += () => {
-                Destroy(gameObject);
-            };
+            spriteShatter.OnDestroy += Destroy;
         }
     }
 
-    private void OnDestroy() {
+    private void OnDisable() {
         if (entityHP != null) {
-            entityHP.OnTakeDamage -= OnTakeDamage;  
             entityHP.OnDeath -= OnDeath;
         }
         if (spriteShatter != null) {
-            spriteShatter.OnDestroy -= () => { Destroy(gameObject); };
+            spriteShatter.OnDestroy -= Destroy;
         }
     }
+   
     void Start()
     {
-        originalMaterial = targetSpriteRenderer.material;
         var statHolder = GetComponent<StatHolder>();
         if (statHolder != null)
         {
             coinSourceStat = statHolder.GetStat("CoinSource");
         }
-    }
-
-    public void OnTakeDamage(float damageAmount)
+    } 
+    private void Destroy()
     {
-        if (targetSpriteRenderer != null && !isFlashing)
-        {
-            StartCoroutine(DamageFlashRoutine());
-        }
+        Destroy(gameObject);
     }
-    private IEnumerator DamageFlashRoutine()
-    {
-        isFlashing = true;
-        targetSpriteRenderer.material = flashMaterial;
-        yield return new WaitForSeconds(0.1f); 
-        targetSpriteRenderer.material = originalMaterial;
-        isFlashing = false;
-    }
-
     void OnDeath()
     {
         if (deathVFXPrefab != null)
@@ -84,4 +63,5 @@ public class EnemyHP : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }

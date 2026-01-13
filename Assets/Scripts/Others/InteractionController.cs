@@ -30,10 +30,10 @@ public class InteractionController : MonoBehaviour
     private IEnumerator InteractionRoutine(Interactable target)
     {
         GameManager.Instance.SetState(GameState.Cutscene);
-        Vector2 targetPos = GetTargetPosition(target);
+        Vector2 targetPos = target.GetClosestInteractionPoint(player.transform.position);
 
         Coroutine movementRoutine = player.StartCoroutine(player.MoveToPositionCoroutine(targetPos));
-        Coroutine zoomRoutine = StartCoroutine(CameraZoomer.Instance.ZoomInCoroutine(0.5f, 1.5f)); 
+        Coroutine zoomRoutine = StartCoroutine(EventBus.TriggerZoomIn(0.5f, 1.5f)); 
 
         yield return movementRoutine;
         player.Sit(); 
@@ -44,16 +44,9 @@ public class InteractionController : MonoBehaviour
 
     private IEnumerator DeinteractionRoutine()
     {
-        UIManager.Instance.HideInteractionUI();
-
-        yield return CameraZoomer.Instance.ResetZoomCoroutine(1f);
+        yield return EventBus.TriggerResetZoom(1f);
         player.StandUp();
         GameManager.Instance.SetState(GameState.Gameplay);
     }
 
-    private Vector2 GetTargetPosition(Interactable interactable)
-    {
-        Vector2 direction = (interactable.transform.position - player.transform.position).normalized;
-        return (Vector2)interactable.transform.position - direction * .1f; // Biraz mesafe bırak
-    }
 }

@@ -3,19 +3,20 @@ using System.Collections;
 
 public class CameraZoomer : MonoBehaviour
 {
-    [SerializeField] public static CameraZoomer Instance;
     [SerializeField] private Camera mainCamera;
 
     private float targetZoom;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
+        EventBus.OnZoomIn += ZoomInCoroutine;
+        EventBus.OnResetZoom += ResetZoomCoroutine;
+    }
+
+    private void OnDisable()
+    {
+        EventBus.OnZoomIn -= ZoomInCoroutine;
+        EventBus.OnResetZoom -= ResetZoomCoroutine;
     }
 
     private void Start()
@@ -23,35 +24,35 @@ public class CameraZoomer : MonoBehaviour
         targetZoom = mainCamera.orthographicSize;
     }
 
-    public void ZoomIn(float amount, float duration, System.Action onComplete = null)
+    public void ZoomIn(float amount, float duration)
     {
         StopAllCoroutines();
-        StartCoroutine(ZoomCoroutine(targetZoom - amount, duration, onComplete));
+        StartCoroutine(ZoomCoroutine(targetZoom - amount, duration));
     }
 
-    public void ZoomOut(float amount, float duration, System.Action onComplete = null)
+    public void ZoomOut(float amount, float duration)
     {
         StopAllCoroutines();
-        StartCoroutine(ZoomCoroutine(targetZoom + amount, duration, onComplete));
+        StartCoroutine(ZoomCoroutine(targetZoom + amount, duration));
     }
 
-    public void ResetZoom(float duration, System.Action onComplete = null)
+    public void ResetZoom(float duration)
     {
         StopAllCoroutines();
-        StartCoroutine(ZoomCoroutine(targetZoom, duration, onComplete));
+        StartCoroutine(ZoomCoroutine(targetZoom, duration));
     }
 
-    public IEnumerator ZoomInCoroutine(float amount, float duration, System.Action onComplete = null)
+    public IEnumerator ZoomInCoroutine(float amount, float duration)
     {
-        yield return ZoomCoroutine(targetZoom - amount, duration, onComplete);
+        yield return ZoomCoroutine(targetZoom - amount, duration );
     }
 
-    public IEnumerator ResetZoomCoroutine(float duration, System.Action onComplete = null)
+    public IEnumerator ResetZoomCoroutine(float duration)
     {
-        yield return ZoomCoroutine(targetZoom, duration, onComplete);
+        yield return ZoomCoroutine(targetZoom, duration);
     }
 
-    private IEnumerator ZoomCoroutine(float amount, float duration, System.Action onComplete = null)
+    private IEnumerator ZoomCoroutine(float amount, float duration)
     {
         float startZoom = mainCamera.orthographicSize;
         float elapsed = 0f;
@@ -64,6 +65,5 @@ public class CameraZoomer : MonoBehaviour
         }
 
         mainCamera.orthographicSize = amount;
-        onComplete?.Invoke();
     }
 }

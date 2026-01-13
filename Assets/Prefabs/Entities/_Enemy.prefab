@@ -36,6 +36,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4422691103465046231
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -81,6 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 796846971
   m_SortingLayer: 2
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -90,7 +92,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!95 &6270725609877569548
 Animator:
@@ -165,6 +166,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5651384112228820284
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -210,6 +212,7 @@ SpriteRenderer:
   m_SortingLayerID: -1668553171
   m_SortingLayer: 1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.42745098}
   m_FlipX: 0
@@ -219,7 +222,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7717659235819606583
 GameObject:
@@ -4979,7 +4981,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &5476390737083377267
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5025,6 +5027,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5056,7 +5059,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &8177875545299866544
 GameObject:
   m_ObjectHideFlags: 0
@@ -5075,6 +5077,7 @@ GameObject:
   - component: {fileID: 62472380032451036}
   - component: {fileID: 6472941328686731900}
   - component: {fileID: 7401054012698204671}
+  - component: {fileID: 788089515734103977}
   m_Layer: 6
   m_Name: _Enemy
   m_TagString: Untagged
@@ -5200,7 +5203,7 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 257e83d1baccd7c41980b331886c458b, type: 2}
     _baseValue: 0.12
   - definition: {fileID: 11400000, guid: 2027b545db324cd4398b30a8ea15dd2e, type: 2}
-    _baseValue: 100
+    _baseValue: 4
   - definition: {fileID: 11400000, guid: 939ecb569d662b9478ac7c8fe32faa8a, type: 2}
     _baseValue: 0.6
   - definition: {fileID: 11400000, guid: 59be2f373de882a43b5e30c249443d66, type: 2}
@@ -5225,8 +5228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80fd1c96e684bf41aa55197e353d6a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  EntityAttack: {fileID: 0}
-  EntityMovement: {fileID: 6472941328686731900}
+  entityAttack: {fileID: 0}
   PatrolWaitTime: 2
 --- !u!114 &734504509192090373
 MonoBehaviour:
@@ -5240,6 +5242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1983184831ccf814a8bb80548cdfb4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityHP
+  deathSounds: {fileID: 11400000, guid: 32c29c7a2edcafe489a1ade5601b37fb, type: 2}
 --- !u!114 &62472380032451036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5252,9 +5255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f56304bee879164980d016f05ead67d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  targetSpriteRenderer: {fileID: 4422691103465046231}
   deathVFXPrefab: {fileID: 0}
-  flashMaterial: {fileID: 2100000, guid: be9ea6d6248700e4f870aba2f0c8eaab, type: 2}
   spriteShatter: {fileID: 6132216267605894776}
 --- !u!114 &6472941328686731900
 MonoBehaviour:
@@ -5282,6 +5283,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfdad559b71c7b419ed8bc6e8975bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+--- !u!114 &788089515734103977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177875545299866544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ef39d3a00dec74e829f1366d12b0a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityTakeDamageEffect
+  spriteRenderer: {fileID: 4422691103465046231}
+  flashMaterial: {fileID: 2100000, guid: be9ea6d6248700e4f870aba2f0c8eaab, type: 2}
 --- !u!1 &8499614630993227481
 GameObject:
   m_ObjectHideFlags: 0

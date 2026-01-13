@@ -20,6 +20,7 @@ public class EntityAttack : MonoBehaviour
     public bool IsAttacking => isAttacking;
     private float lastAttackTime;
     private bool isAttacking = false;
+    public WeaponBase CurrentWeapon => weapon;
 
     private StatBase attackSpeedStat;
 
@@ -47,11 +48,11 @@ public class EntityAttack : MonoBehaviour
         
         if (target != null)
         {
-            targetDirection = (target.position - transform.position).normalized;
+            targetDirection = (target.transform.position - transform.position).normalized;
             entityMovement.FaceDirection(targetDirection);
-            entityMovement.SetMoveInput(Vector2.zero); 
+            entityMovement.Stop();
         }
-
+        
         float currentAttackSpeed = attackSpeedStat.GetValue();
         if (animator != null)
         {

@@ -9,13 +9,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private EntityAttack entityAttack;
     private InputAction moveAction, attackAction, interactAction;
 
-    private void Awake()
-    {
-        entityMovement = GetComponent<EntityMovement>();
-        playerInteraction = GetComponent<PlayerInteraction>();
-        SetupInput();
-    }
-
     private void OnEnable() {
         moveAction.Enable();
         attackAction.Enable();
@@ -28,14 +21,19 @@ public class PlayerController : MonoBehaviour
         interactAction.Disable();
     }
 
+    private void Awake()
+    {
+        entityMovement = GetComponent<EntityMovement>();
+        playerInteraction = GetComponent<PlayerInteraction>();
+        SetupInput();
+    }
+
     private void SetupInput()
     {
-        // Kod içinde hızlıca bir WASD + Gamepad stick aksiyonu oluşturuyoruz
         moveAction = new InputAction("Move", binding: "<Gamepad>/leftStick");
         attackAction = new InputAction("Attack", binding: "<Gamepad>/buttonSouth");
         interactAction = new InputAction("Interact", binding: "<Gamepad>/buttonWest");
 
-        // Klavye için Composite Binding (WASD)
         moveAction.AddCompositeBinding("Dpad")
             .With("Up", "<Keyboard>/w")
             .With("Down", "<Keyboard>/s")
@@ -47,9 +45,9 @@ public class PlayerController : MonoBehaviour
         interactAction.AddBinding("<Keyboard>/e");
 
         attackAction.performed += _ => PerformAttack();
-        interactAction.performed += _ => PerformInteraction();
+        interactAction.performed += _ => ToggleInteraction();
     }
-
+    
     private void PerformAttack()
     {
         if (entityAttack != null)
@@ -57,8 +55,8 @@ public class PlayerController : MonoBehaviour
             entityAttack.AttackLogic();
         }
     }
-
-    private void PerformInteraction()
+    
+    public void ToggleInteraction()
     {
         if (playerInteraction != null)
         {

@@ -9,11 +9,21 @@ public class UIManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        EventBus.OnPlayerDeinteraction += HideInteractionUI;
+    }
+
+    private void OnDisable()
+    {
+        EventBus.OnPlayerDeinteraction -= HideInteractionUI;
     }
 
     public void ShowInteractionUI()
@@ -21,7 +31,7 @@ public class UIManager : MonoBehaviour
         ShowUIElement(interactionUI);
     }
 
-    public void HideInteractionUI()
+    private void HideInteractionUI()
     {
         HideUIElement(interactionUI);
     }

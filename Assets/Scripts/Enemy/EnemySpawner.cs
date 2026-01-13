@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform player;
     
     [Header("Settings")]
+    [SerializeField] private bool spawnOnStart = true;
     [SerializeField] private EnemyRate[] enemyRates;
     public float spawnInterval = 2f;
     public int maxEnemies = 50;
@@ -22,8 +23,18 @@ public class EnemySpawner : MonoBehaviour
 
     private float currentTimer;
 
+    private void Start()
+    {
+        foreach (Transform enemy in transform)
+        {
+            enemy.GetComponent<EnemyAI>()?.SetTarget(player);
+        }
+    }
+
     void Update()
     {
+        if (!spawnOnStart) return;
+
         currentTimer -= Time.deltaTime;
         if (currentTimer <= 0)
         {
