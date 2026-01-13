@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.StatHolder
   attributes:
   - definition: {fileID: 11400000, guid: 0506d0cdcdb609e4ba3c8ae7a02c7947, type: 2}
-    _baseValue: 2
+    _baseValue: 1
   - definition: {fileID: 11400000, guid: 257e83d1baccd7c41980b331886c458b, type: 2}
     _baseValue: 4
   - definition: {fileID: 11400000, guid: 3268ccbb7a813c94ab1f438fb8da902f, type: 2}
@@ -66,12 +66,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a415d53d8a1bfd64592cb8d6c89d3710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityAttack
-  animator: {fileID: 2460559960749411391}
-  weapon: {fileID: 1031099555942343240}
-  attackImpactPoint: 0.5
-  entityMovement: {fileID: 3240124837278473807}
   target: {fileID: 0}
   targetDirection: {x: 0, y: 0, z: 0}
+  animator: {fileID: 2460559960749411391}
+  weapon: {fileID: 1031099555942343240}
+  entityMovement: {fileID: 3240124837278473807}
+  attackImpactPoint: 0.5
 --- !u!114 &1031099555942343240
 MonoBehaviour:
   m_ObjectHideFlags: 0

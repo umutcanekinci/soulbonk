@@ -1,6 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections;
 using VectorViolet.Core.Stats;
+
 
 [RequireComponent(typeof(Rigidbody2D), typeof(StatHolder))]
 [RequireStat("MoveSpeed")]
@@ -36,41 +37,9 @@ public class EntityMovement : MonoBehaviour
     private void Update()
     {
         UpdateAnimator();
-        UpdateSpriteDirection();
     }
 
-    public void SetMoveInput(Vector2 input)
-    {
-        //moveInput = input.normalized; // This causes diagonal speed boost
-        moveInput = Vector2.ClampMagnitude(input, 1f); // Same as Mathf.Clamp(input.magnitude, 0f, 1f) * input.normalized;
-        if (moveInput.sqrMagnitude > 0.01f)
-        {
-            LastFacingDirection = moveInput.normalized;
-        }
-    }
-
-    void UpdateSpriteDirection()
-    {
-        /* 
-        // We got three options here:
-
-        // 1- Flip the sprite based on horizontal movement
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.flipX = moveInput.x < 0;
-        
-        // 2- Change scale to face direction
-        Vector3 direction = transform.localScale;
-        if (moveInput.x > 0)
-            direction.x = Mathf.Abs(direction.x);
-        else if (moveInput.x < 0)
-            direction.x = -Mathf.Abs(direction.x);
-        transform.localScale = direction;
-
-        // 3- Or use blend tree with horizontal and vertical parameters. (current)
-        */
-    }
-
-    public void UpdateAnimator()
+    private void UpdateAnimator()
     {
         if (animator == null ||animator.runtimeAnimatorController == null)
             return;
@@ -83,6 +52,16 @@ public class EntityMovement : MonoBehaviour
         }
     }
 
+    public void SetMoveInput(Vector2 input)
+    {
+        //moveInput = input.normalized; // This causes diagonal speed boost
+        moveInput = Vector2.ClampMagnitude(input, 1f); // Same as Mathf.Clamp(input.magnitude, 0f, 1f) * input.normalized;
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            LastFacingDirection = moveInput.normalized;
+        }
+    }
+
     void FixedUpdate()
     {
         if (!usePhysicsMovement)
@@ -91,7 +70,6 @@ public class EntityMovement : MonoBehaviour
         rb.linearVelocity = moveInput * speedStat.GetValue();
     }
 
-    // Hareket etmeden sadece yöne dönmek için (Örn: Saldırı anı)
     public void FaceDirection(Vector2 direction)
     {
         // Yön vektörü çok küçükse işlem yapma (0,0 gelirse sapıtmasın)
@@ -110,4 +88,27 @@ public class EntityMovement : MonoBehaviour
             // animator.SetFloat("Speed", 0); 
         }
     }
+
+    public IEnumerator MoveToPositionCoroutine(Vector2 targetPosition)
+    {
+        usePhysicsMovement = true;
+        while (Vector2.Distance(transform.position, targetPosition) > 0.1f)
+        {
+            Vector2 dir = (targetPosition - (Vector2)transform.position).normalized;
+            SetMoveInput(dir);
+            yield return null; // Bir sonraki kareyi bekle
+        }
+        SetMoveInput(Vector2.zero);
+    }
+
+    public void Sit()
+    {
+        animator.SetTrigger("Sit");
+    }
+
+    public void StandUp()
+    {
+        animator.SetTrigger("StandUp");
+    }
+
 }

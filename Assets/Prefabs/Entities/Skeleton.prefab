@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 257e83d1baccd7c41980b331886c458b, type: 2}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[1]._baseValue
-      value: 100
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[1].definition

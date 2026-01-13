@@ -3,15 +3,19 @@ using System.Collections;
 
 public class CameraZoomer : MonoBehaviour
 {
+    [SerializeField] public static CameraZoomer Instance;
     [SerializeField] private Camera mainCamera;
 
     private float targetZoom;
 
     private void Awake()
     {
-        EventBus.OnPlayerInteraction += () => ZoomIn(1f, 1f, UIManager.Instance.ShowInteractionUI);
-        EventBus.OnPlayerDeinteraction += () => UIManager.Instance.HideInteractionUI();
-        EventBus.OnPlayerDeinteraction += () => ResetZoom(1f);
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
     }
 
     private void Start()
@@ -35,6 +39,16 @@ public class CameraZoomer : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(ZoomCoroutine(targetZoom, duration, onComplete));
+    }
+
+    public IEnumerator ZoomInCoroutine(float amount, float duration, System.Action onComplete = null)
+    {
+        yield return ZoomCoroutine(targetZoom - amount, duration, onComplete);
+    }
+
+    public IEnumerator ResetZoomCoroutine(float duration, System.Action onComplete = null)
+    {
+        yield return ZoomCoroutine(targetZoom, duration, onComplete);
     }
 
     private IEnumerator ZoomCoroutine(float amount, float duration, System.Action onComplete = null)

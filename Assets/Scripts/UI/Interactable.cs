@@ -7,7 +7,7 @@ public class Interactable : MonoBehaviour
 
     public void Interact()
     {
-        EventBus.TriggerPlayerInteraction();
+        EventBus.TriggerPlayerInteraction(this);
 
     }
     public void Deinteract()

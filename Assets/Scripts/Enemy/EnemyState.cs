@@ -18,14 +18,12 @@ public class IdleState : EnemyState
 
     public override void Update(EnemyAI enemy)
     {
-        // 1. Oyuncu yakında mı?
         if (enemy.GetDistanceToTarget() < enemy.ChaseRange)
         {
             enemy.SwitchState(new ChaseState());
             return;
         }
 
-        // 2. Bekleme süresi bitti mi?
         _timer -= Time.deltaTime;
         if (_timer <= 0)
         {
@@ -45,14 +43,12 @@ public class PatrolState : EnemyState
 
     public override void Update(EnemyAI enemy)
     {
-        // 1. Oyuncu yakında mı?
         if (enemy.GetDistanceToTarget() < enemy.ChaseRange)
         {
             enemy.SwitchState(new ChaseState());
             return;
         }
 
-        // 2. Hedefe vardı mı?
         if (!enemy.Agent.pathPending && enemy.Agent.remainingDistance < 0.5f)
         {
             enemy.SwitchState(new IdleState());
@@ -113,6 +109,31 @@ public class AttackState : EnemyState
         if (enemy.EntityAttack != null)
         {
             enemy.EntityAttack.AttackLogic();
+        }
+    }
+
+    public override void Exit(EnemyAI enemy) { }
+}
+
+public class ReturnState : EnemyState
+{
+    public override void Enter(EnemyAI enemy)
+    {
+        enemy.GoHome();
+    }
+
+    public override void Update(EnemyAI enemy)
+    {
+        // Geri dönerken oyuncuyu görürse tekrar kovala
+        if (enemy.GetDistanceToTarget() < enemy.ChaseRange)
+        {
+            enemy.SwitchState(new ChaseState());
+            return;
+        }
+
+        if (!enemy.Agent.pathPending && enemy.Agent.remainingDistance < 0.5f)
+        {
+            enemy.SwitchState(new IdleState());
         }
     }
 

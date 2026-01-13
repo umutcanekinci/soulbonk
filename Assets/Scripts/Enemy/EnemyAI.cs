@@ -2,46 +2,18 @@ using UnityEngine;
 using UnityEngine.AI;
 using VectorViolet.Core.Stats;
 
-public class ReturnState : EnemyState
-{
-    public override void Enter(EnemyAI enemy)
-    {
-        enemy.GoHome();
-    }
-
-    public override void Update(EnemyAI enemy)
-    {
-        // Geri dönerken oyuncuyu görürse tekrar kovala
-        if (enemy.GetDistanceToTarget() < enemy.ChaseRange)
-        {
-            enemy.SwitchState(new ChaseState());
-            return;
-        }
-
-        if (!enemy.Agent.pathPending && enemy.Agent.remainingDistance < 0.5f)
-        {
-            enemy.SwitchState(new IdleState());
-        }
-    }
-
-    public override void Exit(EnemyAI enemy) { }
-}
-
 [RequireComponent(typeof(NavMeshAgent), typeof(StatHolder), typeof(EntityMovement))]
 [RequireStat("AttackRange", "ChaseRange", "PatrolRange", "MoveSpeed")]
 public class EnemyAI : MonoBehaviour
 {
     [Header("References")]
-    public EntityAttack EntityAttack;
-    public EntityMovement EntityMovement;
+    public EntityAttack EntityAttack { get; private set; }
+    public EntityMovement EntityMovement { get; private set; }
     
     [Header("Settings")]
     public float PatrolWaitTime = 2f;
 
-    // State Pattern
     private EnemyState _currentState;
-
-    // Components & Data
     public NavMeshAgent Agent { get; private set; }
     public Transform _target { get; private set; }
     public Vector3 HomePosition { get; private set; }
@@ -63,6 +35,31 @@ public class EnemyAI : MonoBehaviour
         Agent.updateUpAxis = false;
     }
 
+    private void OnEnable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+            HandleGameStateChanged(GameManager.Instance.CurrentState);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+    }
+
+    private void HandleGameStateChanged(GameState newState)
+    {
+        Agent.isStopped = newState == GameState.Cutscene;
+
+        if (newState != GameState.Gameplay)
+        {
+            EntityMovement.SetMoveInput(Vector2.zero);
+        }
+    }
+
     private void Start()
     {
         var statHolder = GetComponent<StatHolder>();
@@ -70,19 +67,23 @@ public class EnemyAI : MonoBehaviour
         _chaseRangeStat = statHolder.GetStat("ChaseRange");
         _patrolRangeStat = statHolder.GetStat("PatrolRange");
         _moveSpeedStat = statHolder.GetStat("MoveSpeed");
-        _moveSpeedStat.OnValueChanged += SetSpeed;
+        
 
         HomePosition = transform.position;
 
-        if (_target == null) DetectPlayer();
-
-        SetSpeed(_moveSpeedStat);
+        if (_target == null)
+            DetectPlayer();
+        
         SwitchState(new IdleState());
+
+        _moveSpeedStat.OnValueChanged += SetSpeed;
+        SetSpeed(_moveSpeedStat);
     }
 
     private void OnDestroy()
     {
-        _moveSpeedStat.OnValueChanged -= SetSpeed;
+        if (_moveSpeedStat != null)
+            _moveSpeedStat.OnValueChanged -= SetSpeed;
     }
 
     private void SetSpeed(StatBase stat)
@@ -92,7 +93,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (_target == null || !Agent.isOnNavMesh) return;
+        if (_target == null || !Agent.isOnNavMesh || !GameManager.Instance.IsGameplay()) return;
         
         // Eğer saldırı animasyonu oynuyorsa hareket etme (Global kural)
         if (EntityAttack != null && EntityAttack.IsAttacking)

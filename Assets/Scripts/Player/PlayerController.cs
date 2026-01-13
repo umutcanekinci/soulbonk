@@ -68,6 +68,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && !GameManager.Instance.IsGameplay())
+            return;
+
         entityMovement.SetMoveInput(moveAction.ReadValue<Vector2>());
     }
+    
 }
