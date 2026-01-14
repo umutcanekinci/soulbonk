@@ -26,17 +26,13 @@ namespace VectorViolet.Core.Stats
             }
         }
         
-        // Editörde kolaylık olsun diye, oluşturulduğunda otomatik doldur
         private void Reset()
         {
             displayName = this.name;
         }
         
-        // Editör kolaylığı: Dosya oluşturulunca otomatik isimlendirme denemesi
         private void OnValidate()
         {
-            // Dosya isminde "Stat_" gibi prefixler varsa onları temizleyebilirsin
-            // Örn dosya adı: "Stat_Health" -> Görünen ad: "Health" olsun istersen:
             /*
             if (string.IsNullOrEmpty(_statNameOverride))
             {

@@ -153,40 +153,33 @@ namespace VectorViolet.Editor
             bool isRequired = _requiredStats.Contains(def.DisplayName) || _requiredStats.Contains(def.name);
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
-            // --- DEĞİŞİKLİK BAŞLANGICI: Rect Sistemi ---
-            // EditorGUILayout yerine Rect kullanarak alanı elle bölüyoruz.
-            // Bu sayede pencere küçülse bile sağ taraf sabit kalır, sol taraf sıkışır.
-
-            // 1. Tüm satırın alanını al
             Rect rect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight);
 
-            // 2. Sağ taraftaki etiket için genişlik ayır (Örn: 90 piksel)
             float rightLabelWidth = 95f; 
             
-            // 3. Sol ve Sağ alanları tanımla
             Rect leftRect = new Rect(rect.x, rect.y, rect.width - rightLabelWidth, rect.height);
             Rect rightRect = new Rect(rect.x + rect.width - rightLabelWidth, rect.y, rightLabelWidth, rect.height);
 
-            // 4. SOL TARAFI ÇİZ (Toggle)
-            if (isRequired) GUI.enabled = false;
+            
+            if (isRequired)
+                GUI.enabled = false;
 
             string label = $"{def.DisplayName} ({def.name})";
-            bool toggled = EditorGUI.ToggleLeft(leftRect, label, exists); // ToggleLeft artık Rect alıyor
+            bool toggled = EditorGUI.ToggleLeft(leftRect, label, exists); 
 
-            if (isRequired) GUI.enabled = true;
+            if (isRequired)
+                GUI.enabled = true;
 
-            // 5. SAĞ TARAFI ÇİZ (Renkli Etiket)
+            
             GUIStyle labelStyle = new GUIStyle(EditorStyles.miniLabel);
             labelStyle.alignment = TextAnchor.MiddleRight;
             labelStyle.normal.textColor = def.type == StatType.Attribute ? Color.cyan : Color.green;
 
             string typeLabel = def.type.ToString();
-            if (isRequired) typeLabel += " (Req)";
+            if (isRequired)
+                typeLabel += " (Req)";
 
             EditorGUI.LabelField(rightRect, typeLabel, labelStyle);
-            
-            // --- DEĞİŞİKLİK BİTİŞİ ---
 
             if (toggled)
             {

@@ -33,7 +33,6 @@ namespace VectorViolet.Core.Stats
 
         private void OnValidate()
         {
-            // ATTRIBUTES: Değer değiştiyse 'Dirty' olarak işaretle
             if (attributes != null)
             {
                 foreach (var attr in attributes)
@@ -43,7 +42,6 @@ namespace VectorViolet.Core.Stats
                 }
             }
 
-            // RESOURCES: Değer değiştiyse Clamp yap ve Event fırlat
             if (resources != null)
             {
                 foreach (var res in resources)
@@ -56,7 +54,6 @@ namespace VectorViolet.Core.Stats
 
         public StatBase GetStat(string statName)
         {
-            // First try to find in the statMap
             if (statMap != null && statMap.Count > 0)
             {
                 foreach (var pair in statMap)
@@ -68,7 +65,6 @@ namespace VectorViolet.Core.Stats
                 }
             }
 
-            // For Editor / Pre-Awake cases, search directly
             if (attributes != null)
             {
                 foreach (var attr in attributes)

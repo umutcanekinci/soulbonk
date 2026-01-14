@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using VectorViolet.Core.Stats;
 using VectorViolet.Core.Audio;
 
 public class MeleeWeapon : WeaponBase
@@ -19,18 +17,6 @@ public class MeleeWeapon : WeaponBase
     [SerializeField] private SoundPack missSounds;
     [SerializeField] private SoundPack hitSounds;
 
-    private StatBase attackStat, attackRangeStat;
-
-    private void Start()
-    {
-        var statHolder = GetComponent<StatHolder>();
-        if (statHolder != null)
-        {
-            attackStat = statHolder.GetStat("AttackDamage");
-            attackRangeStat = statHolder.GetStat("AttackRange");
-        }
-    }
-    
     public override void Attack(Vector3 direction)
     {
         DamageEnemiesInRange();
@@ -50,7 +36,7 @@ public class MeleeWeapon : WeaponBase
             
             if (damageable != null)
             {
-                damageable.TakeDamage(attackStat.GetValue());
+                damageable.TakeDamage(attackDamageStat.GetValue());
             }
         }
         PlaySFX(anyHit);
@@ -63,6 +49,6 @@ public class MeleeWeapon : WeaponBase
 
     void ShakeCamera()
     {
-        EventBus.TriggerShake(cameraShakeDuration, cameraShakeMagnitude);
+        EventBus.Camera.TriggerShake(cameraShakeDuration, cameraShakeMagnitude);
     }
 }

@@ -15,14 +15,14 @@ public class CameraZoomer : MonoBehaviour
 
     private void OnEnable()
     {
-        EventBus.OnZoomIn += ZoomInCoroutine;
-        EventBus.OnResetZoom += ResetZoomCoroutine;
+        EventBus.Camera.OnZoomIn += ZoomInCoroutine;
+        EventBus.Camera.OnResetZoom += ResetZoomCoroutine;
     }
 
     private void OnDisable()
     {
-        EventBus.OnZoomIn -= ZoomInCoroutine;
-        EventBus.OnResetZoom -= ResetZoomCoroutine;
+        EventBus.Camera.OnZoomIn -= ZoomInCoroutine;
+        EventBus.Camera.OnResetZoom -= ResetZoomCoroutine;
     }
 
     private void Start()

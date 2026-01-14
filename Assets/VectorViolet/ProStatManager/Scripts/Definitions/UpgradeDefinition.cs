@@ -7,20 +7,20 @@ namespace VectorViolet.Core.Stats
     public class UpgradeDefinition : ScriptableObject
     {
         [Header("Shop Settings")]
-        public string upgradeID;      // Save için ID (örn: "DamageUpg")
-        public string displayName;    // Ekranda görünecek isim
-        public Sprite icon;           // Shop İkonu
-        public int baseCost = 100;    // Başlangıç fiyatı
-        public float costMultiplier = 1.5f; // Fiyat artış çarpanı
+        public string upgradeID;      
+        public string displayName;    
+        public Sprite icon;           
+        public int baseCost = 100;    
+        public float costMultiplier = 1.5f; 
 
         [Header("Stat Modifiers")]
-        // Senin yazdığın yapı, buraya entegre edildi
+        
         public List<ModifierEntry> modifiers = new List<ModifierEntry>();
 
         [System.Serializable]
         public class ModifierEntry
         {   
-            public StatDefinition targetStat; // Hangi stat değişecek?
+            public StatDefinition targetStat; 
             public ModifierType type = ModifierType.Flat;
             
             [Tooltip("Level 1'de verilecek bonus")]
@@ -30,8 +30,6 @@ namespace VectorViolet.Core.Stats
             public float growthPerLevel;  
         }
 
-        // --- YARDIMCI STRUCT ---
-        // Modifier'ı ve hedefini paketleyip döndürmek için
         public struct AppliedModifierInfo
         {
             public StatDefinition TargetStatDef;
@@ -42,18 +40,13 @@ namespace VectorViolet.Core.Stats
         {
             var result = new List<AppliedModifierInfo>();
 
-            // Eğer level 0 ise hiç modifier verme
-            if (level <= 0) return result;
+            if (level <= 0)
+                return result;
 
             foreach (var entry in modifiers)
             {
-                // Formül: BaseBonus + ((Level - 1) * Growth)
                 float value = entry.baseBonus + ((level - 1) * entry.growthPerLevel);
-                
-                // Modifier'ı oluştur
                 StatModifier mod = new StatModifier(value, entry.type, source);
-                
-                // Hedef stat ile birlikte paketle
                 result.Add(new AppliedModifierInfo 
                 { 
                     TargetStatDef = entry.targetStat, 

@@ -13,7 +13,7 @@ public class IdleState : EnemyState
     public override void Enter(EnemyAI enemy)
     {
         enemy.Agent.ResetPath();
-        _timer = enemy.PatrolWaitTime; // EnemyAI'dan ayarı al
+        _timer = enemy.PatrolWaitTime;
     }
 
     public override void Update(EnemyAI enemy)
@@ -123,7 +123,6 @@ public class ReturnState : EnemyState
 
     public override void Update(EnemyAI enemy)
     {
-        // Geri dönerken oyuncuyu görürse tekrar kovala
         if (enemy.GetDistanceToTarget() < enemy.ChaseRange)
         {
             enemy.SwitchState(new ChaseState());

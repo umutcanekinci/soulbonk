@@ -55,7 +55,7 @@ public class EntityHP : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damageAmount)
     {
-        if (_healthStat == null)
+        if (_healthStat == null || IsDead || damageAmount <= 0 || !GameManager.IsGameplay) 
             return;
 
         _healthStat.CurrentValue -= damageAmount;

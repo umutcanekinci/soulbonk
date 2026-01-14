@@ -3,7 +3,7 @@ using UnityEngine;
 public enum GameState {
     Gameplay,
     Cutscene,
-    Paused
+    Interaction
 }
 
 public class GameManager : MonoBehaviour
@@ -15,8 +15,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public event System.Action<GameState> OnGameStateChanged;
     public GameState CurrentState { get; private set; }
-    public bool IsGameplay() => CurrentState == GameState.Gameplay;
-
+    public static bool IsGameplay => Instance != null && Instance.CurrentState == GameState.Gameplay;
+    public static bool IsCutscene => Instance != null && Instance.CurrentState == GameState.Cutscene;
+    public static bool IsInteraction => Instance != null && Instance.CurrentState == GameState.Interaction;
     private void Awake()
     {
         if (Instance != null && Instance != this) {

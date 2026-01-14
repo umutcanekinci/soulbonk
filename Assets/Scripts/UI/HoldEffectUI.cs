@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.EventSystems; // UI olaylarını yakalamak için gerekli kütüphane
+using UnityEngine.EventSystems;
 
 public class HoldEffectUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [Header("Ayarlar")]
-    [SerializeField] Transform targetObject; // Ölçeklendirme yapılacak hedef nesne
+    [SerializeField] Transform targetObject;
     [Tooltip("1'den küçük değerler küçültür (örn: 0.8), 1'den büyükler büyütür.")]
     [SerializeField] private float activeScale = 0.85f;
     [SerializeField] private float animationSpeed = 15f;

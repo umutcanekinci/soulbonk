@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     
     public void ToggleInteraction()
     {
-        if (playerInteraction != null)
+        if (playerInteraction != null && !GameManager.IsCutscene)
         {
             playerInteraction.ToggleInteraction();
         }
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance != null && !GameManager.Instance.IsGameplay())
+        if (GameManager.Instance != null && !GameManager.IsGameplay)
             return;
 
         entityMovement.SetMoveInput(moveAction.ReadValue<Vector2>());

@@ -69,6 +69,9 @@ public class EntityMovement : MonoBehaviour
     public void Stop()
     {
         SetMoveInput(Vector2.zero);
+
+        if (_rb == null)
+            return;
         _rb.linearVelocity = Vector2.zero;
     }
 

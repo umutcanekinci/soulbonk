@@ -6,7 +6,7 @@ public class CollisionDamage : MonoBehaviour
 {
     private StatBase collisionDamageStat;
     private float lastDamageTime = 0f;
-    private float damageCooldown = 0.5f; // Hasar verme aralığı
+    private float damageCooldown = 0.5f;
 
     private void Start()
     {

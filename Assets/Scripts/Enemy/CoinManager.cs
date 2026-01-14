@@ -36,7 +36,7 @@ public class CoinManager : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             GameObject coin = GetCoinFromPool();
-            coin.transform.position = position + Random.insideUnitSphere * 0.5f; // Biraz dağıt
+            coin.transform.position = position + Random.insideUnitSphere * 0.5f;
             coin.SetActive(true);
         }
     }

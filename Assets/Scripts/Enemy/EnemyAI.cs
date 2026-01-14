@@ -59,11 +59,11 @@ public class EnemyAI : MonoBehaviour
 
     private void HandleGameStateChanged(GameState newState)
     {
-        Agent.isStopped = newState == GameState.Cutscene;
+        bool canMove = newState == GameState.Gameplay;
+        Agent.isStopped = !canMove;
 
-        if (newState != GameState.Gameplay)
+        if (!canMove)
         {
-            Debug.Log("GameState changed to non-Gameplay. Stopping Enemy AI.");
             _currentState = new IdleState();
             entityMovement.Stop();
         }
@@ -99,7 +99,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (_target == null || !Agent.isOnNavMesh || !GameManager.Instance.IsGameplay()) return;
+        if (_target == null || !Agent.isOnNavMesh || !GameManager.IsGameplay)
+            return;
         
         if (entityAttack != null && entityAttack.IsAttacking)
             return;

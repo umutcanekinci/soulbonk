@@ -7,26 +7,16 @@ using System.Linq;
 
 public class EntitySetupWizard : EditorWindow
 {
-    // --- Ayarlar ---
     private string entityName = "NewEntity";
     private AnimatorController templateController;
-    
-    // --- YENİ ÖZELLİK 1: PARENT PREFAB (OPSİYONEL) ---
     private GameObject parentPrefab; 
-
-    // --- SPLIT ONAY KUTUSU ---
     private bool shouldSplitSprites = true;
-
-    // --- GLOBAL PIVOT AYARI ---
     private Vector2 globalPivot = new Vector2(0.5f, 0.5f); 
-
-    // Sprite Configs
     private SpriteSheetConfig idleConfig = new SpriteSheetConfig() { typeName = "Idle" };
     private SpriteSheetConfig runConfig = new SpriteSheetConfig() { typeName = "Run" };
     private SpriteSheetConfig attack1Config = new SpriteSheetConfig() { typeName = "Attack1" };
     private SpriteSheetConfig attack2Config = new SpriteSheetConfig() { typeName = "Attack2" };
     
-    // Klasör Yolları
     private string basePrefabPath = "Assets/Prefabs/Entities";
     private string baseAnimPath = "Assets/Animation/Entities";
 
@@ -46,7 +36,6 @@ public class EntitySetupWizard : EditorWindow
         entityName = EditorGUILayout.TextField("Entity Name", entityName);
         templateController = (AnimatorController)EditorGUILayout.ObjectField("Template Controller", templateController, typeof(AnimatorController), false);
         
-        // --- PARENT PREFAB UI ---
         parentPrefab = (GameObject)EditorGUILayout.ObjectField("Parent Prefab (Optional)", parentPrefab, typeof(GameObject), false);
 
         EditorGUILayout.Space();
@@ -122,7 +111,6 @@ public class EntitySetupWizard : EditorWindow
         
         AssetDatabase.Refresh();
         
-        // 2. Animasyonları Oluştur
         Dictionary<string, Motion> createdClips = new Dictionary<string, Motion>();
 
         ProcessSpriteSheet(idleConfig, idlePath, createdClips);
@@ -130,19 +118,16 @@ public class EntitySetupWizard : EditorWindow
         if (attack1Config.texture != null) ProcessSpriteSheet(attack1Config, attack1Path, createdClips);
         if (attack2Config.texture != null) ProcessSpriteSheet(attack2Config, attack2Path, createdClips);
 
-        // 3. Controller
         string controllerPath = $"{entityAnimFolder}/{entityName}_Controller.controller";
         AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(templateController), controllerPath);
         AnimatorController newController = AssetDatabase.LoadAssetAtPath<AnimatorController>(controllerPath);
 
-        // Blend Tree Mapping
         UpdateBlendTree(newController, "Idle", createdClips, "Idle");
         UpdateBlendTree(newController, "Movement", createdClips, "Run");
         
         if (attack1Config.texture != null) UpdateBlendTree(newController, "Attack1", createdClips, "Attack1");
         if (attack2Config.texture != null) UpdateBlendTree(newController, "Attack2", createdClips, "Attack2");
 
-        // 4. Prefab
         CreatePrefab(newController);
 
         AssetDatabase.SaveAssets();
@@ -155,7 +140,6 @@ public class EntitySetupWizard : EditorWindow
 
         string path = AssetDatabase.GetAssetPath(config.texture);
         
-        // --- SLICING ---
         if (shouldSplitSprites)
         {
             TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
@@ -190,12 +174,10 @@ public class EntitySetupWizard : EditorWindow
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
         }
 
-        // --- SPRITE LOADING & GEOMETRIC SORTING ---
         Object[] assets = AssetDatabase.LoadAllAssetsAtPath(path);
         List<Sprite> slicedSprites = new List<Sprite>();
         foreach (var asset in assets) if (asset is Sprite) slicedSprites.Add(asset as Sprite);
 
-        // Konuma göre sıralama
         slicedSprites = slicedSprites.OrderByDescending(s => Mathf.RoundToInt(s.rect.y)) 
                                      .ThenBy(s => Mathf.RoundToInt(s.rect.x))
                                      .ToList();
@@ -296,25 +278,15 @@ public class EntitySetupWizard : EditorWindow
         return Vector2.Distance(a, b) < 0.1f;
     }
 
-    // --- VARIANT OLUŞTURAN PREFAB YARATMA FONKSİYONU ---
     private void CreatePrefab(AnimatorController controller)
     {
         GameObject root;
         GameObject spriteObj;
-
-        // A. Eğer Parent Prefab Seçiliyse -> VARIANT OLUŞTUR
         if (parentPrefab != null)
         {
-            // 1. Prefab'ı sahneye koy (Linkli halde)
             root = (GameObject)PrefabUtility.InstantiatePrefab(parentPrefab);
-            
-            // DİKKAT: Unpack satırını SİLDİK. Böylece Prefab bağı korunuyor.
-            
-            // 2. İsmini güncelle
             root.name = entityName;
 
-            // 3. Hiyerarşide "Art" objesini bul veya oluştur
-            // Variant olduğu için "Find" ile bulmaya çalışırız, yoksa ekleriz (Override olarak eklenir)
             Transform artT = root.transform.Find("Art");
             if (artT == null)
             {
@@ -324,7 +296,6 @@ public class EntitySetupWizard : EditorWindow
                 artT.localPosition = Vector3.zero;
             }
 
-            // 4. Art'ın altında "Sprite" objesini bul veya oluştur
             Transform spriteT = artT.Find("Sprite");
             if (spriteT == null)
             {
@@ -337,7 +308,6 @@ public class EntitySetupWizard : EditorWindow
                 spriteObj = spriteT.gameObject;
             }
         }
-        // B. Eğer Parent Prefab YOKSA -> SIRADAN PREFAB
         else
         {
             root = new GameObject(entityName);
@@ -351,25 +321,18 @@ public class EntitySetupWizard : EditorWindow
             spriteObj.transform.localPosition = Vector3.zero;
         }
 
-        // --- ORTAK İŞLEMLER ---
-
-        // Sprite Renderer
         SpriteRenderer sr = spriteObj.GetComponent<SpriteRenderer>();
         if (sr == null) sr = spriteObj.AddComponent<SpriteRenderer>();
         
         if (previewSprite != null) sr.sprite = previewSprite;
 
-        // Animator
         Animator anim = spriteObj.GetComponent<Animator>();
         if (anim == null) anim = spriteObj.AddComponent<Animator>();
         
         anim.runtimeAnimatorController = controller;
         
-        // --- KAYDETME VE TEMİZLEME ---
         if (!Directory.Exists(basePrefabPath)) Directory.CreateDirectory(basePrefabPath);
 
-        // Eğer root bir Prefab instance ise (ki Unpack etmediğimiz için öyle),
-        // Unity bunu otomatik olarak "Prefab Variant" olarak kaydeder.
         PrefabUtility.SaveAsPrefabAsset(root, $"{basePrefabPath}/{entityName}.prefab");
         
         DestroyImmediate(root); 

@@ -1,41 +1,42 @@
 using UnityEngine;
+using System.Collections;
 
 public class CameraShaker : MonoBehaviour
 {
     private Vector3 originalPosition;
-    private float shakeDuration = 0f;
-    private float shakeMagnitude = 0.1f;
-    private float dampingSpeed = 1.0f;
 
     void OnEnable()
     {
-        originalPosition = transform.localPosition;
-        EventBus.OnShake += Shake;
+        EventBus.Camera.OnShake += Shake;
     }
 
     void OnDisable()
     {
-        EventBus.OnShake -= Shake;
-    }
-
-    void Update()
-    {
-        if (shakeDuration > 0)
-        {
-            transform.localPosition = originalPosition + Random.insideUnitSphere * shakeMagnitude;
-
-            shakeDuration -= Time.deltaTime * dampingSpeed;
-        }
-        else
-        {
-            shakeDuration = 0f;
-            transform.localPosition = originalPosition;
-        }
+        EventBus.Camera.OnShake -= Shake;
     }
 
     public void Shake(float duration, float magnitude)
     {
-        shakeDuration = duration;
-        shakeMagnitude = magnitude;
+        StartCoroutine(ShakeCoroutine(duration, magnitude));
+    }
+
+    private IEnumerator ShakeCoroutine(float duration, float magnitude)
+    {
+        float elapsed = 0.0f;
+        originalPosition = transform.localPosition;
+
+        while (elapsed < duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        transform.localPosition = originalPosition;
     }
 }
