@@ -1,19 +1,43 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InGameUIManager : MonoBehaviour
 {
+
+    [Header("References")]
     [SerializeField] GameObject interactionUI;
     [SerializeField] GameObject controlUI;
 
+    [Header("Settings")]
+    [SerializeField] private bool hideControlOnStart = true;
+
+    private InputAction exitAction;
+
+    private void Awake()
+    {
+        HideInteractionUI();
+        if (Application.isMobilePlatform)
+            ShowControlUI();
+        else
+            if (hideControlOnStart)
+                HideControlUI();
+
+        exitAction = new InputAction("Exit", binding: "<Gamepad>/buttonNorth");
+        exitAction.AddBinding("<Keyboard>/escape");
+        exitAction.performed += _ => SceneLoader.Load(SceneType.Menu);
+
+    }
+
     private void OnEnable()
     {
-        GameManager.Instance.OnGameStateChanged += ChangeUIState;
+        exitAction.Enable();
+        GameManager.Instance.OnStateChanged += ChangeUIState;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnGameStateChanged -= ChangeUIState;
+        exitAction.Disable();
+        GameManager.Instance.OnStateChanged -= ChangeUIState;
     }
 
     private void ChangeUIState(GameState newState)
@@ -35,13 +59,17 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    public void OnMenuButtonPressed() => SceneLoader.Load(SceneType.Menu);
-
     private void ShowControlUI() => ShowUIElement(controlUI);
     private void HideControlUI() => HideUIElement(controlUI);
     private void ShowInteractionUI() => ShowUIElement(interactionUI);
     private void HideInteractionUI() => HideUIElement(interactionUI);
     private void ShowUIElement(GameObject uiElement) => uiElement?.SetActive(true);
-    private void HideUIElement(GameObject uiElement) => uiElement?.SetActive(false);
+    private void HideUIElement(GameObject uiElement) => StartCoroutine(DisableUIEndOfFrame(uiElement));
+
+    private System.Collections.IEnumerator DisableUIEndOfFrame(GameObject uiElement)
+    {
+        yield return new WaitForEndOfFrame();    
+        uiElement.SetActive(false);
+    }
 
 }

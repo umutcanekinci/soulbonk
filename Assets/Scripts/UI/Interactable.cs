@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    [SerializeField] private TMPro.TextMeshProUGUI interactionText;
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private float interactionDistance = 1.5f;
     [SerializeField] private Vector2 centerOffset = Vector2.zero; 
@@ -27,7 +28,7 @@ public class Interactable : MonoBehaviour
         return closestPoint;
     }
 
-    public void Interact()
+    public void TriggerInteract()
     {
         if (GameManager.IsGameplay)
         {
@@ -35,12 +36,22 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    public void Deinteract()
+    public void TriggerDeinteract()
     {
         if (GameManager.IsInteraction)
         {
-            EventBus.PlayerInteraction.TriggerDeinteraction();   
+            EventBus.PlayerInteraction.TriggerDeinteraction(this);   
         }
+    }
+
+    public void OnInteraction()
+    {
+        interactionText.text = "Deinteract";
+    }
+
+    public void OnDeinteraction()
+    {
+        interactionText.text = "Interact";
     }
 
     public void ShowInteractionUI() => interactionUI.SetActive(true);

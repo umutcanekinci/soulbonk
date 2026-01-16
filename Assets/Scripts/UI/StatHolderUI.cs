@@ -5,23 +5,25 @@ using TMPro;
 public class StatHolderUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
-    [SerializeField] private StatHolder statHolder;
+    [SerializeField] private StatHolder[] statHolders;
     [SerializeField] private GameObject statEntryPrefab;
 
     private void Start()
     {
         if (statEntryPrefab == null)
             return;
-
-        foreach (var stat in statHolder.statMap.Values)
+        foreach (var statHolder in statHolders)
         {
-            CreateStatEntry(stat);
+            foreach (var stat in statHolder.statMap.Values)
+            {
+                CreateStatEntry(stat);
+            }
         }
     }
 
     private void CreateStatEntry(StatBase stat)
     {
-        titleText.text = statHolder.gameObject.name + " Stats";
+        //titleText.text = statHolder.gameObject.name + " Stats";
         GameObject entryObj = Instantiate(statEntryPrefab, transform);
         StatEntryUI entryUI = entryObj.GetComponent<StatEntryUI>();
         if (entryUI != null)
@@ -33,4 +35,18 @@ public class StatHolderUI : MonoBehaviour
             Debug.LogError("StatEntryUI component not found on the instantiated prefab.");
         }
     }
+
+    // TODO
+    // public void UpgradeStat(string statName, float amount)
+    // {
+    //     foreach (var statHolder in statHolders)
+    //     {
+    //         if (statHolder.statMap.TryGetValue(statName, out StatBase stat))
+    //         {
+    //             stat.ModifyBaseValue(amount);
+    //             return;
+    //         }
+    //     }
+    //     Debug.LogWarning($"Stat '{statName}' not found in any StatHolder.");
+    // }
 }

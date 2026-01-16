@@ -14,12 +14,12 @@ public class PlayerInteraction : MonoBehaviour
 
         if (isInteracting)
         {
-            nearestInteractable.Deinteract();
+            nearestInteractable.TriggerDeinteract();
             isInteracting = false;
         }
         else
         {
-            nearestInteractable.Interact();
+            nearestInteractable.TriggerInteract();
             isInteracting = true;
         }
     }
@@ -60,7 +60,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (isInteracting)
         {
-            nearestInteractable.Deinteract();
+            nearestInteractable.TriggerDeinteract();
             isInteracting = false;
         }
         nearestInteractable.HideInteractionUI();

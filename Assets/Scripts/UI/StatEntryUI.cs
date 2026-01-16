@@ -11,6 +11,7 @@ public class StatEntryUI : MonoBehaviour
 
     public void Setup(StatBase stat)
     {
+        gameObject.name = "StatEntry_" + stat.definition.DisplayName;
         if (statNameText != null)
         {
             if (stat.definition != null)

@@ -68,4 +68,12 @@ public class EntityHP : MonoBehaviour, IDamageable
         }
     }
 
+    public void HealToFull()
+    {
+        if (_healthStat == null) 
+            return;
+
+        _healthStat.CurrentValue = _healthStat.MaxValue;
+    }
+
 }

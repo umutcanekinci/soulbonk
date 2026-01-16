@@ -23,12 +23,12 @@ public class CoinManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventBus.OnEnemyDeath += SpawnCoins;
+        EventBus.Enemy.OnDeath += SpawnCoins;
     }
 
     private void OnDisable()
     {
-        EventBus.OnEnemyDeath -= SpawnCoins;
+        EventBus.Enemy.OnDeath -= SpawnCoins;
     }
 
     private void SpawnCoins(Vector3 position, int amount)

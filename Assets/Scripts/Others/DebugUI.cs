@@ -13,13 +13,13 @@ public class DebugUI : MonoBehaviour
     
     private void OnEnable()
     {
-        GameManager.Instance.OnGameStateChanged += UpdateGameStateText;
+        GameManager.Instance.OnStateChanged += UpdateGameStateText;
         UpdateGameStateText(GameManager.Instance.CurrentState);
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnGameStateChanged -= UpdateGameStateText;
+        GameManager.Instance.OnStateChanged -= UpdateGameStateText;
     }
 
     private void UpdateGameStateText(GameState newState)

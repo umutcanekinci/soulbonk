@@ -27,12 +27,16 @@
 
 ## 🛠 Tech Stack & Architecture
 
-* **Engine:** Unity 2022.3 LTS
+* **Engine:** Unity 6.3 LTS
 * **Language:** C#
-* **Architecture:** * **VectorViolet Core:** Custom modular architecture for Stat Systems and Audio Management.
+* **Architecture:**
+    * **VectorViolet Core:** Custom modular architecture for Stat Systems and Audio Management.
     * **ScriptableObject Workflow:** Data-driven design for Enemy Stats, Items, and Skills.
     * **State Machine:** Finite State Machine (FSM) for Enemy AI behaviors (Patrol, Chase, Attack).
-* **Tools:** GitHub Projects (Kanban), Figma (UI/UX).
+* **Tools:**
+  * GitHub Projects (Kanban)
+  * Nano Banana Pro with Adobe Express (Background Remover)
+  * Visual Studio Code
 
 ## 📅 Roadmap & Kanban
 

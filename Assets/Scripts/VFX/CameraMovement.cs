@@ -7,12 +7,12 @@ public class CameraMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        EventBus.Camera.OnCameraMove += MoveCameraToPosition;
+        EventBus.Camera.OnMove += MoveCameraToPosition;
     }
 
     private void OnDisable()
     {
-        EventBus.Camera.OnCameraMove -= MoveCameraToPosition;
+        EventBus.Camera.OnMove -= MoveCameraToPosition;
     }
 
     private IEnumerator MoveCameraToPosition(Vector3 targetPosition, float duration)

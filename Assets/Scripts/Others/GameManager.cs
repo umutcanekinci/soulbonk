@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string enemyLayerName = "Enemy";
 
     public static GameManager Instance { get; private set; }
-    public event System.Action<GameState> OnGameStateChanged;
+    public event System.Action<GameState> OnStateChanged;
     public GameState CurrentState { get; private set; }
     public static bool IsGameplay => Instance != null && Instance.CurrentState == GameState.Gameplay;
     public static bool IsCutscene => Instance != null && Instance.CurrentState == GameState.Cutscene;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = newState;
         UpdatePhysicsCollision(newState);
-        OnGameStateChanged?.Invoke(newState);
+        OnStateChanged?.Invoke(newState);
     }
 
     private void UpdatePhysicsCollision(GameState state)

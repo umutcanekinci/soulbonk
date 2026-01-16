@@ -43,9 +43,11 @@ public class PlayerController : MonoBehaviour
         
         attackAction.AddBinding("<Keyboard>/space");
         interactAction.AddBinding("<Keyboard>/e");
+        
 
         attackAction.performed += _ => PerformAttack();
         interactAction.performed += _ => ToggleInteraction();
+        
     }
     
     private void PerformAttack()

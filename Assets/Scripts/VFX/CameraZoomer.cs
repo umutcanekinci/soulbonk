@@ -76,7 +76,7 @@ public class CameraZoomer : MonoBehaviour
     /// </summary>
     public IEnumerator ZoomInCoroutine(float targetSize, float duration)
     {
-        yield return ZoomCoroutine(_defaultSize - targetSize, duration );
+        yield return ZoomCoroutine(targetSize, duration );
     }
 
     /// <summary>

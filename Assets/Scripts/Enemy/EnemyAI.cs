@@ -41,7 +41,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+            GameManager.Instance.OnStateChanged += HandleGameStateChanged;
             HandleGameStateChanged(GameManager.Instance.CurrentState);
         }
     }
@@ -49,7 +49,7 @@ public class EnemyAI : MonoBehaviour
     private void OnDisable()
     {
         if (GameManager.Instance != null)
-            GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+            GameManager.Instance.OnStateChanged -= HandleGameStateChanged;
 
         if (_moveSpeedStat != null)
         {
