@@ -22,7 +22,7 @@ public static class EventBus
         public static event Action<Interactable, GameObject> OnInteractionRequest;
         public static event Action<Interactable, GameObject> OnDeinteractionRequest;
 
-        public static void TriggerRequest(Interactable interactable, GameObject player) => OnInteractionRequest?.Invoke(interactable, player);
+        public static void TriggerInteraction(Interactable interactable, GameObject player) => OnInteractionRequest?.Invoke(interactable, player);
         public static void TriggerDeinteraction(Interactable interactable, GameObject player) => OnDeinteractionRequest?.Invoke(interactable, player);
     }
 

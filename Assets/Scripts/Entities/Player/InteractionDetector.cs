@@ -32,7 +32,7 @@ public class InteractionDetector : MonoBehaviour
         if (GameManager.IsInteraction)
             EventBus.PlayerInteraction.TriggerDeinteraction(nearestInteractable, gameObject);
         else
-            EventBus.PlayerInteraction.TriggerRequest(nearestInteractable, gameObject);
+            EventBus.PlayerInteraction.TriggerInteraction(nearestInteractable, gameObject);
     }
 
     private void Update()
