@@ -34,14 +34,16 @@
     * **ScriptableObject Workflow:** Data-driven design for Enemy Stats, Items, and Skills.
     * **State Machine:** Finite State Machine (FSM) for Enemy AI behaviors (Patrol, Chase, Attack).
 * **Tools:**
-  * GitHub Projects (Kanban) [https://github.com/users/umutcanekinci/projects/6]
-  * Figma Whiteboarding (Game Design & UI/UX) [https://www.figma.com/board/tN4s3aQBngW0V2z9BegVQW/Soulbonk?node-id=0-1&t=TRBo3Wkng3GCbL2K-1]
+  * GitHub Projects (Kanban)
+  * Figma Whiteboarding (Game Design & UI/UX)
   * Nano Banana Pro with Adobe Express (Background Remover)
   * Visual Studio Code
 
 ## 📅 Roadmap & Kanban
 
 We follow an Agile methodology. You can track our live progress on our [**GitHub Project Board**](https://github.com/users/umutcanekinci/projects/6).
+
+Also you can find UML Diagrams and detailed design docs in whiteboard [**here**](https://www.figma.com/board/tN4s3aQBngW0V2z9BegVQW/Soulbonk?node-id=0-1&t=TRBo3Wkng3GCbL2K-1).
 
 ### Sprint 1: Foundation (Completed) ✅
 - [x] **Core Movement:** Fluid 2D Movement & Physics-based Dash.

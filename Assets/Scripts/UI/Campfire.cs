@@ -11,7 +11,7 @@ public class Campfire : Interactable
         EntityMovement playerMovement = player.GetComponent<EntityMovement>();
         if (playerMovement != null)
         {
-            Vector2 targetPosition = GetInteractionPoint(player.transform.position);
+            Vector2 targetPosition = GetMoveTargetPoint(player.transform.position);
             Coroutine movementRoutine   = StartCoroutine(playerMovement.MoveToPositionCoroutine(targetPosition));
             yield return movementRoutine; // Wait for player to reach the interaction point
             playerMovement.Sit();
@@ -24,9 +24,9 @@ public class Campfire : Interactable
         }
     }
 
-    protected override Vector2 GetInteractionPoint(Vector2 fromPosition)
+    public override Vector2 GetMoveTargetPoint(Vector2 fromPosition)
     {
-        Vector2 center = base.GetInteractionPoint(fromPosition);
+        Vector2 center = GetInteractionCenter();
         float minDistance = Mathf.Infinity;
         Vector2 closestPoint = center;
         foreach (var point in GetInteractionPoints(center))
@@ -60,18 +60,14 @@ public class Campfire : Interactable
     }
 
 
-    private void OnDrawGizmosSelected()
+    protected override void OnDrawGizmosSelected()
     {
+        base.OnDrawGizmosSelected();
         Gizmos.color = Color.yellow;
-        
-        Vector2 center = base.GetInteractionPoint(Vector2.zero);
-        Gizmos.DrawWireSphere(center, 0.1f); 
-
-        foreach (var point in GetInteractionPoints(center))
+        foreach (var point in GetInteractionPoints(GetInteractionCenter()))
         {
             Gizmos.DrawSphere(point, 0.02f);
         }
     }
-
 
 }

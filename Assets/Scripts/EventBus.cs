@@ -31,6 +31,6 @@ public static class EventBus
         public static event Action<Vector3, int> OnDeath;
 
         public static void TriggerDeath(Vector3 position, int coinAmount) => OnDeath?.Invoke(position, coinAmount);
-
     }
+
 }

@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class InteractionDetector : MonoBehaviour
 {
+    [SerializeField] private InteractableUI interactableUI;
     private Interactable nearestInteractable = null;
     private List<Interactable> nearbyInteractables = new List<Interactable>();
     private InputAction interactAction;
@@ -94,23 +95,17 @@ public class InteractionDetector : MonoBehaviour
         {
             EventBus.PlayerInteraction.TriggerDeinteraction(interactable, gameObject);
         }
-        //     return;
-
-        // if (GameManager.IsInteraction)
-        //     EventBus.PlayerInteraction.TriggerDeinteraction(nearestInteractable, gameObject);
-
-        // HighlightInteractable(null);
     }
 
     private void HighlightInteractable(Interactable interactable)
     {
         if (nearestInteractable != null)
-            nearestInteractable.HideInteractionUI();
+            InteractableUI.Instance.Hide();
 
         nearestInteractable = interactable;
 
         if (nearestInteractable != null)
-            nearestInteractable.ShowInteractionUI();
+            InteractableUI.Instance.Show(nearestInteractable);
     }
 
 }
