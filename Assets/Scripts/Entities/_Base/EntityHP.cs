@@ -15,15 +15,20 @@ public class EntityHP : MonoBehaviour, IDamageable
 
     public event Action<float> OnTakeDamage;
     public event Action OnDeath;
+    public event Action<float> OnHeal;
     public event Action<float> OnHealthChanged;
-    
 
-    private void Start()  // TODO rename to OnEnable, but it breaks things now
+    private void Awake()
     {
         var statHolder = GetComponent<StatHolder>();
         if (statHolder != null)
-        {
             _healthStat = statHolder.GetStat("Health") as ResourceStat;
+    }
+
+    private void OnEnable()
+    {
+        if (_healthStat != null)
+        {
             _healthStat.OnValueChanged += OnHpChange;
             OnHpChange(_healthStat); 
         }
@@ -32,9 +37,7 @@ public class EntityHP : MonoBehaviour, IDamageable
     private void OnDisable() 
     {
         if (_healthStat != null)
-        {
             _healthStat.OnValueChanged -= OnHpChange;
-        }
     }
  
     private void OnHpChange(StatBase stat)
@@ -68,12 +71,15 @@ public class EntityHP : MonoBehaviour, IDamageable
         }
     }
 
-    public void HealToFull()
+    public void HealToFull() => Heal(_healthStat.MaxValue);
+
+    public void Heal(float healAmount)
     {
-        if (_healthStat == null) 
+        if (IsDead || healAmount <= 0 || _healthStat == null) 
             return;
-
-        _healthStat.CurrentValue = _healthStat.MaxValue;
+        
+        _healthStat.CurrentValue += healAmount;
+        OnHeal?.Invoke(healAmount);
     }
-
+    
 }

@@ -33,7 +33,8 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        if (!spawnOnStart) return;
+        if (!spawnOnStart || !GameManager.IsGameplay)
+            return;
 
         currentTimer -= Time.deltaTime;
         if (currentTimer <= 0)

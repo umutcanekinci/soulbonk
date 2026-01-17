@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     
     private void PerformAttack()
     {
-        if (entityAttack != null)
+        if (entityAttack != null && GameManager.IsGameplay)
         {
             entityAttack.AttackLogic();
         }

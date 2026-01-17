@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using VectorViolet.Core.Stats;
 
-
 [RequireComponent(typeof(Rigidbody2D), typeof(StatHolder))]
 [RequireStat("MoveSpeed")]
 public class EntityMovement : MonoBehaviour
