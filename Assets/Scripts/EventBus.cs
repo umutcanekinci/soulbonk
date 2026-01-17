@@ -19,11 +19,11 @@ public static class EventBus
 
     public static class PlayerInteraction
     {
-        public static event Action<Interactable> OnInteraction;
-        public static event Action<Interactable> OnDeinteraction;
+        public static event Action<Interactable, GameObject> OnInteractionRequest;
+        public static event Action<Interactable, GameObject> OnDeinteractionRequest;
 
-        public static void TriggerInteraction(Interactable interactable) => OnInteraction?.Invoke(interactable);
-        public static void TriggerDeinteraction(Interactable interactable) => OnDeinteraction?.Invoke(interactable);
+        public static void TriggerRequest(Interactable interactable, GameObject player) => OnInteractionRequest?.Invoke(interactable, player);
+        public static void TriggerDeinteraction(Interactable interactable, GameObject player) => OnDeinteractionRequest?.Invoke(interactable, player);
     }
 
     public static class Enemy

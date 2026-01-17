@@ -576,8 +576,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6759954257720216060}
-  - component: {fileID: 5964400156767555263}
   - component: {fileID: 9019416065504169286}
+  - component: {fileID: 4671118583295588544}
   m_Layer: 0
   m_Name: Interaction
   m_TagString: Untagged
@@ -601,22 +601,6 @@ Transform:
   - {fileID: 8940668951133566554}
   m_Father: {fileID: 4245387965810245965}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5964400156767555263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8056778485642519900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4829fe7de5946d340bacf6f1f219089a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  interactionText: {fileID: 1005430415726249472}
-  interactionUI: {fileID: 3936500851389981534}
-  interactionDistance: 0.15
-  centerOffset: {x: 0, y: 0.15}
 --- !u!58 &9019416065504169286
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -653,6 +637,22 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.39}
   m_Radius: 3
+--- !u!114 &4671118583295588544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8056778485642519900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2238e99151b574f961005b3e1103bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Campfire
+  interactionUI: {fileID: 3936500851389981534}
+  interactionText: {fileID: 1005430415726249472}
+  interactionPoint: {x: 0, y: 0.18}
+  interactionDistance: 0.17
 --- !u!1 &8141036193338847554
 GameObject:
   m_ObjectHideFlags: 0
