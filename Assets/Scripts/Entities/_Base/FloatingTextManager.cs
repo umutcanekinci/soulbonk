@@ -7,6 +7,10 @@ public class FloatingTextManager : MonoBehaviour
     [SerializeField] private int initialPoolSize = 10;
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float fadeOutSpeed = 1f;
+    [SerializeField] private float minScale = 0.8f;
+    [SerializeField] private float maxScale = 1.6f;
+    [SerializeField] private float scaleFactor = 0.02f;
+    [SerializeField] private Vector2 randomOffsetRange = new Vector2(0.1f, 0.1f);
 
     private List<FloatingText> floatingTextPool = new List<FloatingText>();
     public static FloatingTextManager Instance { get; private set; }
@@ -31,11 +35,15 @@ public class FloatingTextManager : MonoBehaviour
 
     public void ShowFloatingText(string text, Vector3 position, Color color, float scale = 1f)
     {
+        float finalScale = Mathf.Clamp(Mathf.Abs(scale) * scaleFactor, minScale, maxScale);
+        position.x += Random.Range(-randomOffsetRange.x, randomOffsetRange.x);
+        position.y += Random.Range(-randomOffsetRange.y, randomOffsetRange.y);
+        
         FloatingText floatingText = GetPooledFloatingText();
         floatingText.SetText(text);
         floatingText.SetColor(color);
         floatingText.SetPosition(position);
-        floatingText.SetScale(scale);
+        floatingText.SetScale(finalScale);
         floatingText.gameObject.SetActive(true);
     }
 
