@@ -64,8 +64,7 @@ class EntityHpChangeEffect : MonoBehaviour
             string text = (amount > 0 ? "+" : "") + amount.ToString();
             Color color = amount > 0 ? Color.green : Color.red;
             Vector2 position = (Vector2)transform.position + floatingTextOffset;
-            float scale = Mathf.Clamp(0.5f + (Mathf.Abs(amount) / 500f), 0.5f, 1.8f);
-            FloatingTextManager.Instance.ShowFloatingText(text, position, color, scale);
+            FloatingTextManager.Instance.ShowFloatingText(text, position, color, amount);
         }
     }
     
