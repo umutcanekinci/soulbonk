@@ -5199,6 +5199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468ec52a58e4985479e323f526a3fa63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.StatHolder
+  holderCategory: {fileID: 11400000, guid: 8623a5cf3126a6e4bb64b30343c89d4a, type: 2}
   attributes:
   - definition: {fileID: 11400000, guid: 257e83d1baccd7c41980b331886c458b, type: 2}
     _baseValue: 0.12
@@ -5297,6 +5298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityTakeDamageEffect
   spriteRenderer: {fileID: 4422691103465046231}
   flashMaterial: {fileID: 2100000, guid: be9ea6d6248700e4f870aba2f0c8eaab, type: 2}
+  floatingTextOffset: {x: 0, y: 0.1}
 --- !u!1 &8499614630993227481
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using VectorViolet.Core.Attributes;
 
 namespace VectorViolet.Core.Stats
 {
-    [CreateAssetMenu(menuName = "Game/Upgrade Definition")]
+    [CreateAssetMenu(menuName = "Pro Stat Manager/Upgrade Definition")]
     public class UpgradeDefinition : ScriptableObject
     {
         [Header("Shop Settings")]

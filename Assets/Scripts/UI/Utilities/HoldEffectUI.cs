@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,64 +9,81 @@ public class HoldEffectUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     [Header("Scale Settings")]
     [SerializeField] private bool changeScale = false;
-    [Tooltip("Values less than 1 shrink (e.g., 0.8), values greater than 1 enlarge.")]
-    [SerializeField] Transform targetObject;
-    [SerializeField] private bool useDefaultScale = true;
+    [ShowIf("changeScale")]
+    [SerializeField] private Transform targetObject;
+    [ShowIf("changeScale")]
+    [SerializeField] private bool customScale = false;
+    [ShowIf("changeScale"), EnableIf("customScale")]
     [SerializeField] private Vector3 originalScale = Vector3.one;
+    [ShowIf("changeScale")]
     [SerializeField] private float activeScale = 0.85f;
 
     [Header("Alpha Settings")]
     [SerializeField] private bool changeAlpha = false;
+    [ShowIf("changeAlpha")]
     [SerializeField] private CanvasGroup targetCanvasGroup;
+    [ShowIf("changeAlpha"), HideIf("targetCanvasGroup")]
     [SerializeField] private Image targetImage;
-    [SerializeField] private bool useDefaultAlpha = true;
+    [ShowIf("changeAlpha")]
+    [SerializeField] private bool customAlpha = false;
+    [ShowIf("changeAlpha"), EnableIf("customAlpha")]
     [SerializeField] private float originalAlpha = 1f;
+    [ShowIf("changeAlpha")]
     [SerializeField] private float activeAlpha = 0.6f;
     
     private Vector3 targetScaleVector;
-    private float targetAlpha;
+    private float currentAlphaTarget;
 
     private void Start()
     {
-        if (changeScale && useDefaultScale && targetObject != null)
+        if (changeScale && targetObject != null)
         {
-            originalScale = targetObject.localScale;
+            if (!customScale) originalScale = targetObject.localScale;
+            targetScaleVector = originalScale;
         }
         
-        if (changeAlpha && useDefaultAlpha)
+        if (changeAlpha)
         {
-            if (targetCanvasGroup != null)
-                originalAlpha = targetCanvasGroup.alpha;
-            if (targetImage != null)
-                originalAlpha = targetImage.color.a;
+            if (!customAlpha)
+            {
+                if (targetCanvasGroup != null) originalAlpha = targetCanvasGroup.alpha;
+                else if (targetImage != null) originalAlpha = targetImage.color.a;
+            }
+            currentAlphaTarget = originalAlpha;
         }
-        targetScaleVector = originalScale;
-        targetAlpha = originalAlpha;
     }
 
     private void Update()
     {
         if (changeScale && targetObject != null)
+        {
             targetObject.localScale = Vector3.Lerp(targetObject.localScale, targetScaleVector, Time.deltaTime * animationSpeed);
-        
+        }
+    
         if (changeAlpha)
         {
             if (targetCanvasGroup != null)
-                targetCanvasGroup.alpha = Mathf.Lerp(targetCanvasGroup.alpha, targetAlpha, Time.deltaTime * animationSpeed);
-            if (targetImage != null)
-                targetImage.color = new Color(targetImage.color.r, targetImage.color.g, targetImage.color.b, Mathf.Lerp(targetImage.color.a, targetAlpha, Time.deltaTime * animationSpeed));    
+            {
+                targetCanvasGroup.alpha = Mathf.Lerp(targetCanvasGroup.alpha, currentAlphaTarget, Time.deltaTime * animationSpeed);
+            }
+            else if (targetImage != null)
+            {
+                Color c = targetImage.color;
+                float newAlpha = Mathf.Lerp(c.a, currentAlphaTarget, Time.deltaTime * animationSpeed);
+                targetImage.color = new Color(c.r, c.g, c.b, newAlpha);
+            }
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        targetScaleVector = originalScale * activeScale;
-        targetAlpha = activeAlpha;
+        if (changeScale) targetScaleVector = originalScale * activeScale;
+        if (changeAlpha) currentAlphaTarget = activeAlpha;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        targetScaleVector = originalScale;
-        targetAlpha = originalAlpha;
+        if (changeScale) targetScaleVector = originalScale;
+        if (changeAlpha) currentAlphaTarget = originalAlpha;
     }
 }

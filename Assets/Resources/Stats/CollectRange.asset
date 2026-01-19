@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.StatDefinition
   displayName: 
   description: 
+  type: 0
+  categories:
+  - {fileID: 11400000, guid: b4a8ab749cd1e714ca58ef76c30ffd09, type: 2}
   icon: {fileID: 0}
   isRangedStat: 1
   gizmosColor: {r: 1, g: 0.95550185, b: 0.4292453, a: 1}
-  type: 0

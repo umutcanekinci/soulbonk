@@ -5,12 +5,19 @@ namespace VectorViolet.Core.Stats
 {
     public class StatHolder : MonoBehaviour
     {
+        public StatCategory holderCategory;
+        
         public List<AttributeStat> attributes = new List<AttributeStat>();
         public List<ResourceStat> resources = new List<ResourceStat>();
         
         public Dictionary<StatDefinition, StatBase> statMap = new Dictionary<StatDefinition, StatBase>();
 
         private void Awake()
+        {
+            InitializeStatMap();
+        }
+
+        private void InitializeStatMap()
         {
             statMap.Clear();
 

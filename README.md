@@ -85,6 +85,7 @@ This project is developed by **Umutcan Ekinci**.
 - [Environment: Top Down Tileset by Itch.io Community](https://itch.io/c/1574579/top-down)
 - [Environment: Top Down Assets Collection by Itch.io Community](https://itch.io/queue/c/1574579/top-down?game_id=3307044&password=)
 - [Enemies: Monster Packs by Admurin](https://admurin.itch.io/monster-pack-40), [Monster Pack 21](https://admurin.itch.io/monster-pack-21), [Monster Pack Collection](https://admurin.itch.io/monster-pack)
+- [NaughtyAttributes](https://assetstore.unity.com/packages/tools/utilities/naughtyattributes-129996)
 
 Future Usage Plans
 - https://admurin.itch.io/free-monster-pack-character
