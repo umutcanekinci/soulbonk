@@ -21,10 +21,10 @@ public class StatEntryUI : MonoBehaviour
     {
         if (CoinManager.Instance != null)
         {
-            CoinManager.Instance.OnCoinAmountChange -= OnCoinChanged;
+            CoinManager.Instance.OnCoinAmountChange += OnCoinChanged;
 
             if (_upgradeDefinition != null)
-                UpdateButtonState();
+                UpdateUI();
         }
             
     }
@@ -53,7 +53,7 @@ public class StatEntryUI : MonoBehaviour
     private void OnCoinChanged(int amount)
     {
         if (_upgradeDefinition != null)
-            UpdateButtonState();
+            UpdateUI();
     }
 
     private void UpdateUI()
@@ -64,7 +64,7 @@ public class StatEntryUI : MonoBehaviour
         int cost = UpgradeManager.Instance.GetNextCost(_upgradeDefinition);
 
         if (levelText != null) 
-            levelText.text = $"Lvl {level}";
+            levelText.text = $"Lvl {level + 1}"; 
 
         if (costText != null) 
             costText.text = cost.ToString();
@@ -92,10 +92,10 @@ public class StatEntryUI : MonoBehaviour
     {
         int cost = UpgradeManager.Instance.GetNextCost(_upgradeDefinition);
 
-        if (CoinManager.Instance.SpendCoins(cost))
+        if (CoinManager.Instance.IsEnoughCoins(cost))
         {
             UpgradeManager.Instance.Upgrade(_upgradeDefinition, _targetHolder);
-            UpdateUI();
+            CoinManager.Instance.SpendCoins(cost); // That returns true if successful, but we need to trigger the event after upgrade so, we do it here.
         }
     }
 }

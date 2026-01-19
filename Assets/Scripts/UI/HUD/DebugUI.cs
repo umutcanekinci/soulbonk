@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class DebugUI : MonoBehaviour
 {
-    [SerializeField] private bool isDebugMode = true;
+    [SerializeField] private bool showOnStart = true;
 
     [Header("UI References")]
-    [SerializeField] private Image backgroundImage;
+    [SerializeField] private GameObject uiContainer;
     [SerializeField] private TMP_Text gameStateText;
     
     private void OnEnable()
@@ -24,7 +24,7 @@ public class DebugUI : MonoBehaviour
 
     private void UpdateGameStateText(GameState newState)
     {
-        if (!isDebugMode)
+        if (!showOnStart)
             return;
 
         UpdateText();
@@ -34,16 +34,20 @@ public class DebugUI : MonoBehaviour
     {
         if (Keyboard.current.f2Key.wasPressedThisFrame)
         {
-            isDebugMode = !isDebugMode;
-            gameStateText.gameObject.SetActive(isDebugMode);
-            backgroundImage.enabled = isDebugMode;
-            UpdateText();
+            ToggleDebugMode();
         }
+    }
+
+    private void ToggleDebugMode()
+    {
+        showOnStart = !showOnStart;
+        uiContainer.SetActive(showOnStart);
+        UpdateText();
     }
 
     private void UpdateText()
     {
-        if (gameStateText == null || !isDebugMode)
+        if (gameStateText == null || !showOnStart)
             return;
 
         gameStateText.text = $"Debug Mode: ON" + 

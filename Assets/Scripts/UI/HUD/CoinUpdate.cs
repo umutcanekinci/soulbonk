@@ -5,17 +5,24 @@ public class CoinUpdate : MonoBehaviour
 {
     private TMPro.TextMeshProUGUI coinText;
 
-    private void Start()
+    private void Awake()
     {
         coinText = GetComponent<TMPro.TextMeshProUGUI>();
         if (CoinManager.Instance != null)
         {
-            CoinManager.Instance.OnCoinAmountChange += UpdateCoinText;
-            UpdateCoinText(0);
+            UpdateCoinText(CoinManager.CurrentCoins);
         }
     }
 
-    private void OnDestroy()
+    private void OnEnable()
+    {
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.OnCoinAmountChange += UpdateCoinText;
+        }
+    }
+
+    private void OnDisable()
     {
         if (CoinManager.Instance != null)
         {

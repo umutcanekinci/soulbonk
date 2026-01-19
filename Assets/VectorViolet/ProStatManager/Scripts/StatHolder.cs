@@ -31,8 +31,12 @@ namespace VectorViolet.Core.Stats
             }
         }
 
+        #if UNITY_EDITOR
         private void OnValidate()
         {
+            if (!Application.isPlaying)
+                return;
+
             if (attributes != null)
             {
                 foreach (var attr in attributes)
@@ -51,6 +55,7 @@ namespace VectorViolet.Core.Stats
                 }
             }
         }
+        #endif
 
         public StatBase GetStat(string statName)
         {

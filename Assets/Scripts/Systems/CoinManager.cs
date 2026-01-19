@@ -8,7 +8,8 @@ public class CoinManager : MonoBehaviour
     
     private Queue<GameObject> coinPool = new Queue<GameObject>();
     public event System.Action<int> OnCoinAmountChange; 
-    public int coinAmount = 0;
+    public int currentCoins = 0;
+    public static int CurrentCoins => Instance != null ? Instance.currentCoins : 0;
     public static CoinManager Instance { get; private set; }
 
     private void Awake()
@@ -52,23 +53,33 @@ public class CoinManager : MonoBehaviour
     {
         coin.SetActive(false);
         coinPool.Enqueue(coin);
-        coinAmount += 1;
-        OnCoinAmountChange?.Invoke(coinAmount);
+        currentCoins += 1;
+        OnCoinAmountChange?.Invoke(currentCoins);
     }
 
     public bool IsEnoughCoins(int cost)
     {
-        return coinAmount >= cost;
+        return currentCoins >= cost;
     }
 
     public bool SpendCoins(int cost)
     {
         if (IsEnoughCoins(cost))
         {
-            coinAmount -= cost;
-            OnCoinAmountChange?.Invoke(coinAmount);
+            currentCoins -= cost;
+            OnCoinAmountChange?.Invoke(currentCoins);
             return true;
         }
         return false;
     }
+
+    #if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (Application.isPlaying)
+        {
+            OnCoinAmountChange?.Invoke(currentCoins);
+        }
+    }
+    #endif
 }
