@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VectorViolet.Core.Attributes;
 
 namespace VectorViolet.Core.Stats
 {
@@ -7,8 +8,10 @@ namespace VectorViolet.Core.Stats
     public class UpgradeDefinition : ScriptableObject
     {
         [Header("Shop Settings")]
-        public string upgradeID;      
-        public string displayName;    
+        public string upgradeID => name;      
+        [SerializeField] private string displayName;    
+        public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
+        [SpritePreview]
         public Sprite icon;           
         public int baseCost = 100;    
         public float costMultiplier = 1.5f; 
@@ -22,23 +25,19 @@ namespace VectorViolet.Core.Stats
         {   
             public StatDefinition targetStat; 
             public ModifierType type = ModifierType.Flat;
-            
-            [Tooltip("Level 1'de verilecek bonus")]
-            public float baseBonus;       
-            
-            [Tooltip("Her levelde üstüne eklenecek miktar")]
+            public float baseBonus;
             public float growthPerLevel;  
         }
 
-        public struct AppliedModifierInfo
+        public int GetCost(int currentLevel)
         {
-            public StatDefinition TargetStatDef;
-            public StatModifier Modifier;
+            float multiplier = Mathf.Pow(costMultiplier, currentLevel);
+            return Mathf.RoundToInt(baseCost * multiplier);
         }
 
-        public List<AppliedModifierInfo> GenerateModifiers(int level, object source)
+        public List<StatModifier> GenerateModifiersForLevel(int level)
         {
-            var result = new List<AppliedModifierInfo>();
+            var result = new List<StatModifier>();
 
             if (level <= 0)
                 return result;
@@ -46,12 +45,8 @@ namespace VectorViolet.Core.Stats
             foreach (var entry in modifiers)
             {
                 float value = entry.baseBonus + ((level - 1) * entry.growthPerLevel);
-                StatModifier mod = new StatModifier(value, entry.type, source);
-                result.Add(new AppliedModifierInfo 
-                { 
-                    TargetStatDef = entry.targetStat, 
-                    Modifier = mod 
-                });
+                StatModifier mod = new StatModifier(value, entry.type, this);
+                result.Add(mod);
             }
             return result;
         }

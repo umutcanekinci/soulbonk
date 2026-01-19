@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 public class CoinManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private GameObject coinPrefab;
-    public static CoinManager Instance { get; private set; }
+    
     private Queue<GameObject> coinPool = new Queue<GameObject>();
-    public event System.Action<int> OnCoinCollected; 
+    public event System.Action<int> OnCoinAmountChange; 
     public int coinAmount = 0;
+    public static CoinManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -43,21 +45,30 @@ public class CoinManager : MonoBehaviour
 
     private GameObject GetCoinFromPool()
     {
-        if (coinPool.Count > 0)
-        {
-            return coinPool.Dequeue();
-        }
-        else
-        {
-            return Instantiate(coinPrefab, transform);
-        }
-    }
+        return (coinPool.Count > 0) ? coinPool.Dequeue() : Instantiate(coinPrefab, transform);
+    }    
     
     public void ReturnCoinToPool(GameObject coin)
     {
         coin.SetActive(false);
         coinPool.Enqueue(coin);
         coinAmount += 1;
-        OnCoinCollected?.Invoke(coinAmount);
+        OnCoinAmountChange?.Invoke(coinAmount);
+    }
+
+    public bool IsEnoughCoins(int cost)
+    {
+        return coinAmount >= cost;
+    }
+
+    public bool SpendCoins(int cost)
+    {
+        if (IsEnoughCoins(cost))
+        {
+            coinAmount -= cost;
+            OnCoinAmountChange?.Invoke(coinAmount);
+            return true;
+        }
+        return false;
     }
 }

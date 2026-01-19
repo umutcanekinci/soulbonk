@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace VectorViolet.Editor
+namespace VectorViolet.ProStatManager.Editor
 {
     [CustomEditor(typeof(StatHolder))]
     public class StatHolderEditor : UnityEditor.Editor

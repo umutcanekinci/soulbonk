@@ -1,4 +1,5 @@
 using UnityEngine;
+using VectorViolet.Core.Attributes;
 
 namespace VectorViolet.Core.Stats
 {
@@ -7,24 +8,18 @@ namespace VectorViolet.Core.Stats
     [CreateAssetMenu(menuName = "Pro Stat Manager/Stat Definition")]
     public class StatDefinition : ScriptableObject
     {
-        public string ID => this.name; 
+        public string ID => name; 
         [SerializeField] private string displayName;
         [TextArea] public string description;
+
+        [SpritePreview]
         public Sprite icon;
         public bool isRangedStat = false;
         public Color gizmosColor = Color.white;
 
         public StatType type = StatType.Attribute;
 
-        public string DisplayName 
-        {
-            get 
-            {
-                if (string.IsNullOrEmpty(displayName))
-                    return ID;
-                return displayName;
-            }
-        }
+        public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
         
         private void Reset()
         {

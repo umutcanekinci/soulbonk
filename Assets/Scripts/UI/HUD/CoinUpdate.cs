@@ -10,7 +10,7 @@ public class CoinUpdate : MonoBehaviour
         coinText = GetComponent<TMPro.TextMeshProUGUI>();
         if (CoinManager.Instance != null)
         {
-            CoinManager.Instance.OnCoinCollected += UpdateCoinText;
+            CoinManager.Instance.OnCoinAmountChange += UpdateCoinText;
             UpdateCoinText(0);
         }
     }
@@ -19,7 +19,7 @@ public class CoinUpdate : MonoBehaviour
     {
         if (CoinManager.Instance != null)
         {
-            CoinManager.Instance.OnCoinCollected -= UpdateCoinText;
+            CoinManager.Instance.OnCoinAmountChange -= UpdateCoinText;
         }
     }
 

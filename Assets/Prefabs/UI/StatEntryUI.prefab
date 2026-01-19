@@ -50,9 +50,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9149755101fada439dedaad703c9751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  statNameText: {fileID: 0}
-  statValueText: {fileID: 6579885337950766884}
-  statIconRenderer: {fileID: 5107950335580631960}
+  _upgradeDefinition: {fileID: 0}
+  nameText: {fileID: 0}
+  costText: {fileID: 0}
+  levelText: {fileID: 6579885337950766884}
+  iconRenderer: {fileID: 5107950335580631960}
+  upgradeButton: {fileID: 8633006640139644830}
 --- !u!1 &7300667687280866370
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,7 +69,7 @@ GameObject:
   - component: {fileID: 5107950335580631960}
   - component: {fileID: 8633006640139644830}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,13 +176,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1201080982302014617}
+        m_TargetAssemblyTypeName: StatEntryUI, Assembly-CSharp
+        m_MethodName: OnClickUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -197,7 +200,7 @@ GameObject:
   - component: {fileID: 2182554062992130716}
   - component: {fileID: 6579885337950766884}
   m_Layer: 5
-  m_Name: Value
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

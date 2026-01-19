@@ -96,6 +96,7 @@ Future Usage Plans
 - https://admurin.itch.io/monster-pack-83
 - https://admurin.itch.io/monster-pack-82
 - https://admurin.itch.io/monster-pack-66
+- https://clockworkraven.itch.io/raven-fantasy-icons
 
 ---
 *License: MIT*

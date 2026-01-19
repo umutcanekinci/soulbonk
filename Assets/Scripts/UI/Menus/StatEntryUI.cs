@@ -5,26 +5,97 @@ using UnityEngine.UI;
 
 public class StatEntryUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI statNameText;
-    [SerializeField] private TextMeshProUGUI statValueText;
-    [SerializeField] private Image statIconRenderer;
+    [Header("Data")]
+    [SerializeField] private UpgradeDefinition _upgradeDefinition;
 
-    public void Setup(StatBase stat)
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI costText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Image iconRenderer;
+    [SerializeField] private Button upgradeButton;
+
+    private StatHolder _targetHolder;
+
+    private void OnEnable()
     {
-        gameObject.name = "StatEntry_" + stat.definition.DisplayName;
-        if (statNameText != null)
+        if (CoinManager.Instance != null)
         {
-            if (stat.definition != null)
-                statNameText.text = stat.definition.DisplayName;
-            else
-                statNameText.text = "Unknown Stat";
+            CoinManager.Instance.OnCoinAmountChange -= OnCoinChanged;
+
+            if (_upgradeDefinition != null)
+                UpdateButtonState();
         }
             
+    }
 
-        if (statValueText != null)
-            statValueText.text = stat.GetValue().ToString();
+    private void OnDisable()
+    {
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.OnCoinAmountChange -= OnCoinChanged;
+        }
+    }
 
-        if (statIconRenderer != null && stat.definition.icon != null)
-             statIconRenderer.sprite = stat.definition.icon;
+    public void Setup(UpgradeDefinition definition, StatHolder target)
+    {
+        _upgradeDefinition = definition;
+        _targetHolder = target;
+
+        if (iconRenderer != null) iconRenderer.sprite = definition.icon;
+        if (nameText != null) nameText.text = definition.DisplayName;
+        
+        gameObject.name = "UpgradeEntry_" + definition.DisplayName;
+
+        UpdateUI();
+    }
+
+    private void OnCoinChanged(int amount)
+    {
+        if (_upgradeDefinition != null)
+            UpdateButtonState();
+    }
+
+    private void UpdateUI()
+    {
+        if (_upgradeDefinition == null) return;
+
+        int level = UpgradeManager.Instance.GetCurrentLevel(_upgradeDefinition);
+        int cost = UpgradeManager.Instance.GetNextCost(_upgradeDefinition);
+
+        if (levelText != null) 
+            levelText.text = $"Lvl {level}";
+
+        if (costText != null) 
+            costText.text = cost.ToString();
+
+        UpdateButtonState();
+    }
+
+    private void UpdateButtonState()
+    {
+        int cost = UpgradeManager.Instance.GetNextCost(_upgradeDefinition);
+        bool canAfford = CoinManager.Instance.IsEnoughCoins(cost);
+
+        if (upgradeButton != null)
+        {
+            upgradeButton.interactable = canAfford;
+        }
+
+        if (costText != null)
+        {
+            costText.color = canAfford ? Color.white : Color.red;
+        }
+    }
+
+    public void OnClickUpgrade()
+    {
+        int cost = UpgradeManager.Instance.GetNextCost(_upgradeDefinition);
+
+        if (CoinManager.Instance.SpendCoins(cost))
+        {
+            UpgradeManager.Instance.Upgrade(_upgradeDefinition, _targetHolder);
+            UpdateUI();
+        }
     }
 }

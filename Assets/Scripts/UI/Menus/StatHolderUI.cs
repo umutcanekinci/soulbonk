@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using VectorViolet.Core.Stats;
 using TMPro;
+using System.Collections.Generic;
+
 public class StatHolderUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
@@ -10,43 +12,35 @@ public class StatHolderUI : MonoBehaviour
 
     private void Start()
     {
-        if (statEntryPrefab == null)
-            return;
+        if (statEntryPrefab == null) return;
+
         foreach (var statHolder in statHolders)
         {
+            HashSet<UpgradeDefinition> createdUpgrades = new HashSet<UpgradeDefinition>();
+
             foreach (var stat in statHolder.statMap.Values)
             {
-                CreateStatEntry(stat);
+                UpgradeDefinition config = UpgradeManager.Instance.GetUpgradeConfig(stat.definition);
+                
+                if (config != null && !createdUpgrades.Contains(config))
+                {
+                    CreateStatEntry(config, statHolder);
+                    createdUpgrades.Add(config);
+                }
             }
         }
     }
 
-    private void CreateStatEntry(StatBase stat)
+    private void CreateStatEntry(UpgradeDefinition upgrade, StatHolder targetHolder)
     {
-        //titleText.text = statHolder.gameObject.name + " Stats";
+        if (statEntryPrefab == null || upgrade == null) return;
+
         GameObject entryObj = Instantiate(statEntryPrefab, transform);
         StatEntryUI entryUI = entryObj.GetComponent<StatEntryUI>();
+
         if (entryUI != null)
         {
-            entryUI.Setup(stat);
-        }
-        else
-        {
-            Debug.LogError("StatEntryUI component not found on the instantiated prefab.");
+            entryUI.Setup(upgrade, targetHolder);
         }
     }
-
-    // TODO
-    // public void UpgradeStat(string statName, float amount)
-    // {
-    //     foreach (var statHolder in statHolders)
-    //     {
-    //         if (statHolder.statMap.TryGetValue(statName, out StatBase stat))
-    //         {
-    //             stat.ModifyBaseValue(amount);
-    //             return;
-    //         }
-    //     }
-    //     Debug.LogWarning($"Stat '{statName}' not found in any StatHolder.");
-    // }
 }
