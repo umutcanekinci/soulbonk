@@ -2,17 +2,18 @@ using UnityEngine;
 using System.Collections;
 using VectorViolet.Core.Stats;
 using System;
+using System.Collections.Generic;
 
-[RequireStat("AttackSpeed")]
-public class EntityAttack : MonoBehaviour
+public class WeaponController : MonoBehaviour
 {
     [HideInInspector] public Transform target;
     [HideInInspector] public Vector3 targetDirection;
 
     [Header("References")]
     [SerializeField] private Animator animator;
-    [SerializeField] private WeaponBase weapon;
-    [SerializeField] private EntityMovement entityMovement;
+    [SerializeField] private WeaponBase activeWeapon;
+    [SerializeField] private List<WeaponBase> passiveWeapons = new List<WeaponBase>();
+    
 
     [Header("Attack Settings")]
     [SerializeField, Range(0f, 1f)] private float attackImpactPoint = 0.5f; 
@@ -24,21 +25,48 @@ public class EntityAttack : MonoBehaviour
     public bool IsAttacking => isAttacking;
     private float lastAttackTime;
     private bool isAttacking = false;
-    public WeaponBase CurrentWeapon => weapon;
-
+    private EntityMovement entityMovement;
+    public WeaponBase CurrentWeapon => activeWeapon;
     private StatBase attackSpeedStat;
 
     private void Start()
     {
-        StatHolder statHolder = GetComponent<StatHolder>();
+        entityMovement = GetComponent<EntityMovement>();
+        EquipWeapon(activeWeapon);
+    }
+
+    public void EquipWeapon(WeaponBase newWeapon)
+    {
+        if (newWeapon == null)
+            throw new ArgumentNullException(nameof(newWeapon), "Cannot equip a null weapon.");
+
+        if (activeWeapon != null)
+        {
+            UnequipWeapon();
+        }
+
+        activeWeapon = newWeapon;
+ 
+        StatHolder statHolder = activeWeapon.GetComponent<StatHolder>();
         if (statHolder != null)
         {
             attackSpeedStat = statHolder.GetStat("AttackSpeed");
         }
+
+        activeWeapon?.OnEquip(this);
     }
 
-    public void AttackLogic()
+    private void UnequipWeapon()
     {
+        activeWeapon?.OnUnequip();
+        activeWeapon = null;
+    }
+
+    public void ActiveAttack()
+    {
+        if (activeWeapon == null || attackSpeedStat == null)
+            return;
+
         if (Time.time < lastAttackTime + (1f / attackSpeedStat.GetValue()))
             return;
 
@@ -68,7 +96,7 @@ public class EntityAttack : MonoBehaviour
         
         yield return new WaitForSeconds(delayUntilHit);
 
-        weapon?.Attack(targetDirection);
+        activeWeapon?.Attack(targetDirection);
 
         float remainingTime = (1f / currentAttackSpeed) * (1f - attackImpactPoint);
         yield return new WaitForSeconds(remainingTime);

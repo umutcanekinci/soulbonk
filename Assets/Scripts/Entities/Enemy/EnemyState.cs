@@ -105,9 +105,9 @@ public class AttackState : EnemyState
             enemy.SwitchState(new ChaseState());
             return;
         }
-        if (enemy.EntityAttack != null)
+        if (enemy.WeaponController != null)
         {
-            enemy.EntityAttack.AttackLogic();
+            enemy.WeaponController.ActiveAttack();
         }
     }
 

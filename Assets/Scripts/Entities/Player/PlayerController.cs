@@ -5,8 +5,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private EntityMovement entityMovement;
-    [SerializeField] private EntityAttack entityAttack;
+    private WeaponController weaponController;
     private InputAction moveAction, attackAction;
+
+    private void Awake()
+    {
+        weaponController = GetComponent<WeaponController>();
+        entityMovement = GetComponent<EntityMovement>();
+        SetupInput();
+    }
 
     private void OnEnable() {
         moveAction.Enable();
@@ -16,12 +23,6 @@ public class PlayerController : MonoBehaviour
     private void OnDisable() {
         moveAction.Disable();
         attackAction.Disable();
-    }
-
-    private void Awake()
-    {
-        entityMovement = GetComponent<EntityMovement>();
-        SetupInput();
     }
 
     private void SetupInput()
@@ -42,9 +43,9 @@ public class PlayerController : MonoBehaviour
     
     private void PerformAttack()
     {
-        if (entityAttack != null && GameManager.IsGameplay)
+        if (weaponController != null && GameManager.IsGameplay)
         {
-            entityAttack.AttackLogic();
+            weaponController.ActiveAttack();
         }
     }
     

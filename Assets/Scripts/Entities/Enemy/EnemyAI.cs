@@ -6,13 +6,11 @@ using VectorViolet.Core.Stats;
 [RequireStat("ChaseRange", "PatrolRange", "MoveSpeed")]
 public class EnemyAI : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private EntityAttack entityAttack;
-    private EntityMovement entityMovement;
-    
     [Header("Settings")]
     public float PatrolWaitTime = 2f;
 
+    private WeaponController weaponController;
+    private EntityMovement entityMovement;
     private EnemyState _currentState;
     public NavMeshAgent Agent { get; private set; }
     public Transform _target { get; private set; }
@@ -21,7 +19,7 @@ public class EnemyAI : MonoBehaviour
     // Range Stats
     private StatBase _attackRangeStat, _chaseRangeStat, _patrolRangeStat, _moveSpeedStat;
     
-    public EntityAttack EntityAttack => entityAttack;
+    public WeaponController WeaponController => weaponController;
     public EntityMovement EntityMovement => entityMovement;
     public float AttackRange => _attackRangeStat != null ? _attackRangeStat.GetValue() : 0f;
     public float ChaseRange => _chaseRangeStat.GetValue();
@@ -29,6 +27,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
+        weaponController = GetComponent<WeaponController>();
         entityMovement = GetComponent<EntityMovement>();
         entityMovement.usePhysicsMovement = false;
         
@@ -85,9 +84,9 @@ public class EnemyAI : MonoBehaviour
 
     private StatBase GetAttackRangeStat()
     {
-        if (entityAttack != null && entityAttack.CurrentWeapon != null)
+        if (weaponController != null && weaponController.CurrentWeapon != null)
         {
-            return entityAttack.CurrentWeapon.GetAttackRangeStat();
+            return weaponController.CurrentWeapon.GetAttackRangeStat();
         }
         return null;
     }
@@ -102,7 +101,7 @@ public class EnemyAI : MonoBehaviour
         if (_target == null || !Agent.isOnNavMesh || !GameManager.IsGameplay)
             return;
         
-        if (entityAttack != null && entityAttack.IsAttacking)
+        if (weaponController != null && weaponController.IsAttacking)
             return;
             
         _currentState?.Update(this);
@@ -143,7 +142,7 @@ public class EnemyAI : MonoBehaviour
     public void SetTarget(Transform target)
     {
         _target = target;
-        if (entityAttack != null)
-            entityAttack.target = target;
+        if (weaponController != null)
+            weaponController.target = target;
     }
 }
