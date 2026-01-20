@@ -27,16 +27,23 @@
 
 ## 🛠 Tech Stack & Architecture
 
-* **Engine:** Unity 2022.3 LTS
+* **Engine:** Unity 6.3 LTS
 * **Language:** C#
-* **Architecture:** * **VectorViolet Core:** Custom modular architecture for Stat Systems and Audio Management.
+* **Architecture:**
+    * **VectorViolet Core:** Custom modular architecture for Stat Systems and Audio Management.
     * **ScriptableObject Workflow:** Data-driven design for Enemy Stats, Items, and Skills.
     * **State Machine:** Finite State Machine (FSM) for Enemy AI behaviors (Patrol, Chase, Attack).
-* **Tools:** GitHub Projects (Kanban), Figma (UI/UX).
+* **Tools:**
+  * GitHub Projects (Kanban)
+  * Figma Whiteboarding (Game Design & UI/UX)
+  * Nano Banana Pro with Adobe Express (Background Remover)
+  * Visual Studio Code
 
 ## 📅 Roadmap & Kanban
 
 We follow an Agile methodology. You can track our live progress on our [**GitHub Project Board**](https://github.com/users/umutcanekinci/projects/6).
+
+Also you can find UML Diagrams and detailed design docs in whiteboard [**here**](https://www.figma.com/board/tN4s3aQBngW0V2z9BegVQW/Soulbonk?node-id=0-1&t=TRBo3Wkng3GCbL2K-1).
 
 ### Sprint 1: Foundation (Completed) ✅
 - [x] **Core Movement:** Fluid 2D Movement & Physics-based Dash.
@@ -78,6 +85,7 @@ This project is developed by **Umutcan Ekinci**.
 - [Environment: Top Down Tileset by Itch.io Community](https://itch.io/c/1574579/top-down)
 - [Environment: Top Down Assets Collection by Itch.io Community](https://itch.io/queue/c/1574579/top-down?game_id=3307044&password=)
 - [Enemies: Monster Packs by Admurin](https://admurin.itch.io/monster-pack-40), [Monster Pack 21](https://admurin.itch.io/monster-pack-21), [Monster Pack Collection](https://admurin.itch.io/monster-pack)
+- [NaughtyAttributes](https://assetstore.unity.com/packages/tools/utilities/naughtyattributes-129996)
 
 Future Usage Plans
 - https://admurin.itch.io/free-monster-pack-character
@@ -89,6 +97,7 @@ Future Usage Plans
 - https://admurin.itch.io/monster-pack-83
 - https://admurin.itch.io/monster-pack-82
 - https://admurin.itch.io/monster-pack-66
+- https://clockworkraven.itch.io/raven-fantasy-icons
 
 ---
 *License: MIT*

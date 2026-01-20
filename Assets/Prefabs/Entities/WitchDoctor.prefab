@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3872593719207731521}
   - component: {fileID: 2963124607660711274}
-  - component: {fileID: 5759398569205222661}
   - component: {fileID: 319599086934336192}
   m_Layer: 6
   m_Name: Wand
@@ -46,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468ec52a58e4985479e323f526a3fa63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.StatHolder
+  holderCategory: {fileID: 11400000, guid: 260cf2fe850dcd44986d9e243b99ceb7, type: 2}
   attributes:
   - definition: {fileID: 11400000, guid: 0506d0cdcdb609e4ba3c8ae7a02c7947, type: 2}
     _baseValue: 1
@@ -54,24 +54,6 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 257e83d1baccd7c41980b331886c458b, type: 2}
     _baseValue: 2
   resources: []
---- !u!114 &5759398569205222661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7461625514609671096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a415d53d8a1bfd64592cb8d6c89d3710, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntityAttack
-  target: {fileID: 0}
-  targetDirection: {x: 0, y: 0, z: 0}
-  animator: {fileID: 7580939284130583052}
-  weapon: {fileID: 319599086934336192}
-  entityMovement: {fileID: 7486810506130063484}
-  attackImpactPoint: 0.5
 --- !u!114 &319599086934336192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,13 +74,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 788089515734103977, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      propertyPath: floatingTextOffset.y
+      value: 0.38
+      objectReference: {fileID: 0}
     - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.16
+      value: 1.9732001
       objectReference: {fileID: 0}
     - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.901
+      value: -0.80120003
       objectReference: {fileID: 0}
     - target: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -132,10 +118,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3188844574050652490, guid: fb163b367843a234db9baf2e4262322d, type: 3}
-      propertyPath: entityAttack
-      value: 
-      objectReference: {fileID: 5759398569205222661}
     - target: {fileID: 4422691103465046231, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -206,24 +188,39 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       insertIndex: 0
       addedObject: {fileID: 3872593719207731521}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8177875545299866544, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2417450164351122708}
   m_SourcePrefab: {fileID: 100100000, guid: fb163b367843a234db9baf2e4262322d, type: 3}
 --- !u!4 &2242394830405236481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2390401626778313985, guid: fb163b367843a234db9baf2e4262322d, type: 3}
   m_PrefabInstance: {fileID: 4481925688736797184}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7486810506130063484 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6472941328686731900, guid: fb163b367843a234db9baf2e4262322d, type: 3}
+--- !u!1 &5714885202114314672 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8177875545299866544, guid: fb163b367843a234db9baf2e4262322d, type: 3}
   m_PrefabInstance: {fileID: 4481925688736797184}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &2417450164351122708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5714885202114314672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89a2ab48552b8c8448eb2d2e5cce3251, type: 3}
+  m_Script: {fileID: 11500000, guid: a415d53d8a1bfd64592cb8d6c89d3710, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntityMovement
+  m_EditorClassIdentifier: Assembly-CSharp::EntityAttack
+  target: {fileID: 0}
+  targetDirection: {x: 0, y: 0, z: 0}
+  animator: {fileID: 7580939284130583052}
+  activeWeapon: {fileID: 319599086934336192}
+  passiveWeapons: []
+  attackImpactPoint: 0.5
 --- !u!95 &7580939284130583052 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6270725609877569548, guid: fb163b367843a234db9baf2e4262322d, type: 3}

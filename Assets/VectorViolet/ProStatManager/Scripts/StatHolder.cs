@@ -5,12 +5,19 @@ namespace VectorViolet.Core.Stats
 {
     public class StatHolder : MonoBehaviour
     {
+        public StatCategory holderCategory;
+        
         public List<AttributeStat> attributes = new List<AttributeStat>();
         public List<ResourceStat> resources = new List<ResourceStat>();
         
         public Dictionary<StatDefinition, StatBase> statMap = new Dictionary<StatDefinition, StatBase>();
 
         private void Awake()
+        {
+            InitializeStatMap();
+        }
+
+        private void InitializeStatMap()
         {
             statMap.Clear();
 
@@ -31,9 +38,9 @@ namespace VectorViolet.Core.Stats
             }
         }
 
+        #if UNITY_EDITOR
         private void OnValidate()
         {
-            // ATTRIBUTES: Değer değiştiyse 'Dirty' olarak işaretle
             if (attributes != null)
             {
                 foreach (var attr in attributes)
@@ -43,7 +50,6 @@ namespace VectorViolet.Core.Stats
                 }
             }
 
-            // RESOURCES: Değer değiştiyse Clamp yap ve Event fırlat
             if (resources != null)
             {
                 foreach (var res in resources)
@@ -53,10 +59,10 @@ namespace VectorViolet.Core.Stats
                 }
             }
         }
+        #endif
 
         public StatBase GetStat(string statName)
         {
-            // First try to find in the statMap
             if (statMap != null && statMap.Count > 0)
             {
                 foreach (var pair in statMap)
@@ -68,7 +74,6 @@ namespace VectorViolet.Core.Stats
                 }
             }
 
-            // For Editor / Pre-Awake cases, search directly
             if (attributes != null)
             {
                 foreach (var attr in attributes)
@@ -167,13 +172,14 @@ namespace VectorViolet.Core.Stats
         {
             foreach (var attr in attributes)
             {
+                
                 if (attr.definition == null)
                     continue;
                 
                 StatDefinition def = attr.definition;
                 if (!def.isRangedStat)
                     continue;
-                    
+
                 Gizmos.color = def.gizmosColor;
                 Gizmos.DrawWireSphere(transform.position, attr.GetValue());
             }

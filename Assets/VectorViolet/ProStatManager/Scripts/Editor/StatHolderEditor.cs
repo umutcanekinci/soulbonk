@@ -3,16 +3,14 @@ using UnityEditor;
 using VectorViolet.Core.Stats;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
-namespace VectorViolet.Editor
+namespace VectorViolet.ProStatManager.Editor
 {
     [CustomEditor(typeof(StatHolder))]
     public class StatHolderEditor : UnityEditor.Editor
     {
         private StatHolder _target;
         private List<StatDefinition> _allStats;
-        
         private HashSet<string> _requiredStats = new HashSet<string>();
 
         private void OnEnable()
@@ -24,6 +22,20 @@ namespace VectorViolet.Editor
                 _allStats = FindAllStatDefinitions();
                 CheckRequirements(); 
             }
+        }
+
+        private List<StatDefinition> FindAllStatDefinitions()
+        {
+            string[] guids = AssetDatabase.FindAssets("t:StatDefinition");
+            List<StatDefinition> stats = new List<StatDefinition>();
+
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                StatDefinition asset = AssetDatabase.LoadAssetAtPath<StatDefinition>(path);
+                if (asset != null) stats.Add(asset);
+            }
+            return stats.OrderBy(x => x.type).ThenBy(x => x.DisplayName).ToList();
         }
 
         private void CheckRequirements()
@@ -92,7 +104,6 @@ namespace VectorViolet.Editor
                 EditorUtility.SetDirty(_target);
             }
         }
-
         public override void OnInspectorGUI()
         {
             if (EditorUtility.IsPersistent(_target))
@@ -102,6 +113,17 @@ namespace VectorViolet.Editor
             }
 
             serializedObject.Update();
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Configuration", EditorStyles.boldLabel);
+            
+            SerializedProperty categoryProp = serializedObject.FindProperty("holderCategory");
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(categoryProp);
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
 
             if (GUILayout.Button("Refresh Requirements & Stats", GUILayout.Height(30)))
             {
@@ -121,22 +143,26 @@ namespace VectorViolet.Editor
             {
                 foreach (var statDef in _allStats)
                 {
-                    if (statDef != null) 
+                    if (statDef != null && IsStatRelevant(statDef)) 
                         DrawStatRow(statDef);
                 }
             }
             
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Other Settings", EditorStyles.boldLabel);
-
-            DrawPropertiesExcluding(serializedObject, "m_Script", "attributes", "resources");
-
             if (GUI.changed)
             {
                 EditorUtility.SetDirty(_target);
             }
             
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private bool IsStatRelevant(StatDefinition def)
+        {
+            if (_target.holderCategory == null) return true;
+
+            if (def.categories == null || def.categories.Count == 0) return false;
+
+            return def.categories.Contains(_target.holderCategory);
         }
 
         private void DrawStatRow(StatDefinition def)
@@ -153,40 +179,31 @@ namespace VectorViolet.Editor
             bool isRequired = _requiredStats.Contains(def.DisplayName) || _requiredStats.Contains(def.name);
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
-            // --- DEĞİŞİKLİK BAŞLANGICI: Rect Sistemi ---
-            // EditorGUILayout yerine Rect kullanarak alanı elle bölüyoruz.
-            // Bu sayede pencere küçülse bile sağ taraf sabit kalır, sol taraf sıkışır.
-
-            // 1. Tüm satırın alanını al
             Rect rect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight);
 
-            // 2. Sağ taraftaki etiket için genişlik ayır (Örn: 90 piksel)
             float rightLabelWidth = 95f; 
             
-            // 3. Sol ve Sağ alanları tanımla
             Rect leftRect = new Rect(rect.x, rect.y, rect.width - rightLabelWidth, rect.height);
             Rect rightRect = new Rect(rect.x + rect.width - rightLabelWidth, rect.y, rightLabelWidth, rect.height);
 
-            // 4. SOL TARAFI ÇİZ (Toggle)
-            if (isRequired) GUI.enabled = false;
+            if (isRequired)
+                GUI.enabled = false;
 
             string label = $"{def.DisplayName} ({def.name})";
-            bool toggled = EditorGUI.ToggleLeft(leftRect, label, exists); // ToggleLeft artık Rect alıyor
+            bool toggled = EditorGUI.ToggleLeft(leftRect, label, exists); 
 
-            if (isRequired) GUI.enabled = true;
+            if (isRequired)
+                GUI.enabled = true;
 
-            // 5. SAĞ TARAFI ÇİZ (Renkli Etiket)
             GUIStyle labelStyle = new GUIStyle(EditorStyles.miniLabel);
             labelStyle.alignment = TextAnchor.MiddleRight;
             labelStyle.normal.textColor = def.type == StatType.Attribute ? Color.cyan : Color.green;
 
             string typeLabel = def.type.ToString();
-            if (isRequired) typeLabel += " (Req)";
+            if (isRequired)
+                typeLabel += " (Req)";
 
             EditorGUI.LabelField(rightRect, typeLabel, labelStyle);
-            
-            // --- DEĞİŞİKLİK BİTİŞİ ---
 
             if (toggled)
             {
@@ -282,20 +299,6 @@ namespace VectorViolet.Editor
             {
                 _target.resources.RemoveAll(x => x.definition == def);
             }
-        }
-
-        private List<StatDefinition> FindAllStatDefinitions()
-        {
-            string[] guids = AssetDatabase.FindAssets("t:StatDefinition");
-            List<StatDefinition> stats = new List<StatDefinition>();
-
-            foreach (string guid in guids)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                StatDefinition asset = AssetDatabase.LoadAssetAtPath<StatDefinition>(path);
-                if (asset != null) stats.Add(asset);
-            }
-            return stats.OrderBy(x => x.type).ThenBy(x => x.DisplayName).ToList();
         }
     }
 }

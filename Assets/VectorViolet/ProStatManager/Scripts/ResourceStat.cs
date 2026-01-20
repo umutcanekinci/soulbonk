@@ -8,7 +8,6 @@ namespace VectorViolet.Core.Stats
     {
         [SerializeField] private float _currentValue;
         
-        // MaxValue genelde bir Attribute'a (Vitality) bağlı olabilir ama şimdilik manuel kalsın.
         public float MaxValue = 100f; 
 
         public float CurrentValue
@@ -21,7 +20,6 @@ namespace VectorViolet.Core.Stats
             }
         }
 
-        // Use the setter for inspector changes to clamp value and invoke event
         public override void OnInspectorChanged()
         {
             CurrentValue = _currentValue; 

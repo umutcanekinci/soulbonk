@@ -1,4 +1,4 @@
-using System; // Math sınıfı için gerekli
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 

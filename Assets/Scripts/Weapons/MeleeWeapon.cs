@@ -1,13 +1,8 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using VectorViolet.Core.Stats;
 using VectorViolet.Core.Audio;
 
 public class MeleeWeapon : WeaponBase
 {
-    [Header("References")]
-    [SerializeField] private EntityMovement entityMovement;
-
     [Header("Combat Settings")]
     [SerializeField] private LayerMask targetLayers;
 
@@ -19,20 +14,11 @@ public class MeleeWeapon : WeaponBase
     [SerializeField] private SoundPack missSounds;
     [SerializeField] private SoundPack hitSounds;
 
-    private StatBase attackStat, attackRangeStat;
+    private Vector2 attackDirection;
 
-    private void Start()
-    {
-        var statHolder = GetComponent<StatHolder>();
-        if (statHolder != null)
-        {
-            attackStat = statHolder.GetStat("AttackDamage");
-            attackRangeStat = statHolder.GetStat("AttackRange");
-        }
-    }
-    
     public override void Attack(Vector3 direction)
     {
+        attackDirection = direction;
         DamageEnemiesInRange();
         ShakeCamera();
     }
@@ -40,7 +26,7 @@ public class MeleeWeapon : WeaponBase
     void DamageEnemiesInRange()
     {
         float range = attackRangeStat != null ? attackRangeStat.GetValue() : 0f;
-        Vector2 attackPointPosition = (Vector2)transform.position + entityMovement.LastFacingDirection * range;
+        Vector2 attackPointPosition = (Vector2)transform.position + attackDirection * range;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointPosition, range, targetLayers);
 
         bool anyHit = hitEnemies.Length > 0;
@@ -50,7 +36,7 @@ public class MeleeWeapon : WeaponBase
             
             if (damageable != null)
             {
-                damageable.TakeDamage(attackStat.GetValue());
+                damageable.TakeDamage(attackDamageStat.GetValue());
             }
         }
         PlaySFX(anyHit);
@@ -63,6 +49,17 @@ public class MeleeWeapon : WeaponBase
 
     void ShakeCamera()
     {
-        EventBus.TriggerShake(cameraShakeDuration, cameraShakeMagnitude);
+        EventBus.Camera.TriggerShake(cameraShakeDuration, cameraShakeMagnitude);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackRangeStat == null)
+            return;
+
+        float range = attackRangeStat.GetValue();
+        Vector2 attackPointPosition = (Vector2)transform.position + attackDirection * range;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPointPosition, range);
     }
 }

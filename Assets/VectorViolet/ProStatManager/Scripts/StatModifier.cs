@@ -4,8 +4,8 @@ namespace VectorViolet.Core.Stats
 {
     public enum ModifierType
     {
-        Flat = 100,      // Düz ekleme (Örn: +10 Defans)
-        PercentAdd = 200 // Yüzdesel ekleme (Örn: +%10 Güç)
+        Flat = 100,     
+        PercentAdd = 200
     }
 
     [Serializable]
@@ -13,9 +13,9 @@ namespace VectorViolet.Core.Stats
     {
         public float value;
         public ModifierType type;
-        public object source; // Bu modifier kimden geldi? (Örn: "Iron Sword", "PoisonSpell")
+        public object source;
 
-        // Constructor - Hızlı oluşturmak için
+    
         public StatModifier(float value, ModifierType type, object source = null)
         {
             this.value = value;

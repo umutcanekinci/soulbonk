@@ -1,4 +1,7 @@
 using UnityEngine;
+using VectorViolet.Core.Attributes;
+using System.Collections.Generic;
+using NaughtyAttributes;
 
 namespace VectorViolet.Core.Stats
 {
@@ -7,36 +10,29 @@ namespace VectorViolet.Core.Stats
     [CreateAssetMenu(menuName = "Pro Stat Manager/Stat Definition")]
     public class StatDefinition : ScriptableObject
     {
-        public string ID => this.name; 
+        [Header("General Info")]
         [SerializeField] private string displayName;
         [TextArea] public string description;
+        public StatType type = StatType.Attribute;
+        public List<StatCategory> categories = new List<StatCategory>();
+
+        [Header("Visuals")]
+        [SpritePreview]
         public Sprite icon;
         public bool isRangedStat = false;
+        [ShowIf("isRangedStat")]
         public Color gizmosColor = Color.white;
 
-        public StatType type = StatType.Attribute;
-
-        public string DisplayName 
-        {
-            get 
-            {
-                if (string.IsNullOrEmpty(displayName))
-                    return ID;
-                return displayName;
-            }
-        }
+        public string ID => name; 
+        public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
         
-        // Editörde kolaylık olsun diye, oluşturulduğunda otomatik doldur
         private void Reset()
         {
             displayName = this.name;
         }
         
-        // Editör kolaylığı: Dosya oluşturulunca otomatik isimlendirme denemesi
         private void OnValidate()
         {
-            // Dosya isminde "Stat_" gibi prefixler varsa onları temizleyebilirsin
-            // Örn dosya adı: "Stat_Health" -> Görünen ad: "Health" olsun istersen:
             /*
             if (string.IsNullOrEmpty(_statNameOverride))
             {

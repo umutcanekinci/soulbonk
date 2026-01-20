@@ -1,64 +1,52 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VectorViolet.Core.Attributes;
 
 namespace VectorViolet.Core.Stats
 {
-    [CreateAssetMenu(menuName = "Game/Upgrade Definition")]
+    [CreateAssetMenu(menuName = "Pro Stat Manager/Upgrade Definition")]
     public class UpgradeDefinition : ScriptableObject
     {
         [Header("Shop Settings")]
-        public string upgradeID;      // Save için ID (örn: "DamageUpg")
-        public string displayName;    // Ekranda görünecek isim
-        public Sprite icon;           // Shop İkonu
-        public int baseCost = 100;    // Başlangıç fiyatı
-        public float costMultiplier = 1.5f; // Fiyat artış çarpanı
+        public string upgradeID => name;      
+        [SerializeField] private string displayName;    
+        public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
+        [SpritePreview]
+        public Sprite icon;           
+        public int baseCost = 100;    
+        public float costMultiplier = 1.5f; 
 
         [Header("Stat Modifiers")]
-        // Senin yazdığın yapı, buraya entegre edildi
+        
         public List<ModifierEntry> modifiers = new List<ModifierEntry>();
 
         [System.Serializable]
         public class ModifierEntry
         {   
-            public StatDefinition targetStat; // Hangi stat değişecek?
+            public StatDefinition targetStat; 
             public ModifierType type = ModifierType.Flat;
-            
-            [Tooltip("Level 1'de verilecek bonus")]
-            public float baseBonus;       
-            
-            [Tooltip("Her levelde üstüne eklenecek miktar")]
+            public float baseBonus;
             public float growthPerLevel;  
         }
 
-        // --- YARDIMCI STRUCT ---
-        // Modifier'ı ve hedefini paketleyip döndürmek için
-        public struct AppliedModifierInfo
+        public int GetCost(int currentLevel)
         {
-            public StatDefinition TargetStatDef;
-            public StatModifier Modifier;
+            float multiplier = Mathf.Pow(costMultiplier, currentLevel);
+            return Mathf.RoundToInt(baseCost * multiplier);
         }
 
-        public List<AppliedModifierInfo> GenerateModifiers(int level, object source)
+        public List<StatModifier> GenerateModifiersForLevel(int level)
         {
-            var result = new List<AppliedModifierInfo>();
+            var result = new List<StatModifier>();
 
-            // Eğer level 0 ise hiç modifier verme
-            if (level <= 0) return result;
+            if (level <= 0)
+                return result;
 
             foreach (var entry in modifiers)
             {
-                // Formül: BaseBonus + ((Level - 1) * Growth)
                 float value = entry.baseBonus + ((level - 1) * entry.growthPerLevel);
-                
-                // Modifier'ı oluştur
-                StatModifier mod = new StatModifier(value, entry.type, source);
-                
-                // Hedef stat ile birlikte paketle
-                result.Add(new AppliedModifierInfo 
-                { 
-                    TargetStatDef = entry.targetStat, 
-                    Modifier = mod 
-                });
+                StatModifier mod = new StatModifier(value, entry.type, this);
+                result.Add(mod);
             }
             return result;
         }
