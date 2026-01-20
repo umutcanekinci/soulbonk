@@ -6,6 +6,12 @@ using VectorViolet.Core.Stats;
 [RequireStat("MoveSpeed")]
 public class EntityMovement : MonoBehaviour
 {
+    /// <summary>
+    /// Gets the last non-zero direction vector the entity faced.
+    /// Default is Vector2.down.
+    /// </summary>
+    public Vector2 LastFacingDirection { get; private set; } = Vector2.down;
+
     [Header("References")]
     [SerializeField] private Animator animator;
 
@@ -14,12 +20,6 @@ public class EntityMovement : MonoBehaviour
     private static readonly int HorizontalHash = Animator.StringToHash("Horizontal");
     private static readonly int VerticalHash = Animator.StringToHash("Vertical");
     // ------------------------------------------------
-
-    /// <summary>
-    /// Gets the last non-zero direction vector the entity faced.
-    /// Default is Vector2.down.
-    /// </summary>
-    public Vector2 LastFacingDirection { get; private set; } = Vector2.down;
     
     [Tooltip("If false, FixedUpdate movement logic is skipped (useful for cutscenes and navmesh).")]
     public bool usePhysicsMovement = true;

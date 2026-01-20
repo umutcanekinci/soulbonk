@@ -41,9 +41,6 @@ namespace VectorViolet.Core.Stats
         #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (!Application.isPlaying)
-                return;
-
             if (attributes != null)
             {
                 foreach (var attr in attributes)
@@ -175,13 +172,14 @@ namespace VectorViolet.Core.Stats
         {
             foreach (var attr in attributes)
             {
+                
                 if (attr.definition == null)
                     continue;
                 
                 StatDefinition def = attr.definition;
                 if (!def.isRangedStat)
                     continue;
-                    
+
                 Gizmos.color = def.gizmosColor;
                 Gizmos.DrawWireSphere(transform.position, attr.GetValue());
             }

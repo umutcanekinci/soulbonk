@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
-using UnityEngine.UI;
 
 public class DebugUI : MonoBehaviour
 {
@@ -10,10 +9,14 @@ public class DebugUI : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private GameObject uiContainer;
     [SerializeField] private TMP_Text gameStateText;
+    [SerializeField] private WeaponController playerWeaponController;
+
+    private bool isEnabled = false;
     
     private void OnEnable()
     {
         GameManager.Instance.OnStateChanged += UpdateGameStateText;
+        SetEnabled(showOnStart);
         UpdateGameStateText(GameManager.Instance.CurrentState);
     }
 
@@ -24,7 +27,7 @@ public class DebugUI : MonoBehaviour
 
     private void UpdateGameStateText(GameState newState)
     {
-        if (!showOnStart)
+        if (!isEnabled)
             return;
 
         UpdateText();
@@ -32,7 +35,7 @@ public class DebugUI : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.f2Key.wasPressedThisFrame)
+        if (Keyboard.current.f1Key.wasPressedThisFrame)
         {
             ToggleDebugMode();
         }
@@ -40,17 +43,31 @@ public class DebugUI : MonoBehaviour
 
     private void ToggleDebugMode()
     {
-        showOnStart = !showOnStart;
-        uiContainer.SetActive(showOnStart);
+        SetEnabled(!isEnabled);
+    }
+
+    private void SetEnabled(bool enabled)
+    {
+        isEnabled = enabled;
+        uiContainer.SetActive(isEnabled);
         UpdateText();
     }
 
     private void UpdateText()
     {
-        if (gameStateText == null || !showOnStart)
+        if (gameStateText == null || !isEnabled)
             return;
 
         gameStateText.text = $"Debug Mode: ON" + 
                              $"\nGame State: {GameManager.Instance.CurrentState}";
+        
+        if (playerWeaponController != null)
+        {
+            gameStateText.text += $"\nPlayer Weapon: {playerWeaponController.CurrentWeapon?.name ?? "None"}" +
+                                  $"\nWeapon Damage: {playerWeaponController.CurrentWeapon?.AttackDamage ?? 0}" +
+                                  $"\nWeapon Range: {playerWeaponController.CurrentWeapon?.AttackRange ?? 0}" +
+                                  $"\nWeapon Speed: {playerWeaponController.CurrentWeapon?.AttackSpeed ?? 0}";
+        }
+
     }
 }

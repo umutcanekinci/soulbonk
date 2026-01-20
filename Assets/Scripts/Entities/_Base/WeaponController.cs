@@ -4,8 +4,16 @@ using VectorViolet.Core.Stats;
 using System;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(EntityMovement))]
+[RequireComponent(typeof(StatHolder))]
 public class WeaponController : MonoBehaviour
 {
+    public WeaponBase CurrentWeapon => activeWeapon;
+    public bool IsAttacking => isAttacking;
+    public float AttackDamage => activeWeapon ? activeWeapon.AttackDamage : 0f;
+    public float AttackRange => activeWeapon ? activeWeapon.AttackRange : 0f;
+    public float AttackSpeed => activeWeapon ? activeWeapon.AttackSpeed : 0f;
+
     [HideInInspector] public Transform target;
     [HideInInspector] public Vector3 targetDirection;
 
@@ -14,25 +22,29 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private WeaponBase activeWeapon;
     [SerializeField] private List<WeaponBase> passiveWeapons = new List<WeaponBase>();
     
-
     [Header("Attack Settings")]
     [SerializeField, Range(0f, 1f)] private float attackImpactPoint = 0.5f; 
-    
-    // Animator parameter hashes
+
     private static readonly int AttackSpeedHash = Animator.StringToHash("AttackSpeed");
     private static readonly int AttackTriggerHash = Animator.StringToHash("Attack");
 
-    public bool IsAttacking => isAttacking;
     private float lastAttackTime;
     private bool isAttacking = false;
     private EntityMovement entityMovement;
-    public WeaponBase CurrentWeapon => activeWeapon;
-    private StatBase attackSpeedStat;
+    private StatHolder entityStats;
 
     private void Start()
     {
         entityMovement = GetComponent<EntityMovement>();
-        EquipWeapon(activeWeapon);
+        entityStats = GetComponent<StatHolder>();
+
+        if (activeWeapon != null)
+            EquipWeapon(activeWeapon);
+    }
+
+    private void OnValidate()
+    {
+        EquipWeapon(activeWeapon);    
     }
 
     public void EquipWeapon(WeaponBase newWeapon)
@@ -46,34 +58,34 @@ public class WeaponController : MonoBehaviour
         }
 
         activeWeapon = newWeapon;
- 
-        StatHolder statHolder = activeWeapon.GetComponent<StatHolder>();
-        if (statHolder != null)
-        {
-            attackSpeedStat = statHolder.GetStat("AttackSpeed");
-        }
-
-        activeWeapon?.OnEquip(this);
+        activeWeapon.gameObject.SetActive(true);
+        activeWeapon?.OnEquip(entityStats);
     }
 
     private void UnequipWeapon()
     {
         activeWeapon?.OnUnequip();
+        activeWeapon.gameObject.SetActive(false);
         activeWeapon = null;
     }
 
     public void ActiveAttack()
     {
-        if (activeWeapon == null || attackSpeedStat == null)
+        if (activeWeapon == null)
             return;
 
-        if (Time.time < lastAttackTime + (1f / attackSpeedStat.GetValue()))
+        float speed = activeWeapon.AttackSpeed;
+
+        if (speed <= 0f)
             return;
 
-        StartCoroutine(PerformAttackRoutine());
+        if (Time.time < lastAttackTime + (1f / speed))
+            return;
+
+        StartCoroutine(PerformAttackRoutine(speed));
     }
 
-    IEnumerator PerformAttackRoutine()
+    IEnumerator PerformAttackRoutine(float speed)
     {
         isAttacking = true;
         lastAttackTime = Time.time;
@@ -84,21 +96,24 @@ public class WeaponController : MonoBehaviour
             entityMovement.FaceDirection(targetDirection);
             entityMovement.Stop();
         }
+        else
+        {
+            targetDirection = entityMovement.LastFacingDirection;
+        }
         
-        float currentAttackSpeed = attackSpeedStat.GetValue();
         if (animator != null)
         {
-            animator.SetFloat(AttackSpeedHash, currentAttackSpeed);
+            animator.SetFloat(AttackSpeedHash, speed);
             animator.SetTrigger(AttackTriggerHash);
         }
 
-        float delayUntilHit = (1f / currentAttackSpeed) * attackImpactPoint; 
+        float delayUntilHit = (1f / speed) * attackImpactPoint; 
         
         yield return new WaitForSeconds(delayUntilHit);
 
         activeWeapon?.Attack(targetDirection);
 
-        float remainingTime = (1f / currentAttackSpeed) * (1f - attackImpactPoint);
+        float remainingTime = (1f / speed) * (1f - attackImpactPoint);
         yield return new WaitForSeconds(remainingTime);
 
         isAttacking = false;

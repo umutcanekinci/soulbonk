@@ -7,9 +7,14 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
 {
     protected StatBase attackDamageStat;
     protected StatBase attackRangeStat;
+    protected StatBase attackSpeedStat;
     
     private bool _isInitialized = false;
     private StatModifier _scalingModifier;
+
+    public float AttackDamage => _isInitialized ? attackDamageStat.GetValue() : 0f;
+    public float AttackRange => _isInitialized ? attackRangeStat.GetValue() : 0f;
+    public float AttackSpeed => _isInitialized ? attackSpeedStat.GetValue() : 0f;
 
     public void Initialize()
     {
@@ -20,16 +25,14 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         {
             attackDamageStat = statHolder.GetStat("AttackDamage");
             attackRangeStat = statHolder.GetStat("AttackRange");
-            
+            attackSpeedStat = statHolder.GetStat("AttackSpeed");
             _isInitialized = true;
         }
     }
 
-    public virtual void OnEquip(WeaponController weaponController)
+    public virtual void OnEquip(StatHolder playerStats)
     {
         Initialize(); 
-
-        StatHolder playerStats = weaponController.GetComponent<StatHolder>();
         
         if (playerStats != null)
         {

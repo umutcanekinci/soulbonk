@@ -12,7 +12,7 @@ public class IdleState : EnemyState
 
     public override void Enter(EnemyAI enemy)
     {
-        enemy.Agent.ResetPath();
+        enemy.ResetPath();
         _timer = enemy.PatrolWaitTime;
     }
 
@@ -84,7 +84,7 @@ public class ChaseState : EnemyState
 
     public override void Exit(EnemyAI enemy) 
     {
-        enemy.Agent.ResetPath();
+        enemy.ResetPath();
     }
 }
 
@@ -92,7 +92,7 @@ public class AttackState : EnemyState
 {
     public override void Enter(EnemyAI enemy)
     {
-        enemy.Agent.ResetPath();
+        enemy.ResetPath();
         enemy.EntityMovement.Stop();
     }
 

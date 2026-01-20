@@ -24,8 +24,20 @@ public class InGameUIManager : MonoBehaviour
 
         exitAction = new InputAction("Exit", binding: "<Gamepad>/buttonNorth");
         exitAction.AddBinding("<Keyboard>/escape");
-        exitAction.performed += _ => SceneLoader.Load(SceneType.Menu);
+        exitAction.performed += _ => HandleExit();
 
+    }
+
+    private void HandleExit()
+    {
+        if (GameManager.Instance.CurrentState == GameState.Gameplay)
+        {
+            GameManager.Instance.PauseGame();
+        }
+        else if (GameManager.Instance.CurrentState == GameState.Paused)
+        {
+            GameManager.Instance.ResumeGame();
+        }
     }
 
     private void OnEnable()

@@ -59,7 +59,9 @@ public class EnemyAI : MonoBehaviour
     private void HandleGameStateChanged(GameState newState)
     {
         bool canMove = newState == GameState.Gameplay;
-        Agent.isStopped = !canMove;
+
+        if (Agent != null && Agent.isOnNavMesh)
+            Agent.isStopped = !canMove;
 
         if (!canMove)
         {
@@ -144,5 +146,11 @@ public class EnemyAI : MonoBehaviour
         _target = target;
         if (weaponController != null)
             weaponController.target = target;
+    }
+
+    public void ResetPath()
+    {
+        if (Agent.isOnNavMesh)
+            Agent.ResetPath();
     }
 }
