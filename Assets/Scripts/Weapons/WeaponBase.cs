@@ -30,13 +30,13 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         }
     }
 
-    public virtual void OnEquip(StatHolder playerStats)
+    public virtual void OnEquip(StatHolder entityStats)
     {
         Initialize(); 
         
-        if (playerStats != null)
+        if (entityStats != null)
         {
-            StatBase playerStrength = playerStats.GetStat("Strength");
+            StatBase playerStrength = entityStats.GetStat("Strength");
 
             if (playerStrength != null && attackDamageStat != null)
             {
@@ -45,7 +45,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
                 float scalingFactor = 0.5f; 
                 float bonusDamage = playerStrength.GetValue() * scalingFactor;
 
-                _scalingModifier = new StatModifier(bonusDamage, ModifierType.Flat, playerStats);
+                _scalingModifier = new StatModifier(bonusDamage, ModifierType.Flat, entityStats);
                 
                 if (attackDamageStat is AttributeStat attrDamage)
                 {
