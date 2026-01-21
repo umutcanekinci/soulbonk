@@ -13,13 +13,7 @@ public class EntityMovement : MonoBehaviour
     public Vector2 LastFacingDirection { get; private set; } = Vector2.down;
 
     [Header("References")]
-    [SerializeField] private Animator animator;
-
-    // --- OPTIMIZATION: Hashed Animator Parameters ---
-    private static readonly int SpeedHash = Animator.StringToHash("Speed");
-    private static readonly int HorizontalHash = Animator.StringToHash("Horizontal");
-    private static readonly int VerticalHash = Animator.StringToHash("Vertical");
-    // ------------------------------------------------
+    [SerializeField] private EntityAnimator animator;
     
     [Tooltip("If false, FixedUpdate movement logic is skipped (useful for cutscenes and navmesh).")]
     public bool usePhysicsMovement = true;
@@ -53,15 +47,13 @@ public class EntityMovement : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        if (animator == null ||animator.runtimeAnimatorController == null)
+        if (animator == null)
             return;
-
-        // Optimization: Use Hash IDs instead of Strings
-        animator.SetFloat(SpeedHash, _moveInput.sqrMagnitude);
+        Debug.Log(_moveInput.sqrMagnitude);
+        animator.SetSpeed(_moveInput.sqrMagnitude);
         if (_moveInput.sqrMagnitude > 0.01f) // When not moving, don't update direction params and remember last direction
         {
-            animator.SetFloat(HorizontalHash, _moveInput.x);
-            animator.SetFloat(VerticalHash, _moveInput.y);
+            animator.SetFacingDirection(_moveInput);
         }
     }
 
@@ -110,8 +102,7 @@ public class EntityMovement : MonoBehaviour
 
         if (animator != null)
         {
-            animator.SetFloat(HorizontalHash, LastFacingDirection.x);
-            animator.SetFloat(VerticalHash, LastFacingDirection.y);
+            animator.SetFacingDirection(LastFacingDirection);
         }
     }
 
@@ -131,16 +122,6 @@ public class EntityMovement : MonoBehaviour
         }
         Stop();
         _rb.MovePosition(targetPosition);
-    }
-
-    public void Sit()
-    {
-        animator.SetTrigger("Sit");
-    }
-
-    public void StandUp()
-    {
-        animator.SetTrigger("StandUp");
     }
 
 }

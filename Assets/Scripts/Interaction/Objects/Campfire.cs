@@ -8,13 +8,15 @@ public class Campfire : Interactable
     
     public override IEnumerator OnInteractSequence(GameObject player)
     {
+        EntityAnimator playerAnimator = player.GetComponent<EntityAnimator>();
         EntityMovement playerMovement = player.GetComponent<EntityMovement>();
-        if (playerMovement != null)
+
+        if (playerAnimator != null && playerMovement != null)
         {
             Vector2 targetPosition = GetMoveTargetPoint(player.transform.position);
             Coroutine movementRoutine   = StartCoroutine(playerMovement.MoveToPositionCoroutine(targetPosition));
             yield return movementRoutine; // Wait for player to reach the interaction point
-            playerMovement.Sit();
+            playerAnimator.Sit();
         }
 
         EntityHP playerHP = player.GetComponent<EntityHP>();
@@ -51,10 +53,10 @@ public class Campfire : Interactable
 
     public override IEnumerator OnDeinteractSequence(GameObject player)
     {
-        EntityMovement playerMovement = player.GetComponent<EntityMovement>();
-        if (playerMovement != null)
+        EntityAnimator playerAnimator = player.GetComponent<EntityAnimator>();
+        if (playerAnimator != null)
         {
-            playerMovement.StandUp();
+            playerAnimator.StandUp();
         }
         yield return null;
     }

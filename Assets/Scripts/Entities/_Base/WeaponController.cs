@@ -19,15 +19,12 @@ public class WeaponController : MonoBehaviour
     [HideInInspector] public Vector3 targetDirection;
 
     [Header("References")]
-    [SerializeField] private Animator animator;
+    [SerializeField] private EntityAnimator animator;
     [SerializeField] private WeaponBase activeWeapon;
     [SerializeField] private List<WeaponBase> passiveWeapons = new List<WeaponBase>();
     
     [Header("Attack Settings")]
     [SerializeField, Range(0f, 1f)] private float attackImpactPoint = 0.5f; 
-
-    private static readonly int AttackSpeedHash = Animator.StringToHash("AttackSpeed");
-    private static readonly int AttackTriggerHash = Animator.StringToHash("Attack");
 
     private float lastAttackTime;
     private bool isAttacking = false;
@@ -110,8 +107,7 @@ public class WeaponController : MonoBehaviour
         
         if (animator != null)
         {
-            animator.SetFloat(AttackSpeedHash, speed);
-            animator.SetTrigger(AttackTriggerHash);
+            animator.TriggerAttack(speed);
         }
 
         
@@ -127,8 +123,6 @@ public class WeaponController : MonoBehaviour
 
         isAttacking = false;
     }
-
-    
 
     public void EquipPassiveWeapon(WeaponBase passiveWeapon)
     {
@@ -171,6 +165,12 @@ public class WeaponController : MonoBehaviour
     {
         while (true)
         {
+            if (!GameManager.IsGameplay)
+            {
+                yield return null;
+                continue;
+            }
+
             float speed = weapon.AttackSpeed;
             
             if (speed <= 0.1f)
