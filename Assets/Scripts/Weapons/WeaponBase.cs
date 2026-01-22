@@ -1,20 +1,26 @@
 using UnityEngine;
 using VectorViolet.Core.Stats;
+using VectorViolet.Core.Audio;
 
 [RequireComponent(typeof(StatHolder))]
 [RequireStat("AttackDamage", "AttackSpeed", "AttackRange")] 
 public abstract class WeaponBase : MonoBehaviour, IWeapon
 {
-    protected StatBase attackDamageStat;
-    protected StatBase attackRangeStat;
-    protected StatBase attackSpeedStat;
+    [Header("Audio Settings")]
+    [SerializeField] private SoundPack missSounds;
+    [SerializeField] private SoundPack hitSounds;
+
+    [Header("Scaling Settings")]
+    [SerializeField] private float scalingFactor = 0.5f; 
+
+    protected StatBase _attackDamageStat, _attackRangeStat, _attackSpeedStat, _critRateStat, _critDamageStat;
     
     private bool _isInitialized = false;
     private StatModifier _scalingModifier;
 
-    public float AttackDamage => _isInitialized ? attackDamageStat.GetValue() : 0f;
-    public float AttackRange => _isInitialized ? attackRangeStat.GetValue() : 0f;
-    public float AttackSpeed => _isInitialized ? attackSpeedStat.GetValue() : 0f;
+    public float AttackDamage => _isInitialized ? _attackDamageStat.GetValue() : 0f;
+    public float AttackRange => _isInitialized ? _attackRangeStat.GetValue() : 0f;
+    public float AttackSpeed => _isInitialized ? _attackSpeedStat.GetValue() : 0f;
 
     public void Initialize()
     {
@@ -23,9 +29,11 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         StatHolder statHolder = GetComponent<StatHolder>();
         if (statHolder != null)
         {
-            attackDamageStat = statHolder.GetStat("AttackDamage");
-            attackRangeStat = statHolder.GetStat("AttackRange");
-            attackSpeedStat = statHolder.GetStat("AttackSpeed");
+            _attackDamageStat = statHolder.GetStat("AttackDamage");
+            _attackRangeStat = statHolder.GetStat("AttackRange");
+            _attackSpeedStat = statHolder.GetStat("AttackSpeed");
+            _critRateStat = statHolder.GetStat("CritRate");
+            _critDamageStat = statHolder.GetStat("CritDamage");
             _isInitialized = true;
         }
     }
@@ -36,22 +44,30 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         
         if (entityStats != null)
         {
+            // Attack Damage = Base Damage + (Player Strength * Scaling Factor)
             StatBase playerStrength = entityStats.GetStat("Strength");
-
-            if (playerStrength != null && attackDamageStat != null)
+            if (playerStrength != null && _attackDamageStat != null)
             {
                 CleanUpModifier();
 
-                float scalingFactor = 0.5f; 
                 float bonusDamage = playerStrength.GetValue() * scalingFactor;
 
                 _scalingModifier = new StatModifier(bonusDamage, ModifierType.Flat, entityStats);
                 
-                if (attackDamageStat is AttributeStat attrDamage)
+                if (_attackDamageStat is AttributeStat attrDamage)
                 {
                     attrDamage.AddModifier(_scalingModifier);
                 }
             }
+        }
+    }
+
+    private void CleanUpModifier()
+    {
+        if (_scalingModifier != null && _attackDamageStat is AttributeStat attrDamage)
+        {
+            attrDamage.RemoveModifier(_scalingModifier);
+            _scalingModifier = null;
         }
     }
 
@@ -60,15 +76,27 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         CleanUpModifier();
     }
 
-    private void CleanUpModifier()
+    public StatBase GetAttackRangeStat() => _attackRangeStat;
+    
+    public abstract void Attack(Vector3 direction);
+
+    protected void PlaySFX(bool anyHit)
     {
-        if (_scalingModifier != null && attackDamageStat is AttributeStat attrDamage)
-        {
-            attrDamage.RemoveModifier(_scalingModifier);
-            _scalingModifier = null;
-        }
+        SoundManager.Instance.PlaySFX(anyHit ? hitSounds : missSounds);
     }
 
-    public StatBase GetAttackRangeStat() => attackRangeStat;
-    public abstract void Attack(Vector3 direction);
+    protected virtual float CalculateDamage(out bool isCritical)
+    {
+        float baseDamage = _attackDamageStat != null ? _attackDamageStat.GetValue() : 0f;
+        float critRate   = _critRateStat     != null ? _critRateStat.GetValue()     : 0f;
+        float critDamage = _critDamageStat   != null ? _critDamageStat.GetValue()   : 0f;
+
+        isCritical = Random.value * 100 < critRate;
+        if (isCritical)
+        {
+            return baseDamage * (1f + (critDamage / 100f));
+        }
+        return baseDamage;
+    }
+
 }

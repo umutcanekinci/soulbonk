@@ -3,13 +3,18 @@ using System.Collections;
 
 class EntityHpChangeEffect : MonoBehaviour
 {
+    [Header("Floating Text Settings")]
+    [SerializeField] private Vector2 offset = new Vector2(0, 0.1f);
+    [SerializeField] private Color damageColor = Color.white;
+    [SerializeField] private Color healColor = Color.green;
+    [SerializeField] private Color critColor = Color.red;
+    [SerializeField, Range(1f, 3f)] private float critScale = 1.5f;
+
+    [Header("Flash Effect Settings")]
     [Tooltip("When damaged, the sprite renderer to apply flash effect on.")]
     [SerializeField] private SpriteRenderer spriteRenderer;
-
     [Tooltip("Material to use for the flash effect.")]
     [SerializeField] private Material flashMaterial;
-
-    [SerializeField] private Vector2 floatingTextOffset = new Vector2(0, 0.1f);
 
     private EntityHP entityHP;
     private Material originalMaterial;
@@ -42,14 +47,14 @@ class EntityHpChangeEffect : MonoBehaviour
         }
     }
 
-    public void OnTakeDamage(float damageAmount)
+    public void OnTakeDamage(float damageAmount, bool isCritical = false)
     {
         if (spriteRenderer != null && !isFlashing)
         {
             StartCoroutine(DamageFlashRoutine());
         }
 
-        ShowFloatingText(-damageAmount);
+        ShowFloatingText(-damageAmount, isCritical);
     }
 
     public void OnHeal(float healAmount)
@@ -57,14 +62,16 @@ class EntityHpChangeEffect : MonoBehaviour
         ShowFloatingText(healAmount);
     }
 
-    private void ShowFloatingText(float amount)
+    private void ShowFloatingText(float amount, bool isCritical = false)
     {
         if (FloatingTextManager.Instance != null)
         {
-            string text = (amount > 0 ? "+" : "") + amount.ToString();
-            Color color = amount > 0 ? Color.green : Color.red;
-            Vector2 position = (Vector2)transform.position + floatingTextOffset;
-            FloatingTextManager.Instance.ShowFloatingText(text, position, color, amount);
+            string text = (amount > 0 ? "+" : "") + Mathf.RoundToInt(amount).ToString();
+            Vector2 position = (Vector2)transform.position + offset;
+            Color color = amount > 0 ? healColor : isCritical ? critColor : damageColor;
+            float scale = (isCritical ? critScale : 1f) * amount;
+
+            FloatingTextManager.Instance.ShowFloatingText(text, position, color, scale);
         }
     }
     
@@ -80,6 +87,6 @@ class EntityHpChangeEffect : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere((Vector2)transform.position + floatingTextOffset, 0.05f);
+        Gizmos.DrawSphere((Vector2)transform.position + offset, 0.05f);
     }
 }

@@ -19,7 +19,6 @@ public class WeaponController : MonoBehaviour
     [HideInInspector] public Vector3 targetDirection;
 
     [Header("References")]
-    [SerializeField] private EntityAnimator animator;
     [SerializeField] private WeaponBase activeWeapon;
     [SerializeField] private List<WeaponBase> passiveWeapons = new List<WeaponBase>();
     
@@ -29,18 +28,18 @@ public class WeaponController : MonoBehaviour
     private float lastAttackTime;
     private bool isAttacking = false;
     
-    private EntityMovement entityMovement;
-    private StatHolder entityStats;
-    
+    private EntityAnimator _animator;
+    private EntityMovement _movement;
+    private StatHolder _stats;
     
     private Dictionary<WeaponBase, Coroutine> passiveRoutines = new Dictionary<WeaponBase, Coroutine>();
 
     private void Start()
     {
-        entityMovement = GetComponent<EntityMovement>();
-        entityStats = GetComponent<StatHolder>();
+        _animator = GetComponent<EntityAnimator>();
+        _movement = GetComponent<EntityMovement>();
+        _stats = GetComponent<StatHolder>();
 
-        
         if (activeWeapon != null)
             EquipWeapon(activeWeapon);
 
@@ -61,7 +60,7 @@ public class WeaponController : MonoBehaviour
         activeWeapon = newWeapon;
         activeWeapon.gameObject.SetActive(true);
         activeWeapon.Initialize(); 
-        activeWeapon.OnEquip(entityStats); 
+        activeWeapon.OnEquip(_stats); 
     }
 
     private void UnequipWeapon()
@@ -95,19 +94,19 @@ public class WeaponController : MonoBehaviour
         if (target != null)
         {
             targetDirection = (target.transform.position - transform.position).normalized;
-            entityMovement.FaceDirection(targetDirection);
-            entityMovement.Stop();
+            _movement.FaceDirection(targetDirection);
+            _movement.Stop();
         }
         else
         {
             
-            targetDirection = entityMovement.LastFacingDirection; 
+            targetDirection = _movement.LastFacingDirection; 
         }
 
         
-        if (animator != null)
+        if (_animator != null)
         {
-            animator.TriggerAttack(speed);
+            _animator.TriggerAttack(speed);
         }
 
         
@@ -134,7 +133,7 @@ public class WeaponController : MonoBehaviour
         }
 
         passiveWeapon.Initialize();
-        passiveWeapon.OnEquip(entityStats);
+        passiveWeapon.OnEquip(_stats);
         passiveWeapon.gameObject.SetActive(true);
 
         
@@ -180,7 +179,7 @@ public class WeaponController : MonoBehaviour
 
             yield return new WaitForSeconds(cooldown);
 
-            Vector3 fireDirection = entityMovement.LastFacingDirection; 
+            Vector3 fireDirection = _movement.LastFacingDirection; 
             
             if(target != null) 
                 fireDirection = (target.transform.position - transform.position).normalized;

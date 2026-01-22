@@ -42,7 +42,7 @@ public class StatEntryUI : MonoBehaviour
         _upgradeDefinition = definition;
         _targetHolder = target;
 
-        if (iconRenderer != null) iconRenderer.sprite = definition.icon;
+        if (iconRenderer != null) iconRenderer.sprite = definition.Icon;
         if (nameText != null) nameText.text = definition.DisplayName;
         
         gameObject.name = "UpgradeEntry_" + definition.DisplayName;

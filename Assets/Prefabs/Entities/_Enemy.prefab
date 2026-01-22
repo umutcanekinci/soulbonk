@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4422691103465046231}
   - component: {fileID: 6270725609877569548}
   - component: {fileID: 6132216267605894776}
-  - component: {fileID: 5248042257605545060}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -133,18 +132,6 @@ MonoBehaviour:
   explosionForce: 50
   destroyAfter: 10
   groundFriction: 3
---- !u!114 &5248042257605545060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643747109839358338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f2d15c1e8331f94cb7d3098a758904d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EntityAnimator
 --- !u!1 &5745120518013918500
 GameObject:
   m_ObjectHideFlags: 0
@@ -5091,6 +5078,7 @@ GameObject:
   - component: {fileID: 6472941328686731900}
   - component: {fileID: 7401054012698204671}
   - component: {fileID: 788089515734103977}
+  - component: {fileID: 2114568598182560087}
   m_Layer: 6
   m_Name: _Enemy
   m_TagString: Untagged
@@ -5282,7 +5270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a2ab48552b8c8448eb2d2e5cce3251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityMovement
-  animator: {fileID: 5248042257605545060}
   usePhysicsMovement: 0
 --- !u!114 &7401054012698204671
 MonoBehaviour:
@@ -5308,9 +5295,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ef39d3a00dec74e829f1366d12b0a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityTakeDamageEffect
+  critScale: 1.5
   spriteRenderer: {fileID: 4422691103465046231}
   flashMaterial: {fileID: 2100000, guid: be9ea6d6248700e4f870aba2f0c8eaab, type: 2}
   floatingTextOffset: {x: 0, y: 0.1}
+--- !u!114 &2114568598182560087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177875545299866544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2d15c1e8331f94cb7d3098a758904d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityAnimator
+  animator: {fileID: 6270725609877569548}
 --- !u!1 &8499614630993227481
 GameObject:
   m_ObjectHideFlags: 0

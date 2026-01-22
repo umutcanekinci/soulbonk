@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da1ebc6a6e14637489aa6a3c8b152797, type: 3}
-  m_Name: AttackSpeed
+  m_Name: Ferocity
   m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.UpgradeDefinition
-  displayName: ASU
-  icon: {fileID: -691758550, guid: a4d5a52465808ef44a2f8d0ed151492c, type: 3}
+  displayName: FRC
+  icon: {fileID: 0}
   baseCost: 2
   costMultiplier: 1.5
   modifiers:
-  - targetStat: {fileID: 11400000, guid: 0506d0cdcdb609e4ba3c8ae7a02c7947, type: 2}
+  - targetStat: {fileID: 11400000, guid: d183c42080ed57a4da55806f2b4d5941, type: 2}
     type: 100
     baseBonus: 1
     growthPerLevel: 2
