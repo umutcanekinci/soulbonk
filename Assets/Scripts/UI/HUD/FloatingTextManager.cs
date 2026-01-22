@@ -5,8 +5,6 @@ public class FloatingTextManager : MonoBehaviour
 {
     [SerializeField] private FloatingText floatingTextPrefab;
     [SerializeField] private int initialPoolSize = 10;
-    [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private float fadeOutSpeed = 1f;
     [SerializeField] private float minScale = 0.8f;
     [SerializeField] private float maxScale = 1.6f;
     [SerializeField] private float scaleFactor = 0.02f;
@@ -40,11 +38,8 @@ public class FloatingTextManager : MonoBehaviour
         position.y += Random.Range(-randomOffsetRange.y, randomOffsetRange.y);
         
         FloatingText floatingText = GetPooledFloatingText();
-        floatingText.SetText(text);
-        floatingText.SetColor(color);
+        floatingText.Initialize(text, color, finalScale);
         floatingText.SetPosition(position);
-        floatingText.SetScale(finalScale);
-        floatingText.gameObject.SetActive(true);
     }
 
     private FloatingText GetPooledFloatingText()
@@ -63,8 +58,6 @@ public class FloatingTextManager : MonoBehaviour
     private FloatingText CreateNewFloatingText()
     {
         FloatingText newFloatingText = Instantiate(floatingTextPrefab, transform);
-        newFloatingText.SetMoveSpeed(moveSpeed);
-        newFloatingText.SetFadeOutSpeed(fadeOutSpeed);
         floatingTextPool.Add(newFloatingText);
         return newFloatingText;
     }

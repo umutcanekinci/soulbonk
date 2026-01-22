@@ -18,6 +18,6 @@ MonoBehaviour:
   categories:
   - {fileID: 11400000, guid: 8623a5cf3126a6e4bb64b30343c89d4a, type: 2}
   - {fileID: 11400000, guid: b4a8ab749cd1e714ca58ef76c30ffd09, type: 2}
-  icon: {fileID: -836156250, guid: e47c593ecd33ef94489ddb50adc24b37, type: 3}
+  icon: {fileID: 2121569851, guid: a4d5a52465808ef44a2f8d0ed151492c, type: 3}
   isRangedStat: 0
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}

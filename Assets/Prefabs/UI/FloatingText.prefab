@@ -50,8 +50,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   textMesh: {fileID: 3239068856340588298}
-  moveSpeed: 1
-  fadeOutSpeed: 1
+  fadeOutSpeed: 1.5
+  scaleDownSpeed: 1
+  initialUpwardSpeed: {x: 0.5, y: 1.2}
+  horizontalSpread: 0.4
+  gravity: 2
 --- !u!1 &7596843455323530446
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +130,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 0.8518007, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

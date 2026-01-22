@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EntityAnimator : MonoBehaviour
 {
-    private Animator animator;
+    [SerializeField] private Animator animator;
     private bool IsAnimatorControllerAssigned => animator != null && animator.runtimeAnimatorController != null;
 
     // --- OPTIMIZATION: Hashed Animator Parameters ---
@@ -14,11 +14,6 @@ public class EntityAnimator : MonoBehaviour
     private static readonly int AttackSpeedHash = Animator.StringToHash("AttackSpeed");
     private static readonly int AttackTriggerHash = Animator.StringToHash("Attack");
     // ------------------------------------------------
-
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
 
     public void Sit() => SetTrigger(SitTriggerHash);
     public void StandUp() => SetTrigger(StandUpTriggerHash);

@@ -60,11 +60,12 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy(GameObject enemyPrefab, Vector3 position)
     {
+        if (enemyPrefab == null)
+            return;
+
         int currentEnemyCount = transform.childCount;
         if (currentEnemyCount >= maxEnemies)
-        {
             return;
-        }
 
         GameObject newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
         newEnemy.GetComponent<EnemyAI>().SetTarget(player);

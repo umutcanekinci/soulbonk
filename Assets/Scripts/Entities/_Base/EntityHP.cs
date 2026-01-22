@@ -1,19 +1,19 @@
 using UnityEngine;
 using VectorViolet.Core.Stats;
 using System;
-using System.Collections;
 using VectorViolet.Core.Audio;
 
 [RequireComponent(typeof(StatHolder))]
 [RequireStat("Health")]
 public class EntityHP : MonoBehaviour, IDamageable
 {
+    [Header("Audio Settings")]
     [SerializeField] private SoundPack deathSounds;
     private ResourceStat _healthStat;
 
     public bool IsDead => _healthStat != null && _healthStat.CurrentValue <= 0;
 
-    public event Action<float> OnTakeDamage;
+    public event Action<float, bool> OnTakeDamage;
     public event Action OnDeath;
     public event Action<float> OnHeal;
     public event Action<float> OnHealthChanged;
@@ -56,13 +56,13 @@ public class EntityHP : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage(float damageAmount)
+    public void TakeDamage(float damageAmount, bool isCritical = false)
     {
         if (_healthStat == null || IsDead || damageAmount <= 0 || !GameManager.IsGameplay) 
             return;
 
         _healthStat.CurrentValue -= damageAmount;
-        OnTakeDamage?.Invoke(damageAmount);
+        OnTakeDamage?.Invoke(damageAmount, isCritical);
 
         if (_healthStat.CurrentValue <= 0)
         {

@@ -17,6 +17,6 @@ MonoBehaviour:
   type: 0
   categories:
   - {fileID: 11400000, guid: b4a8ab749cd1e714ca58ef76c30ffd09, type: 2}
-  icon: {fileID: 0}
+  icon: {fileID: -267511478, guid: a4d5a52465808ef44a2f8d0ed151492c, type: 3}
   isRangedStat: 0
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}

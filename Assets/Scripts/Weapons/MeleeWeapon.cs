@@ -1,5 +1,4 @@
 using UnityEngine;
-using VectorViolet.Core.Audio;
 
 public class MeleeWeapon : WeaponBase
 {
@@ -9,10 +8,6 @@ public class MeleeWeapon : WeaponBase
     [Header("Camera Shake Settings")]
     [SerializeField] private float cameraShakeDuration = 0.2f;
     [SerializeField] private float cameraShakeMagnitude = 0.1f;
-
-    [Header("Audio Settings")]
-    [SerializeField] private SoundPack missSounds;
-    [SerializeField] private SoundPack hitSounds;
 
     private Vector2 attackDirection;
 
@@ -25,7 +20,7 @@ public class MeleeWeapon : WeaponBase
 
     void DamageEnemiesInRange()
     {
-        float range = attackRangeStat != null ? attackRangeStat.GetValue() : 0f;
+        float range = _attackRangeStat != null ? _attackRangeStat.GetValue() : 0f;
         Vector2 attackPointPosition = (Vector2)transform.position + attackDirection * range;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointPosition, range, targetLayers);
 
@@ -36,15 +31,11 @@ public class MeleeWeapon : WeaponBase
             
             if (damageable != null)
             {
-                damageable.TakeDamage(attackDamageStat.GetValue());
+                float damageAmount = CalculateDamage(out bool isCritical);
+                damageable.TakeDamage(damageAmount, isCritical);
             }
         }
         PlaySFX(anyHit);
-    }
-
-    private void PlaySFX(bool anyHit)
-    {
-        SoundManager.Instance.PlaySFX(anyHit ? hitSounds : missSounds);
     }
 
     void ShakeCamera()
@@ -54,10 +45,10 @@ public class MeleeWeapon : WeaponBase
 
     private void OnDrawGizmosSelected()
     {
-        if (attackRangeStat == null)
+        if (_attackRangeStat == null)
             return;
 
-        float range = attackRangeStat.GetValue();
+        float range = _attackRangeStat.GetValue();
         Vector2 attackPointPosition = (Vector2)transform.position + attackDirection * range;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPointPosition, range);

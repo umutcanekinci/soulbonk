@@ -12,7 +12,8 @@ namespace VectorViolet.Core.Stats
         [SerializeField] private string displayName;    
         public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
         [SpritePreview]
-        public Sprite icon;           
+        [SerializeField] private Sprite icon;           
+        public Sprite Icon => icon != null ? icon : modifiers.Count > 0 && modifiers[0].targetStat != null ? modifiers[0].targetStat.icon : null;
         public int baseCost = 100;    
         public float costMultiplier = 1.5f; 
 

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a106908588689e646ba4fa7815d6fc43, type: 3}
-  m_Name: CritRate
-  m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.StatDefinition
-  displayName: 
+  m_Name: Ferocity
+  m_EditorClassIdentifier: ProStatManager::VectorViolet.Core.Stats.StatDefinition
+  displayName: STR
   description: 
   type: 0
   categories:
-  - {fileID: 11400000, guid: 260cf2fe850dcd44986d9e243b99ceb7, type: 2}
-  icon: {fileID: -1689701752, guid: a4d5a52465808ef44a2f8d0ed151492c, type: 3}
+  - {fileID: 11400000, guid: b4a8ab749cd1e714ca58ef76c30ffd09, type: 2}
+  icon: {fileID: 1302097582, guid: a4d5a52465808ef44a2f8d0ed151492c, type: 3}
   isRangedStat: 0
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}

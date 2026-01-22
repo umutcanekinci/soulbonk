@@ -11,33 +11,32 @@ public class EntityMovement : MonoBehaviour
     /// Default is Vector2.down.
     /// </summary>
     public Vector2 LastFacingDirection { get; private set; } = Vector2.down;
-
-    [Header("References")]
-    [SerializeField] private EntityAnimator animator;
     
     [Tooltip("If false, FixedUpdate movement logic is skipped (useful for cutscenes and navmesh).")]
     public bool usePhysicsMovement = true;
 
+    private EntityAnimator _animator;
     private Rigidbody2D _rb;
     private StatBase _speedStat;
     private Vector2 _moveInput;
 
     private void Awake()
     {
+        _animator = GetComponent<EntityAnimator>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {        
-        StatHolder StatHolder = GetComponent<StatHolder>();
+        StatHolder statHolder = GetComponent<StatHolder>();
 
-        if (StatHolder == null)
+        if (statHolder == null)
         {
             Debug.LogError($"StatHolder component not found on {gameObject.name}.");
             return;
         }
 
-        _speedStat = StatHolder.GetStat("MoveSpeed");
+        _speedStat = statHolder.GetStat("MoveSpeed");
     }
 
     private void Update()
@@ -47,13 +46,13 @@ public class EntityMovement : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        if (animator == null)
+        if (_animator == null)
             return;
-        Debug.Log(_moveInput.sqrMagnitude);
-        animator.SetSpeed(_moveInput.sqrMagnitude);
+            
+        _animator.SetSpeed(_moveInput.sqrMagnitude);
         if (_moveInput.sqrMagnitude > 0.01f) // When not moving, don't update direction params and remember last direction
         {
-            animator.SetFacingDirection(_moveInput);
+            _animator.SetFacingDirection(_moveInput);
         }
     }
 
@@ -100,9 +99,9 @@ public class EntityMovement : MonoBehaviour
 
         LastFacingDirection = direction.normalized;
 
-        if (animator != null)
+        if (_animator != null)
         {
-            animator.SetFacingDirection(LastFacingDirection);
+            _animator.SetFacingDirection(LastFacingDirection);
         }
     }
 

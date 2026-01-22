@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da1ebc6a6e14637489aa6a3c8b152797, type: 3}
   m_Name: MoveSpeed
   m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.UpgradeDefinition
-  displayName: MSU
-  icon: {fileID: 1820765845, guid: a4d5a52465808ef44a2f8d0ed151492c, type: 3}
+  displayName: MS
+  icon: {fileID: 0}
   baseCost: 2
   costMultiplier: 1.5
   modifiers:
