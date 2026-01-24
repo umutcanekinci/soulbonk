@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 8427252521154769628}
   - component: {fileID: 1201080982302014617}
   m_Layer: 5
-  m_Name: StatEntryUI
+  m_Name: StatUpgradeEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,12 +188,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9149755101fada439dedaad703c9751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _targetHolder: {fileID: 0}
   _upgradeDefinition: {fileID: 0}
   nameText: {fileID: 0}
   costText: {fileID: 7534573923651160275}
   levelText: {fileID: 6579885337950766884}
   iconRenderer: {fileID: 5107950335580631960}
   upgradeButton: {fileID: 8633006640139644830}
+  hoverableComponent: {fileID: 5835338387211636338}
 --- !u!1 &7300667687280866370
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +208,7 @@ GameObject:
   - component: {fileID: 7560879917099639554}
   - component: {fileID: 5107950335580631960}
   - component: {fileID: 8633006640139644830}
+  - component: {fileID: 5835338387211636338}
   m_Layer: 5
   m_Name: UpgradeButton
   m_TagString: Untagged
@@ -326,6 +329,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5835338387211636338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7300667687280866370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4fb5650502914408229f5bec9272e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Hoverable
+  hoverTooltip: 
 --- !u!1 &7446525641228002181
 GameObject:
   m_ObjectHideFlags: 0

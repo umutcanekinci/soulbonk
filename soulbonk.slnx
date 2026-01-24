@@ -4,8 +4,8 @@
   <Project Path="NaughtyAttributes.Editor.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
-  <Project Path="VectorViolet.ProStatManager.Editor.csproj" />
   <Project Path="ProStatHolder.csproj" />
+  <Project Path="VectorViolet.ProStatManager.Editor.csproj" />
   <Project Path="VectorViolet.ProSoundManager.Editor.csproj" />
   <Project Path="ProSoundManager.csproj" />
 </Solution>

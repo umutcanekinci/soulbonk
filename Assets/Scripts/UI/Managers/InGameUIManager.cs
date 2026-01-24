@@ -1,55 +1,23 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 public class InGameUIManager : MonoBehaviour
 {
-
     [Header("References")]
-    [SerializeField] GameObject interactionUI;
+    [SerializeField] GameObject statUI;
+    [SerializeField] GameObject statUpgradeUI;  
     [SerializeField] GameObject controlUI;
+    
+    List<GameObject> uiElements;
 
     [Header("Settings")]
     [SerializeField] private bool hideControlOnStart = true;
-
-    private InputAction exitAction;
-
+    
     private void Awake()
     {
-        HideInteractionUI();
-        if (Application.isMobilePlatform)
-            ShowControlUI();
-        else
-            if (hideControlOnStart)
-                HideControlUI();
-
-        exitAction = new InputAction("Exit", binding: "<Gamepad>/buttonNorth");
-        exitAction.AddBinding("<Keyboard>/escape");
-        exitAction.performed += _ => HandleExit();
-
-    }
-
-    private void HandleExit()
-    {
-        if (GameManager.Instance.CurrentState == GameState.Gameplay)
-        {
-            GameManager.Instance.PauseGame();
-        }
-        else if (GameManager.Instance.CurrentState == GameState.Paused)
-        {
-            GameManager.Instance.ResumeGame();
-        }
-    }
-
-    private void OnEnable()
-    {
-        exitAction.Enable();
-        GameManager.Instance.OnStateChanged += ChangeUIState;
-    }
-
-    private void OnDisable()
-    {
-        exitAction.Disable();
-        GameManager.Instance.OnStateChanged -= ChangeUIState;
+        uiElements = new List<GameObject> { statUI, statUpgradeUI, controlUI };
+        ShowOnly(controlUI);
     }
 
     private void ChangeUIState(GameState newState)
@@ -57,28 +25,54 @@ public class InGameUIManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Gameplay:
-                ShowControlUI();
-                HideInteractionUI();
+                ShowOnly(controlUI);
                 break;
             case GameState.Cutscene:
-                HideControlUI();
-                HideInteractionUI();
+                HideAll();
                 break;
             case GameState.Interaction:
-                HideControlUI();
-                ShowInteractionUI();
+                ShowOnly(statUpgradeUI);
+                break;
+            case GameState.Paused:
+                ShowOnly(statUI);
                 break;
         }
     }
 
-    private void ShowControlUI() => ShowUIElement(controlUI);
-    private void HideControlUI() => HideUIElement(controlUI);
-    private void ShowInteractionUI() => ShowUIElement(interactionUI);
-    private void HideInteractionUI() => HideUIElement(interactionUI);
-    private void ShowUIElement(GameObject uiElement) => uiElement?.SetActive(true);
-    private void HideUIElement(GameObject uiElement) => StartCoroutine(DisableUIEndOfFrame(uiElement));
+    private void OnEnable()
+    {
+        GameManager.Instance.OnStateChanged += ChangeUIState;
+    }
 
-    private System.Collections.IEnumerator DisableUIEndOfFrame(GameObject uiElement)
+    private void OnDisable()
+    {
+        GameManager.Instance.OnStateChanged -= ChangeUIState;
+    }
+    
+    private void ShowOnly(GameObject uiElement)
+    {
+        HideAll();
+        if (uiElement == controlUI && !Application.isMobilePlatform && hideControlOnStart)
+            return;
+
+        Show(uiElement);
+    }
+
+    private void HideAll()
+    {
+        uiElements.ForEach(element => Hide(element));
+    }
+
+    private void Show(GameObject uiElement) => StartCoroutine(EnableUINextFrame(uiElement));
+    private void Hide(GameObject uiElement) => StartCoroutine(DisableUIEndOfFrame(uiElement));
+
+    private IEnumerator EnableUINextFrame(GameObject uiElement)
+    {
+        yield return null;    
+        uiElement.SetActive(true);
+    }
+
+    private IEnumerator DisableUIEndOfFrame(GameObject uiElement)
     {
         yield return new WaitForEndOfFrame();    
         uiElement.SetActive(false);

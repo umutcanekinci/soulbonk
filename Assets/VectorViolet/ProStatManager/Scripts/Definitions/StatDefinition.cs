@@ -30,15 +30,5 @@ namespace VectorViolet.Core.Stats
         {
             displayName = this.name;
         }
-        
-        private void OnValidate()
-        {
-            /*
-            if (string.IsNullOrEmpty(_statNameOverride))
-            {
-                _statNameOverride = this.name.Replace("Stat_", "");
-            }
-            */
-        }
     }
 }

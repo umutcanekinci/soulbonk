@@ -7,7 +7,7 @@ namespace VectorViolet.Core.Stats
     [CreateAssetMenu(menuName = "Pro Stat Manager/Modifier Package")]
     public class ModifierDefinition : ScriptableObject
     {
-        [System.Serializable]
+        [Serializable]
         public class ModifierEntry
         {   
             public StatDefinition targetStat; 
@@ -24,18 +24,13 @@ namespace VectorViolet.Core.Stats
         
         public List<StatModifier> CreateModifiers(int level, object source)
         {
-            List<StatModifier> result = new List<StatModifier>();
-
-            foreach (var entry in entries)
-            {
-                
-                float val = entry.baseValue + ((level - 1) * entry.growthPerLevel);
-                
-                
-                result.Add(new StatModifier(val, entry.type, source));
-            }
-
-            return result;
+            return entries.ConvertAll(entry => 
+                new StatModifier(
+                    entry.baseValue + ((level - 1) * entry.growthPerLevel), 
+                    entry.type, 
+                    source
+                )
+            );
         }
     }
 }

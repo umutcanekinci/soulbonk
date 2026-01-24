@@ -13,26 +13,41 @@ public class InteractionDetector : MonoBehaviour
     {
         interactAction = new InputAction("Interact", binding: "<Gamepad>/buttonWest");
         interactAction.AddBinding("<Keyboard>/e");
-        interactAction.performed += _ => OnInteractPressed();
+        interactAction.performed += _ => ToggleInteract();
     }
 
     private void OnEnable() {
         interactAction.Enable();
+        EventBus.PlayerInteraction.OnDeinteractionRequest += OnDeinteractPressed;
     }
 
     private void OnDisable() {
         interactAction.Disable();
+        EventBus.PlayerInteraction.OnDeinteractionRequest -= OnDeinteractPressed;
+    }
+
+    public void ToggleInteract()
+    {
+        if (GameManager.IsGameplay)
+            OnInteractPressed();
+        else if (GameManager.IsInteraction)
+            OnDeinteractPressed();
     }
 
     public void OnInteractPressed()
     {
-        if (nearestInteractable == null || GameManager.IsCutscene)
+        if (nearestInteractable == null || !GameManager.IsGameplay)
             return;
 
-        if (GameManager.IsInteraction)
-            EventBus.PlayerInteraction.TriggerDeinteraction(nearestInteractable, gameObject);
-        else
-            EventBus.PlayerInteraction.TriggerInteraction(nearestInteractable, gameObject);
+        EventBus.PlayerInteraction.TriggerInteractionWith(nearestInteractable, gameObject);
+    }
+
+    public void OnDeinteractPressed()
+    {
+        if (nearestInteractable == null || !GameManager.IsInteraction)
+            return;
+        
+        EventBus.PlayerInteraction.TriggerDeinteractionWith(nearestInteractable, gameObject);
     }
 
     private void Update()
@@ -93,7 +108,7 @@ public class InteractionDetector : MonoBehaviour
         nearbyInteractables.Remove(interactable);
         if (GameManager.IsInteraction && nearestInteractable == interactable)
         {
-            EventBus.PlayerInteraction.TriggerDeinteraction(interactable, gameObject);
+            OnDeinteractPressed();
         }
     }
 

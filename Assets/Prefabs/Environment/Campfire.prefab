@@ -292,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Campfire
   interactionText: Interact
   deinteractionText: Deinteract
-  uiOffset: {x: 0, y: -0.1, z: 0}
+  uiOffset: {x: 0, y: -0.01, z: 0}
   localInteractionPoint: {x: 0, y: 0.19}
   interactionDistance: 0.17
 --- !u!1 &8141036193338847554

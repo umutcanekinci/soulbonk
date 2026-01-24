@@ -181,7 +181,7 @@ namespace VectorViolet.Core.Stats
                     continue;
 
                 Gizmos.color = def.gizmosColor;
-                Gizmos.DrawWireSphere(transform.position, attr.GetValue());
+                Gizmos.DrawWireSphere(transform.position, attr.Value);
             }
         }
     }

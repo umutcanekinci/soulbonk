@@ -16,6 +16,9 @@ public class Campfire : Interactable
             Vector2 targetPosition = GetMoveTargetPoint(player.transform.position);
             Coroutine movementRoutine   = StartCoroutine(playerMovement.MoveToPositionCoroutine(targetPosition));
             yield return movementRoutine; // Wait for player to reach the interaction point
+            Vector2 center = GetInteractionCenter();
+            Vector2 direction = center - targetPosition;
+            playerAnimator.SetFacingDirection(direction.normalized);
             playerAnimator.Sit();
         }
 

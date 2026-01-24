@@ -25,8 +25,12 @@ namespace VectorViolet.Core.Stats
             CurrentValue = _currentValue; 
         }
 
-        public override float GetValue() => _currentValue;
-        
+        public override float Value => _currentValue;
+        public override float BaseValue
+        {
+            get => MaxValue;
+            protected set => MaxValue = value;
+        }
         public void RestoreFully() => CurrentValue = MaxValue;
         public void Deplete(float amount) => CurrentValue -= amount;
         public void Restore(float amount) => CurrentValue += amount;

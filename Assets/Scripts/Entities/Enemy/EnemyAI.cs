@@ -21,9 +21,9 @@ public class EnemyAI : MonoBehaviour
     
     public WeaponController WeaponController => weaponController;
     public EntityMovement EntityMovement => entityMovement;
-    public float AttackRange => _attackRangeStat != null ? _attackRangeStat.GetValue() : 0f;
-    public float ChaseRange => _chaseRangeStat.GetValue();
-    public float PatrolRange => _patrolRangeStat.GetValue();
+    public float AttackRange => _attackRangeStat != null ? _attackRangeStat.Value : 0f;
+    public float ChaseRange => _chaseRangeStat.Value;
+    public float PatrolRange => _patrolRangeStat.Value;
 
     private void Awake()
     {
@@ -95,7 +95,7 @@ public class EnemyAI : MonoBehaviour
 
     private void SetSpeed(StatBase stat)
     {
-        Agent.speed = stat.GetValue();
+        Agent.speed = stat.Value;
     }
 
     private void Update()

@@ -26,6 +26,30 @@ public class EntityMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    private void OnEnable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnStateChanged += OnGameStateChanged;
+        }
+    }
+    
+    private void OnDisable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnStateChanged -= OnGameStateChanged;
+        }
+    }
+
+    private void OnGameStateChanged(GameState newState)
+    {
+        if (newState != GameState.Gameplay)
+        {
+            Stop();
+        }
+    }
+
     private void Start()
     {        
         StatHolder statHolder = GetComponent<StatHolder>();
@@ -85,7 +109,7 @@ public class EntityMovement : MonoBehaviour
         if (!usePhysicsMovement)
             return;
 
-        _rb.linearVelocity = _moveInput * _speedStat.GetValue();
+        _rb.linearVelocity = _moveInput * _speedStat.Value;
     }
 
     /// <summary>

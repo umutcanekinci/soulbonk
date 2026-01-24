@@ -31,7 +31,7 @@ public class CollectableDetector : MonoBehaviour
 
     private void UpdateRadius(StatBase stat)
     {
-        col.radius = stat.GetValue();
+        col.radius = stat.Value;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

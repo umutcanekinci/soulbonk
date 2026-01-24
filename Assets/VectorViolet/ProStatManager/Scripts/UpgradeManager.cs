@@ -79,18 +79,23 @@ namespace VectorViolet.Core.Stats
 
         private void ApplyUpgradeModifiers(UpgradeDefinition upgrade, int level, StatHolder target)
         {
+            // GenerateModifiersForLevel muhtemelen sadece "değerleri" döndürüyordur veya
+            // kaynağı yanlış atıyordur. Biz burada manuel ve güvenli bir şekilde oluşturalım.
             List<StatModifier> newModifiers = upgrade.GenerateModifiersForLevel(level);
 
             for (int i = 0; i < upgrade.modifiers.Count; i++)
             {
-                 var entry = upgrade.modifiers[i];
-                 var modifierToApply = newModifiers[i];
+                var entry = upgrade.modifiers[i];
 
-                 var stat = target.GetStat(entry.targetStat.ID);
-                 if (stat is AttributeStat attrStat)
-                 {
-                     attrStat.AddModifier(modifierToApply);
-                 }
+                //  var modifierToApply = newModifiers[i];
+                float finalValue = entry.baseBonus + (entry.growthPerLevel * level);
+                var modifierToApply = new StatModifier(finalValue, entry.type, upgrade);
+
+                var stat = target.GetStat(entry.targetStat.ID);
+                if (stat is AttributeStat attrStat)
+                {
+                    attrStat.AddModifier(modifierToApply);
+                }
             }
         }
 

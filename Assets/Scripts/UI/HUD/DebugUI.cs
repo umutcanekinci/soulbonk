@@ -9,7 +9,6 @@ public class DebugUI : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private GameObject uiContainer;
     [SerializeField] private TMP_Text gameStateText;
-    [SerializeField] private WeaponController playerWeaponController;
 
     private bool isEnabled = false;
     
@@ -59,15 +58,10 @@ public class DebugUI : MonoBehaviour
             return;
 
         gameStateText.text = $"Debug Mode: ON" + 
-                             $"\nGame State: {GameManager.Instance.CurrentState}";
-        
-        if (playerWeaponController != null)
-        {
-            gameStateText.text += $"\nPlayer Weapon: {playerWeaponController.CurrentWeapon?.name ?? "None"}" +
-                                  $"\nWeapon Damage: {playerWeaponController.CurrentWeapon?.AttackDamage ?? 0}" +
-                                  $"\nWeapon Range: {playerWeaponController.CurrentWeapon?.AttackRange ?? 0}" +
-                                  $"\nWeapon Speed: {playerWeaponController.CurrentWeapon?.AttackSpeed ?? 0}";
-        }
-
+                             $"\nGame State: {GameManager.Instance.CurrentState}" +
+                             $"\nIs Mobile Platform: {Application.isMobilePlatform}" +
+                             $"\nScreen Resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}" +
+                             $"\nFPS: {Mathf.RoundToInt(1f / Time.unscaledDeltaTime)}";
+                             
     }
 }

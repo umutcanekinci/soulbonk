@@ -12,31 +12,38 @@ namespace VectorViolet.Core.Stats
         private float _cachedValue;
         private readonly List<StatModifier> modifiers = new List<StatModifier>();
         
-        public float BaseValue 
+        public override float BaseValue 
         {
             get => _baseValue;
-            set 
+            protected set 
             {
                 _baseValue = value;
-                _isDirty = true;
-                InvokeValueChanged();
+                SetDirty();
             }
         }
 
-        public override void OnInspectorChanged()
+        private void SetDirty()
         {
             _isDirty = true;
             InvokeValueChanged();
         }
 
-        public override float GetValue()
+        public override void OnInspectorChanged()
         {
-            if (_isDirty)
+            SetDirty();
+        }
+
+        public override float Value
+        {
+            get
             {
-                _cachedValue = CalculateFinalValue();
-                _isDirty = false;
+                if (_isDirty)
+                {
+                    _cachedValue = CalculateFinalValue();
+                    _isDirty = false;
+                }
+                return _cachedValue;
             }
-            return _cachedValue;
         }
 
         private float CalculateFinalValue()
@@ -63,14 +70,14 @@ namespace VectorViolet.Core.Stats
         public void AddModifier(StatModifier modifier)
         {
             modifiers.Add(modifier);
-            _isDirty = true;
+            SetDirty();
         }
 
         public bool RemoveModifier(StatModifier modifier)
         {
             if (modifiers.Remove(modifier))
             {
-                _isDirty = true;
+                SetDirty();
                 return true;
             }
             return false;
@@ -81,7 +88,7 @@ namespace VectorViolet.Core.Stats
             int numRemoved = modifiers.RemoveAll(mod => mod.source == source);
             if (numRemoved > 0)
             {
-                _isDirty = true;
+                SetDirty();
                 return true;
             }
             return false;

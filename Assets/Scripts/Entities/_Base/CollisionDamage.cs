@@ -26,7 +26,7 @@ public class CollisionDamage : MonoBehaviour
 
         if (Time.time - lastDamageTime >= damageCooldown)
         {
-            entityHP.TakeDamage(collisionDamageStat.GetValue());
+            entityHP.TakeDamage(collisionDamageStat.Value);
             lastDamageTime = Time.time;
         }
     }

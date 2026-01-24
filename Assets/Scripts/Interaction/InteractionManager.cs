@@ -3,59 +3,58 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
-    [Header("Interaction Settings")]
+    [Header("Interaction Settings")]    
     [SerializeField] private InteractableUI interactableUI;
-    [SerializeField] private Vector2 cameraOffset = new Vector2(0f, 2f);
-    [SerializeField] private float zoomAmount = 0.5f;
     [SerializeField] private float interactionDuration = 1.5f;
     [SerializeField] private float deinteractionDuration = 1f;
     
+    [Header("Camera Focus Settings")]
+    [SerializeField] private Vector2 _cameraOffset = new Vector2(0f, 2f);
+    [SerializeField] private float _zoomAmount = 0.5f;
+
     private void OnEnable()
     {
-        EventBus.PlayerInteraction.OnInteractionRequest += StartInteractionSequence;
-        EventBus.PlayerInteraction.OnDeinteractionRequest += StartDeinteractionSequence;
+        EventBus.PlayerInteraction.OnInteractionRequestWith += StartInteractionCutscene;
+        EventBus.PlayerInteraction.OnDeinteractionRequestWith += StartDeinteractionCutscene;
     }
 
     private void OnDisable()
     {
-        EventBus.PlayerInteraction.OnInteractionRequest -= StartInteractionSequence;
-        EventBus.PlayerInteraction.OnDeinteractionRequest -= StartDeinteractionSequence;
+        EventBus.PlayerInteraction.OnInteractionRequestWith -= StartInteractionCutscene;
+        EventBus.PlayerInteraction.OnDeinteractionRequestWith -= StartDeinteractionCutscene;
     }
 
-    private void StartInteractionSequence(Interactable interactable, GameObject player)
+    private void StartInteractionCutscene(Interactable interactable, GameObject player)
     {
         if (interactable == null || player == null)
             return;
 
-        CutSceneManager.StartCutscene(InteractionRoutine(interactable, player), GameState.Interaction);
+        CutSceneManager.Play(InteractionRoutine(interactable, player), GameState.Interaction);
     }
 
-    private void StartDeinteractionSequence(Interactable interactable, GameObject player)
+    private void StartDeinteractionCutscene(Interactable interactable, GameObject player)
     {
         if (interactable == null || player == null)
             return;
 
-        CutSceneManager.StartCutscene(DeinteractionRoutine(interactable, player), GameState.Gameplay);
+        CutSceneManager.Play(DeinteractionRoutine(interactable, player), GameState.Gameplay);
     }
 
     private IEnumerator InteractionRoutine(Interactable interactable, GameObject player)
     {
-        Vector2 cameraPosition = (Vector2)interactable.transform.position + cameraOffset;
+        Vector2 cameraPosition = (Vector2)interactable.transform.position;
 
-        Coroutine cameraMoveRoutine  = StartCoroutine(EventBus.Camera.TriggerMove(cameraPosition, interactionDuration));
-        Coroutine zoomRoutine        = StartCoroutine(EventBus.Camera.TriggerZoomIn(zoomAmount, interactionDuration)); 
+        Coroutine focusRoutine = StartCoroutine(EventBus.Camera.TriggerFocus(cameraPosition, _cameraOffset, _zoomAmount, interactionDuration));
         Coroutine interactionRoutine = StartCoroutine(interactable.OnInteractSequence(player));
 
         yield return interactionRoutine;
-        yield return zoomRoutine;
-        yield return cameraMoveRoutine;
+        yield return focusRoutine;
         interactableUI.SetInteractionText(interactable.deinteractionText);
     }
 
     private IEnumerator DeinteractionRoutine(Interactable interactable, GameObject player)
     {
-        yield return EventBus.Camera.TriggerResetZoom(deinteractionDuration);
-        yield return EventBus.Camera.TriggerMove(player.transform.position, deinteractionDuration);
+        yield return StartCoroutine(EventBus.Camera.TriggerDefocus(deinteractionDuration));
         Coroutine deinteractionRoutine  = StartCoroutine(interactable.OnDeinteractSequence(player));
         yield return deinteractionRoutine;
         interactableUI.SetInteractionText(interactable.interactionText);

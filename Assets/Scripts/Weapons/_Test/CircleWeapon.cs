@@ -45,7 +45,7 @@ public class CircleWeapon : MonoBehaviour
     private void UpdateCirclesImmediate()
     {
         DestroyChildCircles();
-        CreateCircles(attackCountStat.GetValue(), attackSpeedStat.GetValue(), attackRangeStat.GetValue());
+        CreateCircles(attackCountStat.Value, attackSpeedStat.Value, attackRangeStat.Value);
     }
 
     private void DestroyChildCircles()

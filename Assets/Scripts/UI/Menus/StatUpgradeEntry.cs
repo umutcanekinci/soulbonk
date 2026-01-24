@@ -3,9 +3,10 @@ using UnityEngine;
 using VectorViolet.Core.Stats;
 using UnityEngine.UI;
 
-public class StatEntryUI : MonoBehaviour
+public class StatUpgradeEntry : MonoBehaviour
 {
-    [Header("Data")]
+    [Header("Stat References")]
+    [SerializeField] private StatHolder _targetHolder;
     [SerializeField] private UpgradeDefinition _upgradeDefinition;
 
     [Header("UI References")]
@@ -14,9 +15,9 @@ public class StatEntryUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Image iconRenderer;
     [SerializeField] private Button upgradeButton;
+    [SerializeField] private Hoverable hoverableComponent;
 
-    private StatHolder _targetHolder;
-
+    
     private void OnEnable()
     {
         if (CoinManager.Instance != null)
@@ -46,7 +47,10 @@ public class StatEntryUI : MonoBehaviour
         if (nameText != null) nameText.text = definition.DisplayName;
         
         gameObject.name = "UpgradeEntry_" + definition.DisplayName;
-
+        if (hoverableComponent != null)
+        {
+            hoverableComponent.hoverTooltip = definition.DisplayName;
+        }
         UpdateUI();
     }
 

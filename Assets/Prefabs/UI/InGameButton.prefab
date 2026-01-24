@@ -239,12 +239,12 @@ MonoBehaviour:
   animationSpeed: 15
   changeScale: 1
   targetObject: {fileID: 3017952316735558013}
-  useDefaultScale: 1
+  customScale: 0
   originalScale: {x: 0, y: 0, z: 0}
   activeScale: 0.85
   changeAlpha: 1
   targetCanvasGroup: {fileID: 3956254046901041184}
   targetImage: {fileID: 0}
-  useDefaultAlpha: 1
+  customAlpha: 0
   originalAlpha: 0
   activeAlpha: 0

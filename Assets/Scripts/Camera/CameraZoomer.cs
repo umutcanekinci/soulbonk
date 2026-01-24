@@ -13,30 +13,21 @@ public class CameraZoomer : MonoBehaviour
     private float _defaultSize;
     private Coroutine _activeZoomCoroutine;
 
-    private void OnEnable()
-    {
-        EventBus.Camera.OnZoomIn += ZoomInCoroutine;
-        EventBus.Camera.OnResetZoom += ResetZoomCoroutine;
-    }
-
-    private void OnDisable()
-    {
-        EventBus.Camera.OnZoomIn -= ZoomInCoroutine;
-        EventBus.Camera.OnResetZoom -= ResetZoomCoroutine;
-    }
-
-    private void Start()
+    private void Awake()
     {
         _defaultSize = zoomCamera.orthographicSize;
     }
 
-    /// <summary>
-    /// Stops any ongoing zoom coroutine.
-    /// </summary>
-    private void Stop()
+    private void OnEnable()
     {
-        if (_activeZoomCoroutine != null)
-            StopCoroutine(_activeZoomCoroutine);
+        EventBus.Camera.OnZoomIn += ZoomIn;
+        EventBus.Camera.OnResetZoom += ResetZoom;
+    }
+
+    private void OnDisable()
+    {
+        EventBus.Camera.OnZoomIn -= ZoomIn;
+        EventBus.Camera.OnResetZoom -= ResetZoom;
     }
 
     /// <summary>
@@ -44,10 +35,12 @@ public class CameraZoomer : MonoBehaviour
     /// </summary>
     /// <param name="targetSize">The target orthographic size.</param>
     /// <param name="duration">How long the transition should take.</param>
-    public void ZoomIn(float amount, float duration)
+    public IEnumerator ZoomIn(float amount, float duration)
     {
         Stop();
-        _activeZoomCoroutine = StartCoroutine(ZoomCoroutine(_defaultSize - amount, duration));
+        _activeZoomCoroutine = StartCoroutine(ZoomRoutine(_defaultSize - amount, duration));
+        yield return _activeZoomCoroutine;
+        Stop();
     }
 
     /// <summary>
@@ -55,36 +48,52 @@ public class CameraZoomer : MonoBehaviour
     /// </summary>
     /// <param name="amount">The amount to zoom out.</param>
     /// <param name="duration">How long the transition should take.</param>
-    public void ZoomOut(float amount, float duration)
+    public IEnumerator ZoomOut(float amount, float duration)
     {
         Stop();
-        _activeZoomCoroutine = StartCoroutine(ZoomCoroutine(_defaultSize + amount, duration));
+        _activeZoomCoroutine = StartCoroutine(ZoomRoutine(_defaultSize + amount, duration));
+        yield return _activeZoomCoroutine;
+        Stop();
     }
 
     /// <summary>
     /// Resets the camera to its original size.
     /// </summary>
     /// <param name="duration">Duration of the reset transition.</param>
-    public void ResetZoom(float duration)
+    public IEnumerator ResetZoom(float duration)
     {
         Stop();
-        _activeZoomCoroutine = StartCoroutine(ZoomCoroutine(_defaultSize, duration));
+        _activeZoomCoroutine = StartCoroutine(ZoomRoutine(_defaultSize, duration));
+        yield return _activeZoomCoroutine;
+        Stop();
+    }
+    
+    /// <summary>
+    /// Stops any ongoing zoom coroutine.
+    /// </summary>
+    private void Stop()
+    {
+        if (_activeZoomCoroutine != null)
+        {
+            StopCoroutine(_activeZoomCoroutine);
+            _activeZoomCoroutine = null;
+        }
     }
 
     /// <summary>
     /// Coroutine version of ZoomIn for use in sequential flows (e.g. InteractionController).
     /// </summary>
-    public IEnumerator ZoomInCoroutine(float targetSize, float duration)
+    public IEnumerator ZoomInRoutine(float targetSize, float duration)
     {
-        yield return ZoomCoroutine(targetSize, duration );
+        yield return ZoomRoutine(targetSize, duration );
     }
 
     /// <summary>
     /// Coroutine version of ResetZoom for use in sequential flows (e.g. InteractionController).
     /// </summary>
-    public IEnumerator ResetZoomCoroutine(float duration)
+    public IEnumerator ResetZoomRoutine(float duration)
     {
-        yield return ZoomCoroutine(_defaultSize, duration);
+        yield return ZoomRoutine(_defaultSize, duration);
     }
 
     /// <summary>
@@ -92,7 +101,7 @@ public class CameraZoomer : MonoBehaviour
     /// </summary>
     /// <param name="targetSize">The target orthographic size.</param>
     /// <param name="duration">Duration of the transition.</param>
-    private IEnumerator ZoomCoroutine(float targetSize, float duration)
+    private IEnumerator ZoomRoutine(float targetSize, float duration)
     {
         float startZoom = zoomCamera.orthographicSize;
         float elapsed = 0f;

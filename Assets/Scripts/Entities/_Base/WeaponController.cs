@@ -19,7 +19,8 @@ public class WeaponController : MonoBehaviour
     [HideInInspector] public Vector3 targetDirection;
 
     [Header("References")]
-    [SerializeField] private WeaponBase activeWeapon;
+    [SerializeField] private WeaponBase startingWeapon;
+    private WeaponBase activeWeapon;
     [SerializeField] private List<WeaponBase> passiveWeapons = new List<WeaponBase>();
     
     [Header("Attack Settings")]
@@ -33,15 +34,16 @@ public class WeaponController : MonoBehaviour
     private StatHolder _stats;
     
     private Dictionary<WeaponBase, Coroutine> passiveRoutines = new Dictionary<WeaponBase, Coroutine>();
+    public event Action<List<StatHolder>> OnWeaponSwitched;
 
-    private void Start()
+    private void Awake()
     {
         _animator = GetComponent<EntityAnimator>();
         _movement = GetComponent<EntityMovement>();
         _stats = GetComponent<StatHolder>();
 
-        if (activeWeapon != null)
-            EquipWeapon(activeWeapon);
+        if (startingWeapon != null)
+            SwitchWeapon(startingWeapon);
 
         
         foreach (var weapon in passiveWeapons)
@@ -50,17 +52,31 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    private void OnValidate()
+    {
+        SwitchWeapon(startingWeapon);
+    }
+
+    public void SwitchWeapon(WeaponBase newWeapon)
+    {
+        if (newWeapon == activeWeapon)
+            return;
+
+        UnequipWeapon();
+        EquipWeapon(newWeapon);
+        OnWeaponSwitched?.Invoke(GetStatHolders());
+    }
+
     public void EquipWeapon(WeaponBase newWeapon)
     {
-        if (newWeapon == null) return;
+        if (newWeapon != null)
+        {
+            activeWeapon = newWeapon;
+            activeWeapon.OnEquip(_stats); 
+            activeWeapon.gameObject.SetActive(true);
+            activeWeapon.Initialize(); 
+        }
 
-        if (activeWeapon != null)
-            UnequipWeapon();
-
-        activeWeapon = newWeapon;
-        activeWeapon.gameObject.SetActive(true);
-        activeWeapon.Initialize(); 
-        activeWeapon.OnEquip(_stats); 
     }
 
     private void UnequipWeapon()
@@ -187,4 +203,36 @@ public class WeaponController : MonoBehaviour
             weapon.Attack(fireDirection);
         }
     }
+
+    public List<StatHolder> GetStatHolders()
+    {
+        if (_stats == null)
+            _stats = GetComponent<StatHolder>();
+
+        List<StatHolder> holders = new List<StatHolder>
+        {
+            _stats
+        };
+
+        if (activeWeapon != null)
+        {
+            StatHolder weaponStats = activeWeapon.GetComponent<StatHolder>();
+            if (weaponStats != null)
+            {
+                holders.Add(weaponStats);
+            }
+        }
+
+        foreach (var passiveWeapon in passiveWeapons)
+        {
+            StatHolder passiveStats = passiveWeapon.GetComponent<StatHolder>();
+            if (passiveStats != null && !holders.Contains(passiveStats))
+            {
+                holders.Add(passiveStats);
+            }
+        }
+
+        return holders;
+    }
+
 }

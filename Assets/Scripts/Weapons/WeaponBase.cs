@@ -1,6 +1,21 @@
 using UnityEngine;
 using VectorViolet.Core.Stats;
 using VectorViolet.Core.Audio;
+using System.Collections.Generic;
+
+// 1. ADIM: Scaling kuralını tanımlayan küçük bir sınıf oluşturuyoruz.
+[System.Serializable]
+public class WeaponScalingConfig
+{
+    [Tooltip("Which Player Stat to base the scaling on? (e.g., Strength)")]
+    public StatDefinition sourceStatDef;
+
+    [Tooltip("Which Weapon Stat to increase? (e.g., AttackDamage)")]
+    public StatDefinition targetStatDef;
+
+    [Tooltip("Multiplier factor (e.g., 0.5 means 10 Str -> +5 Dmg)")]
+    public float factor = 0.5f;
+}
 
 [RequireComponent(typeof(StatHolder))]
 [RequireStat("AttackDamage", "AttackSpeed", "AttackRange")] 
@@ -10,17 +25,63 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
     [SerializeField] private SoundPack missSounds;
     [SerializeField] private SoundPack hitSounds;
 
-    [Header("Scaling Settings")]
-    [SerializeField] private float scalingFactor = 0.5f; 
+    [Header("Dynamic Scaling Settings")]
+    // 2. ADIM: Tek bir scaling yerine liste kullanıyoruz.
+    [SerializeField] private List<WeaponScalingConfig> scalings = new List<WeaponScalingConfig>();
 
     protected StatBase _attackDamageStat, _attackRangeStat, _attackSpeedStat, _critRateStat, _critDamageStat;
-    
     private bool _isInitialized = false;
-    private StatModifier _scalingModifier;
 
-    public float AttackDamage => _isInitialized ? _attackDamageStat.GetValue() : 0f;
-    public float AttackRange => _isInitialized ? _attackRangeStat.GetValue() : 0f;
-    public float AttackSpeed => _isInitialized ? _attackSpeedStat.GetValue() : 0f;
+    // Aktif modifierları ve hangi player statına bağlı olduklarını takip etmek için bir liste
+    // (Unequip ederken eventlerden çıkmak için gerekli)
+    private class ActiveScalingLink
+    {
+        public StatBase SourceStat;      
+        public AttributeStat TargetWeaponStat; 
+        public StatModifier ActiveModifier; 
+        public WeaponScalingConfig Config;
+        public object SourceObject; // Modifier kaynağı (WeaponBase instance)
+
+        public void OnSourceStatChanged(StatBase updatedStat)
+        {
+            if (ActiveModifier != null)
+            {
+                TargetWeaponStat.RemoveModifier(ActiveModifier);
+            }
+
+            float bonus = SourceStat.Value * Config.factor;
+
+            if (Mathf.Abs(bonus) > 0.01f)
+            {
+                ActiveModifier = new StatModifier(bonus, ModifierType.Flat, SourceObject);
+                TargetWeaponStat.AddModifier(ActiveModifier);
+            }
+            else
+            {
+                ActiveModifier = null;
+            }
+        }
+
+        public void Clear()
+        {
+            if (ActiveModifier != null)
+            {
+                if (SourceStat != null)
+                    SourceStat.OnValueChanged -= OnSourceStatChanged;
+                
+                if (TargetWeaponStat != null && ActiveModifier != null)
+                    TargetWeaponStat.RemoveModifier(ActiveModifier);
+                ActiveModifier = null;
+            }
+        }
+    }
+    
+    private List<ActiveScalingLink> _activeLinks = new List<ActiveScalingLink>();
+
+    // Propertyler aynı kalabilir...
+    public float AttackDamage => _isInitialized ? _attackDamageStat.Value : 0f;
+    public float AttackRange => _isInitialized ? _attackRangeStat.Value : 0f;
+    public float AttackSpeed => _isInitialized ? _attackSpeedStat.Value : 0f;
 
     public void Initialize()
     {
@@ -40,46 +101,43 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
 
     public virtual void OnEquip(StatHolder entityStats)
     {
-        Initialize(); 
-        
-        if (entityStats != null)
+        Initialize();
+        if (entityStats == null) return;
+
+        foreach (var config in scalings)
         {
-            // Attack Damage = Base Damage + (Player Strength * Scaling Factor)
-            StatBase playerStrength = entityStats.GetStat("Strength");
-            if (playerStrength != null && _attackDamageStat != null)
+            if (config.sourceStatDef == null || config.targetStatDef == null) continue;
+
+            StatBase playerStat = entityStats.GetStat(config.sourceStatDef.ID);
+            StatBase weaponStat = GetComponent<StatHolder>().GetStat(config.targetStatDef.ID);
+
+            if (playerStat != null && weaponStat is AttributeStat attrWeaponStat)
             {
-                CleanUpModifier();
-
-                float bonusDamage = playerStrength.GetValue() * scalingFactor;
-
-                _scalingModifier = new StatModifier(bonusDamage, ModifierType.Flat, entityStats);
-                
-                if (_attackDamageStat is AttributeStat attrDamage)
+                var link = new ActiveScalingLink
                 {
-                    attrDamage.AddModifier(_scalingModifier);
-                }
-            }
-        }
-    }
+                    SourceStat = playerStat,
+                    TargetWeaponStat = attrWeaponStat,
+                    Config = config,
+                    SourceObject = this
+                };
 
-    private void CleanUpModifier()
-    {
-        if (_scalingModifier != null && _attackDamageStat is AttributeStat attrDamage)
-        {
-            attrDamage.RemoveModifier(_scalingModifier);
-            _scalingModifier = null;
+                _activeLinks.Add(link);
+
+                link.OnSourceStatChanged(playerStat);
+                playerStat.OnValueChanged += link.OnSourceStatChanged;
+            }
         }
     }
 
     public virtual void OnUnequip()
     {
-        CleanUpModifier();
+        _activeLinks.ForEach(link => link.Clear());
+        _activeLinks.Clear();
     }
 
     public StatBase GetAttackRangeStat() => _attackRangeStat;
-    
     public abstract void Attack(Vector3 direction);
-
+    
     protected void PlaySFX(bool anyHit)
     {
         SoundManager.Instance.PlaySFX(anyHit ? hitSounds : missSounds);
@@ -87,9 +145,9 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
 
     protected virtual float CalculateDamage(out bool isCritical)
     {
-        float baseDamage = _attackDamageStat != null ? _attackDamageStat.GetValue() : 0f;
-        float critRate   = _critRateStat     != null ? _critRateStat.GetValue()     : 0f;
-        float critDamage = _critDamageStat   != null ? _critDamageStat.GetValue()   : 0f;
+        float baseDamage = _attackDamageStat != null ? _attackDamageStat.Value : 0f;
+        float critRate = _critRateStat != null ? _critRateStat.Value : 0f;
+        float critDamage = _critDamageStat != null ? _critDamageStat.Value : 0f;
 
         isCritical = Random.value * 100 < critRate;
         if (isCritical)
@@ -98,5 +156,4 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
         }
         return baseDamage;
     }
-
 }

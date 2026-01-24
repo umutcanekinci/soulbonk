@@ -1,11 +1,9 @@
 using UnityEngine;
-using UnityEngine.UI;
 using VectorViolet.Core.Stats;
 using TMPro;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
-public class StatHolderUI : MonoBehaviour
+public class StatUpgradePanel : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI titleText;
@@ -39,7 +37,7 @@ public class StatHolderUI : MonoBehaviour
         if (statEntryPrefab == null || upgrade == null) return;
 
         GameObject entryObj = Instantiate(statEntryPrefab, entriesContainer);
-        StatEntryUI entryUI = entryObj.GetComponent<StatEntryUI>();
+        StatUpgradeEntry entryUI = entryObj.GetComponent<StatUpgradeEntry>();
 
         if (entryUI != null)
         {

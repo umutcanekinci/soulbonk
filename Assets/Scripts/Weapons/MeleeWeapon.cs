@@ -20,7 +20,7 @@ public class MeleeWeapon : WeaponBase
 
     void DamageEnemiesInRange()
     {
-        float range = _attackRangeStat != null ? _attackRangeStat.GetValue() : 0f;
+        float range = _attackRangeStat != null ? _attackRangeStat.Value : 0f;
         Vector2 attackPointPosition = (Vector2)transform.position + attackDirection * range;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPointPosition, range, targetLayers);
 
@@ -48,7 +48,7 @@ public class MeleeWeapon : WeaponBase
         if (_attackRangeStat == null)
             return;
 
-        float range = _attackRangeStat.GetValue();
+        float range = _attackRangeStat.Value;
         Vector2 attackPointPosition = (Vector2)transform.position + attackDirection * range;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPointPosition, range);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da1ebc6a6e14637489aa6a3c8b152797, type: 3}
   m_Name: Ferocity
   m_EditorClassIdentifier: ProStatHolder::VectorViolet.Core.Stats.UpgradeDefinition
-  displayName: FRC
+  displayName: 
   icon: {fileID: 0}
   baseCost: 2
   costMultiplier: 1.5

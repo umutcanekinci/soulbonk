@@ -59,7 +59,7 @@ public class EnemyHP : MonoBehaviour
         }
         else
         {
-            EventBus.Enemy.TriggerDeath(transform.position, (int)coinSourceStat.GetValue());
+            EventBus.Enemy.TriggerDeath(transform.position, (int)coinSourceStat.Value);
             Destroy(gameObject);
         }
     }
