@@ -6,6 +6,7 @@
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="ProStatHolder.csproj" />
   <Project Path="VectorViolet.ProStatManager.Editor.csproj" />
+  <Project Path="Utilities.csproj" />
   <Project Path="VectorViolet.ProSoundManager.Editor.csproj" />
   <Project Path="ProSoundManager.csproj" />
 </Solution>

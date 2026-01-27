@@ -62,7 +62,7 @@ namespace VectorViolet.Core.Stats
                 }
             }
 
-            finalValue *= 1 + sumPercentAdd;
+            finalValue *= 1 + (sumPercentAdd / 100f);
 
             return (float)Math.Round(finalValue, 2);
         }

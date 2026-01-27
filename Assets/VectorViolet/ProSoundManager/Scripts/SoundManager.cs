@@ -2,14 +2,13 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using System.Collections;
+using VectorViolet.Core.Utilities;
 
 namespace VectorViolet.Core.Audio
 {
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : Singleton<SoundManager>
     {
         #region 1. Variables
-
-        public static SoundManager Instance;
         public List<SoundData> SoundDataList => sfxDataList;
         public List<SoundData> MusicDataList => musicDataList;
 
@@ -52,23 +51,14 @@ namespace VectorViolet.Core.Audio
 
         #region 2. Unity Lifecycle & Initialization
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance == null)
-            {
-                Initialize();
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.Awake();
+            Initialize();
         }
 
         private void Initialize()
         {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-
             InitializeSoundDataDictionary(); // Improve lookup efficiency
             InitializeMusicSource();
             InitializePool();

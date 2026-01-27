@@ -2,15 +2,14 @@ using UnityEngine;
 
 class NecromancerStaff : WeaponBase
 {
-    [SerializeField] private EnemySpawner enemySpawner;
-    [SerializeField] private GameObject spawnObject;
+    [SerializeField] private EnemyAI spawnObject;
 
     public override void Attack(Vector3 direction)
     {
-        if (enemySpawner == null || spawnObject == null)
+        if (EnemySpawner.Instance == null || spawnObject == null)
             return;
 
         Vector3 position = transform.position + AttackRange * direction.normalized;
-        enemySpawner.SpawnEnemy(spawnObject, position);
+        EnemySpawner.Instance.SpawnEnemy(spawnObject, position);
     }
 }

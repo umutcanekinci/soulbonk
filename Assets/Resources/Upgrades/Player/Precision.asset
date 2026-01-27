@@ -19,5 +19,5 @@ MonoBehaviour:
   modifiers:
   - targetStat: {fileID: 11400000, guid: 2f21515110ca46843aad4af953ed10d7, type: 2}
     type: 100
-    baseBonus: 1
-    growthPerLevel: 2
+    baseBonus: 0
+    growthPerLevel: 1

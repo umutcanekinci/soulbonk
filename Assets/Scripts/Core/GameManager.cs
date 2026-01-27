@@ -1,4 +1,5 @@
 using UnityEngine;
+using VectorViolet.Core.Utilities;
 
 public enum GameState {
     Gameplay,
@@ -7,13 +8,12 @@ public enum GameState {
     Paused
 }
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     [Header("Layer Names")]
     [SerializeField] private string playerLayerName = "Player";
     [SerializeField] private string enemyLayerName = "Enemy";
 
-    public static GameManager Instance { get; private set; }
     public event System.Action<GameState> OnStateChanged;
     public GameState CurrentState { get; private set; }
     public static bool IsGameplay => Instance != null && Instance.CurrentState == GameState.Gameplay;
@@ -21,15 +21,6 @@ public class GameManager : MonoBehaviour
     public static bool IsInteraction => Instance != null && Instance.CurrentState == GameState.Interaction;
     public static bool IsPaused => Instance != null && Instance.CurrentState == GameState.Paused;
     
-    private void Awake()
-    {
-        if (Instance != null && Instance != this) {
-            Destroy(gameObject); return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
     public void PauseGame()
     {
         SetState(GameState.Paused);

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VectorViolet.Core.Utilities;
 
-public class FloatingTextManager : MonoBehaviour
+public class FloatingTextManager : Singleton<FloatingTextManager>
 {
     [SerializeField] private FloatingText floatingTextPrefab;
     [SerializeField] private int initialPoolSize = 10;
@@ -10,25 +11,12 @@ public class FloatingTextManager : MonoBehaviour
     [SerializeField] private float scaleFactor = 0.02f;
     [SerializeField] private Vector2 randomOffsetRange = new Vector2(0.1f, 0.1f);
 
-    private List<FloatingText> floatingTextPool = new List<FloatingText>();
-    public static FloatingTextManager Instance { get; private set; }
+    private ObjectPool<FloatingText> floatingTextPool;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        for (int i = 0; i < initialPoolSize; i++)
-        {
-            CreateNewFloatingText();
-        }
+        base.Awake();
+        floatingTextPool = new ObjectPool<FloatingText>(floatingTextPrefab, initialPoolSize, transform);
     }    
 
     public void ShowFloatingText(string text, Vector3 position, Color color, float scale = 1f)
@@ -37,28 +25,9 @@ public class FloatingTextManager : MonoBehaviour
         position.x += Random.Range(-randomOffsetRange.x, randomOffsetRange.x);
         position.y += Random.Range(-randomOffsetRange.y, randomOffsetRange.y);
         
-        FloatingText floatingText = GetPooledFloatingText();
-        floatingText.Initialize(text, color, finalScale);
+        FloatingText floatingText = floatingTextPool.Get();
+        floatingText.Initialize(text, color, finalScale, floatingTextPool.Return);
         floatingText.SetPosition(position);
     }
 
-    private FloatingText GetPooledFloatingText()
-    {
-        foreach (var ft in floatingTextPool)
-        {
-            if (!ft.gameObject.activeInHierarchy)
-            {
-                return ft;
-            }
-        }
-
-        return CreateNewFloatingText();
-    }
-
-    private FloatingText CreateNewFloatingText()
-    {
-        FloatingText newFloatingText = Instantiate(floatingTextPrefab, transform);
-        floatingTextPool.Add(newFloatingText);
-        return newFloatingText;
-    }
 }

@@ -1,33 +1,63 @@
+using System.Collections.Generic;
 using UnityEngine;
+using VectorViolet.Core.Utilities;
 
 [System.Serializable]
-public class EnemyRate
+public class EnemyType
 {
-    public GameObject enemyPrefab;
+    public EnemyAI prefab;
     public float spawnRate;
 }
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : Singleton<EnemySpawner>
 {
+    public int CurrentEnemyCount => EnemyContainer.childCount;
+
     [Header("References")]
     [SerializeField] private Transform player;
     
     [Header("Settings")]
     [SerializeField] private bool spawnOnStart = true;
-    [SerializeField] private EnemyRate[] enemyRates;
-    public float spawnInterval = 2f;
-    public int maxEnemies = 50;
+    [SerializeField] private EnemyType[] enemyTypes;
+    [SerializeField] private float spawnInterval = 2f;
+    [SerializeField] private int maxEnemies = 50;
     
     [Header("Spawn Locations")]
-    public Transform[] spawnPoints;
+    [SerializeField] private Transform[] spawnPoints;
+
+    [SerializeField] private Transform _enemyContainer;
+    private Dictionary<EnemyType, ObjectPool<EnemyAI>> enemyPools = new Dictionary<EnemyType, ObjectPool<EnemyAI>>();
+
+    private Transform EnemyContainer
+    {
+        get
+        {
+            if (_enemyContainer == null)
+            {
+                GameObject containerObj = GameObject.Find("Entities");
+
+                if (containerObj == null)
+                {
+                    containerObj = new GameObject("Entities");
+                }
+                _enemyContainer = containerObj.transform;
+            }
+            return _enemyContainer;
+        }
+    }
 
     private float currentTimer;
 
     private void Start()
     {
-        foreach (Transform enemy in transform)
+        foreach (Transform enemy in EnemyContainer)
         {
             enemy.GetComponent<EnemyAI>()?.SetTarget(player);
+        }
+
+        foreach (EnemyType type in enemyTypes)
+        {
+            enemyPools[type] = new ObjectPool<EnemyAI>(type.prefab, 100, EnemyContainer);
         }
     }
 
@@ -46,7 +76,7 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if (spawnPoints.Length == 0 || enemyRates == null || enemyRates.Length == 0)
+        if (spawnPoints.Length == 0 || enemyTypes == null || enemyTypes.Length == 0)
         {
             Debug.LogWarning("Spawn points or enemy rates not set up correctly.");
             return;
@@ -54,22 +84,20 @@ public class EnemySpawner : MonoBehaviour
 
         int randomIndex = Random.Range(0, spawnPoints.Length);
         Transform targetSpawnPoint = spawnPoints[randomIndex];
-        GameObject enemyPrefab = enemyRates[Random.Range(0, enemyRates.Length)].enemyPrefab;
+        EnemyAI enemyPrefab = enemyTypes[Random.Range(0, enemyTypes.Length)].prefab;
         SpawnEnemy(enemyPrefab, targetSpawnPoint.position);
     }
 
-    public void SpawnEnemy(GameObject enemyPrefab, Vector3 position)
+    public void SpawnEnemy(EnemyAI enemyPrefab, Vector3 position)
     {
         if (enemyPrefab == null)
             return;
 
-        int currentEnemyCount = transform.childCount;
-        if (currentEnemyCount >= maxEnemies)
+        if (CurrentEnemyCount >= maxEnemies)
             return;
 
-        GameObject newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
-        newEnemy.GetComponent<EnemyAI>().SetTarget(player);
-        newEnemy.transform.parent = transform;
+        EnemyAI newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity, EnemyContainer);
+        newEnemy.SetTarget(player);
     }
 
     void OnDrawGizmos() 

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using VectorViolet.Core.Utilities;
 
-public class InteractionManager : MonoBehaviour
+public class InteractionManager : Singleton<InteractionManager>
 {
     [Header("Interaction Settings")]    
     [SerializeField] private InteractableUI interactableUI;

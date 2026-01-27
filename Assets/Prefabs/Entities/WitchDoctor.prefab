@@ -66,6 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0705710d4b757e4e92cc1664566d133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WitchWand
+  missSounds: {fileID: 0}
+  hitSounds: {fileID: 0}
+  scalings: []
 --- !u!1001 &4481925688736797184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -144,7 +147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[0]._baseValue
-      value: 1.5
+      value: 1.35
       objectReference: {fileID: 0}
     - target: {fileID: 8757380831471935393, guid: fb163b367843a234db9baf2e4262322d, type: 3}
       propertyPath: attributes.Array.data[0].definition
@@ -217,12 +220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityAttack
   target: {fileID: 0}
   targetDirection: {x: 0, y: 0, z: 0}
-  animator: {fileID: 7580939284130583052}
-  activeWeapon: {fileID: 319599086934336192}
+  startingWeapon: {fileID: 0}
   passiveWeapons: []
   attackImpactPoint: 0.5
---- !u!95 &7580939284130583052 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6270725609877569548, guid: fb163b367843a234db9baf2e4262322d, type: 3}
-  m_PrefabInstance: {fileID: 4481925688736797184}
-  m_PrefabAsset: {fileID: 0}

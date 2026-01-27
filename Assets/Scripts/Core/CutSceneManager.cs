@@ -1,25 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using VectorViolet.Core.Utilities;
 
-public class CutSceneManager : MonoBehaviour
+public class CutSceneManager : Singleton<CutSceneManager>
 {
-    public static CutSceneManager Instance { get; private set; }
-
     public static void Play(IEnumerator cutsceneRoutine, GameState stateAfterCutscene = GameState.Gameplay)
     {
-        if(Instance != null && cutsceneRoutine != null)
-            Instance.StartCoroutine(Instance.CutSceneCoroutine(cutsceneRoutine, stateAfterCutscene));
-    }
+        if(Instance == null || cutsceneRoutine == null)
+            return;
 
-    private void Awake()
-    {
-        if (Instance == null) { 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else {
-            Destroy(gameObject);
-        }
+        Instance.StartCoroutine(Instance.CutSceneCoroutine(cutsceneRoutine, stateAfterCutscene));
     }
 
     private IEnumerator CutSceneCoroutine(IEnumerator cutsceneRoutine, GameState endState)

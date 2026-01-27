@@ -66,7 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4758a3a2b31bc7947a603c04c210da7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NecromancerStaff
-  enemySpawner: {fileID: 0}
+  missSounds: {fileID: 0}
+  hitSounds: {fileID: 0}
+  scalings: []
   spawnObject: {fileID: 2815604307187085510, guid: 05cf3cda4f5b77a43a774154cbadb6d6, type: 3}
 --- !u!1001 &8510684933722995852
 PrefabInstance:
@@ -90,11 +92,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2455538007588394430, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5832
+      value: -5.06
       objectReference: {fileID: 0}
     - target: {fileID: 2455538007588394430, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9032
+      value: 2.33
       objectReference: {fileID: 0}
     - target: {fileID: 2455538007588394430, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
       propertyPath: m_LocalPosition.z
@@ -166,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8842760849410420510, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
       propertyPath: resources.Array.data[0].MaxValue
-      value: 1000
+      value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 8842760849410420510, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
       propertyPath: attributes.Array.data[0]._baseValue
@@ -218,7 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 59be2f373de882a43b5e30c249443d66, type: 2}
     - target: {fileID: 8842760849410420510, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
       propertyPath: resources.Array.data[0]._currentValue
-      value: 1000
+      value: 100000
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7316775147065502016, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
@@ -268,15 +270,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityAttack
   target: {fileID: 0}
   targetDirection: {x: 0, y: 0, z: 0}
-  animator: {fileID: 2460559960749411391}
-  activeWeapon: {fileID: 1031099555942343240}
+  startingWeapon: {fileID: 1031099555942343240}
   passiveWeapons: []
   attackImpactPoint: 0.5
---- !u!95 &2460559960749411391 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6069072069802815667, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}
-  m_PrefabInstance: {fileID: 8510684933722995852}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6057293214238714162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2455538007588394430, guid: b9c97669889b56d4d9fb5372e29a5459, type: 3}

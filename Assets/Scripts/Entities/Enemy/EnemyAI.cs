@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     
     public WeaponController WeaponController => weaponController;
     public EntityMovement EntityMovement => entityMovement;
-    public float AttackRange => _attackRangeStat != null ? _attackRangeStat.Value : 0f;
+    public float AttackRange => _attackRangeStat?.Value ?? 0f;
     public float ChaseRange => _chaseRangeStat.Value;
     public float PatrolRange => _patrolRangeStat.Value;
 

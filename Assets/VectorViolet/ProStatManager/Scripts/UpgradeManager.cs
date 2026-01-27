@@ -1,22 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
+using VectorViolet.Core.Utilities;
 
 namespace VectorViolet.Core.Stats
 {
-    public class UpgradeManager : MonoBehaviour
+    public class UpgradeManager : Singleton<UpgradeManager>
     {
-        public static UpgradeManager Instance;
-
-        [SerializeField] private List<UpgradeDefinition> allUpgrades;
-
+        private List<UpgradeDefinition> allUpgrades;
         private Dictionary<StatDefinition, UpgradeDefinition> _statUpgradeMap = new Dictionary<StatDefinition, UpgradeDefinition>();
         private Dictionary<UpgradeDefinition, int> _upgradeLevels = new Dictionary<UpgradeDefinition, int>();
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
-            else { Destroy(gameObject); return; }
-
+            base.Awake();
             LoadAllUpgrades();
             InitializeLookups();
         }

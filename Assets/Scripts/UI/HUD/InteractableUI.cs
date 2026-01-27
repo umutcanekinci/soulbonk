@@ -1,22 +1,16 @@
 using UnityEngine;
 using TMPro;
-public class InteractableUI : MonoBehaviour
+using VectorViolet.Core.Utilities;
+
+public class InteractableUI : Singleton<InteractableUI>
 {
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private TextMeshProUGUI interactionText;
+    protected override bool DontDestroy => false;
 
-    public static InteractableUI Instance { get; private set; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        base.Awake();
         Hide();
     }
 

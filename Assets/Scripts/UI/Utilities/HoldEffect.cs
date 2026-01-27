@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class HoldEffectUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class HoldEffect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private float animationSpeed = 15f;
 

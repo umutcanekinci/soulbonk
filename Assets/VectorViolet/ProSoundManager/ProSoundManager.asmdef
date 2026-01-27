@@ -2,7 +2,8 @@
     "name": "ProSoundManager",
     "rootNamespace": "",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:c0b8ac474efce25489b26e62cf37003e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

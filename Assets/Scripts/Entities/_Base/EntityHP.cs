@@ -58,7 +58,7 @@ public class EntityHP : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damageAmount, bool isCritical = false)
     {
-        if (_healthStat == null || IsDead || damageAmount <= 0 || !GameManager.IsGameplay) 
+        if (_healthStat == null || IsDead || Mathf.Approximately(damageAmount, 0) || !GameManager.IsGameplay) 
             return;
 
         _healthStat.CurrentValue -= damageAmount;

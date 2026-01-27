@@ -2,11 +2,10 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using System.Collections;
+using VectorViolet.Core.Utilities;
 
-public class TooltipManager : MonoBehaviour
+public class TooltipManager : Singleton<TooltipManager>
 {
-    public static TooltipManager Instance { get; private set; }
-
     [Header("UI References")]
     [SerializeField] private GameObject tooltipContainer;
     [SerializeField] private TMP_Text tooltipText;
@@ -18,14 +17,9 @@ public class TooltipManager : MonoBehaviour
     private Coroutine _hoverCoroutine;
     private bool _isMobile;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        base.Awake();
         
         // Platform kontrolü (Editor'de test etmek için manuel bool yapabilirsin)
         _isMobile = Application.isMobilePlatform; 

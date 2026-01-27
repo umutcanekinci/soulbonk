@@ -30,10 +30,7 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
     [SerializeField] private List<WeaponScalingConfig> scalings = new List<WeaponScalingConfig>();
 
     protected StatBase _attackDamageStat, _attackRangeStat, _attackSpeedStat, _critRateStat, _critDamageStat;
-    private bool _isInitialized = false;
 
-    // Aktif modifierları ve hangi player statına bağlı olduklarını takip etmek için bir liste
-    // (Unequip ederken eventlerden çıkmak için gerekli)
     private class ActiveScalingLink
     {
         public StatBase SourceStat;      
@@ -78,35 +75,27 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
     
     private List<ActiveScalingLink> _activeLinks = new List<ActiveScalingLink>();
 
-    // Propertyler aynı kalabilir...
-    public float AttackDamage => _isInitialized ? _attackDamageStat.Value : 0f;
-    public float AttackRange => _isInitialized ? _attackRangeStat.Value : 0f;
-    public float AttackSpeed => _isInitialized ? _attackSpeedStat.Value : 0f;
-
-    public void Initialize()
-    {
-        if (_isInitialized) return;
-
-        StatHolder statHolder = GetComponent<StatHolder>();
-        if (statHolder != null)
-        {
-            _attackDamageStat = statHolder.GetStat("AttackDamage");
-            _attackRangeStat = statHolder.GetStat("AttackRange");
-            _attackSpeedStat = statHolder.GetStat("AttackSpeed");
-            _critRateStat = statHolder.GetStat("CritRate");
-            _critDamageStat = statHolder.GetStat("CritDamage");
-            _isInitialized = true;
-        }
-    }
+    public float AttackDamage => _attackDamageStat?.Value ?? 0f;
+    public float AttackRange => _attackRangeStat?.Value ?? 0f;
+    public float AttackSpeed => _attackSpeedStat?.Value ?? 0f;
 
     public virtual void OnEquip(StatHolder entityStats)
     {
-        Initialize();
-        if (entityStats == null) return;
+        SetupWeaponStats();
+
+        if (entityStats == null)
+        {
+            Debug.LogWarning("Entity stats is null during weapon equip.");
+            return;
+        }
 
         foreach (var config in scalings)
         {
-            if (config.sourceStatDef == null || config.targetStatDef == null) continue;
+            if (config.sourceStatDef == null || config.targetStatDef == null)
+            {
+                Debug.LogWarning("Invalid scaling config in weapon: " + gameObject.name);
+                continue;
+            }
 
             StatBase playerStat = entityStats.GetStat(config.sourceStatDef.ID);
             StatBase weaponStat = GetComponent<StatHolder>().GetStat(config.targetStatDef.ID);
@@ -128,6 +117,21 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
             }
         }
     }
+    private void SetupWeaponStats()
+    {
+        if (_attackDamageStat != null)
+            return;
+
+        StatHolder statHolder = GetComponent<StatHolder>();
+        if (statHolder != null)
+        {
+            _attackDamageStat = statHolder.GetStat("AttackDamage");
+            _attackRangeStat = statHolder.GetStat("AttackRange");
+            _attackSpeedStat = statHolder.GetStat("AttackSpeed");
+            _critRateStat = statHolder.GetStat("CritRate");
+            _critDamageStat = statHolder.GetStat("CritDamage");
+        }
+    }
 
     public virtual void OnUnequip()
     {
@@ -145,9 +149,9 @@ public abstract class WeaponBase : MonoBehaviour, IWeapon
 
     protected virtual float CalculateDamage(out bool isCritical)
     {
-        float baseDamage = _attackDamageStat != null ? _attackDamageStat.Value : 0f;
-        float critRate = _critRateStat != null ? _critRateStat.Value : 0f;
-        float critDamage = _critDamageStat != null ? _critDamageStat.Value : 0f;
+        float baseDamage = _attackDamageStat?.Value ?? 0f;
+        float critRate =  _critRateStat?.Value ?? 0f;
+        float critDamage = _critDamageStat?.Value ?? 0f;
 
         isCritical = Random.value * 100 < critRate;
         if (isCritical)

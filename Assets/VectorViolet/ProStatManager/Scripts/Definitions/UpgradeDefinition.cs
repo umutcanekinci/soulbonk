@@ -42,14 +42,18 @@ namespace VectorViolet.Core.Stats
 
             if (level <= 0)
                 return result;
-
+            
             foreach (var entry in modifiers)
             {
-                float value = entry.baseBonus + ((level - 1) * entry.growthPerLevel);
-                StatModifier mod = new StatModifier(value, entry.type, this);
-                result.Add(mod);
+                result.Add(CreateModifier(entry, level));
             }
             return result;
+        }
+
+        private StatModifier CreateModifier(ModifierEntry entry, int level)
+        {
+            float value = entry.baseBonus + ((level - 1) * entry.growthPerLevel);
+            return new StatModifier(value, entry.type, this);
         }
     }
 }

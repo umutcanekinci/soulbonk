@@ -5205,7 +5205,7 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 257e83d1baccd7c41980b331886c458b, type: 2}
     _baseValue: 0.12
   - definition: {fileID: 11400000, guid: 2027b545db324cd4398b30a8ea15dd2e, type: 2}
-    _baseValue: 4
+    _baseValue: 2.12
   - definition: {fileID: 11400000, guid: 939ecb569d662b9478ac7c8fe32faa8a, type: 2}
     _baseValue: 0.6
   - definition: {fileID: 11400000, guid: 59be2f373de882a43b5e30c249443d66, type: 2}
@@ -5213,7 +5213,7 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: d7de12216ece8ad43aa306109209717a, type: 2}
     _baseValue: 1
   - definition: {fileID: 11400000, guid: 9f33060d4ccec3d4a86496b257776126, type: 2}
-    _baseValue: 5
+    _baseValue: 1.13
   resources:
   - definition: {fileID: 11400000, guid: a9ad074f15333eb45b4c0328e68782c7, type: 2}
     _currentValue: 50
@@ -5295,10 +5295,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ef39d3a00dec74e829f1366d12b0a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityTakeDamageEffect
+  offset: {x: 0, y: 0.1}
+  damageColor: {r: 1, g: 1, b: 1, a: 1}
+  healColor: {r: 0, g: 1, b: 0, a: 1}
+  critColor: {r: 1, g: 0, b: 0, a: 1}
   critScale: 1.5
   spriteRenderer: {fileID: 4422691103465046231}
   flashMaterial: {fileID: 2100000, guid: be9ea6d6248700e4f870aba2f0c8eaab, type: 2}
-  floatingTextOffset: {x: 0, y: 0.1}
 --- !u!114 &2114568598182560087
 MonoBehaviour:
   m_ObjectHideFlags: 0

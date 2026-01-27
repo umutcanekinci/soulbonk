@@ -66,7 +66,8 @@ class EntityHpChangeEffect : MonoBehaviour
     {
         if (FloatingTextManager.Instance != null)
         {
-            string text = (amount > 0 ? "+" : "") + Mathf.RoundToInt(amount).ToString();
+            int amountInt = Mathf.CeilToInt(Mathf.Abs(amount));
+            string text = (amount > 0 ? "+" : "") + amountInt.ToString();
             Vector2 position = (Vector2)transform.position + offset;
             Color color = amount > 0 ? healColor : isCritical ? critColor : damageColor;
             float scale = (isCritical ? critScale : 1f) * amount;

@@ -79,7 +79,7 @@ public class StatUpgradeEntry : MonoBehaviour
     private void UpdateButtonState()
     {
         int cost = UpgradeManager.Instance.GetNextCost(_upgradeDefinition);
-        bool canAfford = CoinManager.Instance.IsEnoughCoins(cost);
+        bool canAfford = CoinManager.Instance.CanAfford(cost);
 
         if (upgradeButton != null)
         {
@@ -96,7 +96,7 @@ public class StatUpgradeEntry : MonoBehaviour
     {
         int cost = UpgradeManager.Instance.GetNextCost(_upgradeDefinition);
 
-        if (CoinManager.Instance.IsEnoughCoins(cost))
+        if (CoinManager.Instance.CanAfford(cost))
         {
             UpgradeManager.Instance.Upgrade(_upgradeDefinition, _targetHolder);
             CoinManager.Instance.SpendCoins(cost); // That returns true if successful, but we need to trigger the event after upgrade so, we do it here.

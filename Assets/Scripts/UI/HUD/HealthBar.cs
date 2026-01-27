@@ -14,11 +14,7 @@ public class HealthBar : MonoBehaviour
         if (playerHP != null)
         {
             playerHP.OnHealthChanged += UpdateHealthBar;    
-        } else
-        {
-            Debug.LogError("PlayerHP reference is missing in HealthBar!");
         }
-        
     }
 
     void OnDestroy()

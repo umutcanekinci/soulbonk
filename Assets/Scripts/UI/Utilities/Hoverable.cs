@@ -8,38 +8,38 @@ public class Hoverable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private bool _isMobile;
 
+    private void OnDisable()
+    {
+        TooltipManager.Instance.HideTooltip();
+        TooltipManager.Instance.CancelHoverSequence();
+    }
+
     private void Start()
     {
         _isMobile = Application.isMobilePlatform;
     }
 
-    // --- PC MANTIĞI (HOVER) ---
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (_isMobile) return; // Mobilde hover çalışmasın
+        if (_isMobile)
+            return;
 
-        // PC'de mouse üstüne gelince sayacı başlat
         TooltipManager.Instance.StartHoverSequence(hoverTooltip);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (_isMobile) return;
+        if (_isMobile)
+            return;
 
-        // PC'de mouse çıkınca sayacı veya tooltip'i kapat
         TooltipManager.Instance.CancelHoverSequence();
     }
 
-    // --- MOBİL MANTIĞI (CLICK) ---
     public void OnPointerClick(PointerEventData eventData)
     {
-        // Mobilde tıklanınca direkt göster
         if (_isMobile)
         {
-            // Önce varsa diğerlerini kapat (Temizlik)
             TooltipManager.Instance.ForceHide();
-            
-            // Sonra bunu aç
             TooltipManager.Instance.ShowTooltipImmediate(hoverTooltip);
         }
     }

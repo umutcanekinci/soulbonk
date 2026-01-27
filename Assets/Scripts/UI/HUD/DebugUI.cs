@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using VectorViolet.Core.Stats;
 
 public class DebugUI : MonoBehaviour
 {
     [SerializeField] private bool showOnStart = true;
+    [SerializeField] private StatHolder playerStats;
 
     [Header("UI References")]
     [SerializeField] private GameObject uiContainer;
@@ -57,11 +59,14 @@ public class DebugUI : MonoBehaviour
         if (gameStateText == null || !isEnabled)
             return;
 
+        float collisionDamage = playerStats?.GetStat("CollisionDamage")?.Value ?? 0f;
+
         gameStateText.text = $"Debug Mode: ON" + 
                              $"\nGame State: {GameManager.Instance.CurrentState}" +
                              $"\nIs Mobile Platform: {Application.isMobilePlatform}" +
                              $"\nScreen Resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}" +
-                             $"\nFPS: {Mathf.RoundToInt(1f / Time.unscaledDeltaTime)}";
+                             $"\nFPS: {Mathf.RoundToInt(1f / Time.unscaledDeltaTime)}" + 
+                             $"\nPlayer Collision Damage: {collisionDamage}";
                              
     }
 }

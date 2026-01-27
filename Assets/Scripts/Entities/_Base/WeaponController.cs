@@ -44,17 +44,8 @@ public class WeaponController : MonoBehaviour
 
         if (startingWeapon != null)
             SwitchWeapon(startingWeapon);
-
         
-        foreach (var weapon in passiveWeapons)
-        {
-            EquipPassiveWeapon(weapon);
-        }
-    }
-
-    private void OnValidate()
-    {
-        SwitchWeapon(startingWeapon);
+        passiveWeapons.ForEach(weapon => EquipPassiveWeapon(weapon));
     }
 
     public void SwitchWeapon(WeaponBase newWeapon)
@@ -69,14 +60,14 @@ public class WeaponController : MonoBehaviour
 
     public void EquipWeapon(WeaponBase newWeapon)
     {
+        Debug.Assert(_stats != null, "StatHolder component is missing on WeaponController's GameObject.");
+
         if (newWeapon != null)
         {
             activeWeapon = newWeapon;
             activeWeapon.OnEquip(_stats); 
             activeWeapon.gameObject.SetActive(true);
-            activeWeapon.Initialize(); 
         }
-
     }
 
     private void UnequipWeapon()
@@ -148,10 +139,8 @@ public class WeaponController : MonoBehaviour
             passiveWeapons.Add(passiveWeapon);
         }
 
-        passiveWeapon.Initialize();
         passiveWeapon.OnEquip(_stats);
         passiveWeapon.gameObject.SetActive(true);
-
         
         if (!passiveRoutines.ContainsKey(passiveWeapon))
         {

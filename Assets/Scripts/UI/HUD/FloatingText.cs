@@ -14,9 +14,11 @@ public class FloatingText : MonoBehaviour
     [SerializeField] private float gravity = 20f;
 
     private Vector3 currentVelocity;
+    private System.Action<FloatingText> _returnToPoolAction;
 
-    public void Initialize(string text, Color color, float scale)
+    public void Initialize(string text, Color color, float scale, System.Action<FloatingText> returnToPoolAction)
     {
+        _returnToPoolAction = returnToPoolAction;
         textMesh.text = text;
         textMesh.color = color;
         transform.localScale = Vector3.one * scale;
@@ -49,7 +51,7 @@ public class FloatingText : MonoBehaviour
 
         if (color.a <= 0)
         {
-            gameObject.SetActive(false);
+            _returnToPoolAction?.Invoke(this);
         }
     }
 

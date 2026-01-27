@@ -7,7 +7,7 @@ public class DynamicJoystickZone : MonoBehaviour, IPointerDownHandler, IDragHand
     [Header("References")]
     [Tooltip("The RectTransform of the joystick to be moved.")]
     [SerializeField] private RectTransform joystickTransform;
-    [SerializeField] private HoldEffectUI holdEffectUI;
+    [SerializeField] private HoldEffect holdEffectUI;
     
     [Tooltip("The OnScreenStick component controlling the joystick behavior.")]
     [SerializeField] private OnScreenStick onScreenStick;

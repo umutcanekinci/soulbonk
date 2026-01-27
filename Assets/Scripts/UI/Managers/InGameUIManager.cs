@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using VectorViolet.Core.Utilities;
 
-public class InGameUIManager : MonoBehaviour
+public class InGameUIManager : Singleton<InGameUIManager>
 {
     [Header("References")]
     [SerializeField] GameObject statUI;
@@ -12,10 +13,11 @@ public class InGameUIManager : MonoBehaviour
     List<GameObject> uiElements;
 
     [Header("Settings")]
-    [SerializeField] private bool hideControlOnStart = true;
+    [SerializeField] private bool hideControlsOnPC = true;
     
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         uiElements = new List<GameObject> { statUI, statUpgradeUI, controlUI };
         ShowOnly(controlUI);
     }
@@ -52,7 +54,7 @@ public class InGameUIManager : MonoBehaviour
     private void ShowOnly(GameObject uiElement)
     {
         HideAll();
-        if (uiElement == controlUI && !Application.isMobilePlatform && hideControlOnStart)
+        if (uiElement == controlUI && !Application.isMobilePlatform && hideControlsOnPC)
             return;
 
         Show(uiElement);

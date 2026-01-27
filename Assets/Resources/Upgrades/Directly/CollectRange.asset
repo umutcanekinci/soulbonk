@@ -18,6 +18,6 @@ MonoBehaviour:
   costMultiplier: 1.5
   modifiers:
   - targetStat: {fileID: 11400000, guid: 3baf9a0011e99ad4b9cff32d6e6ce1ce, type: 2}
-    type: 100
-    baseBonus: 1
-    growthPerLevel: 2
+    type: 200
+    baseBonus: 0
+    growthPerLevel: 5

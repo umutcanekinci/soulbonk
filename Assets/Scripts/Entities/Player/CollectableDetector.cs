@@ -39,6 +39,6 @@ public class CollectableDetector : MonoBehaviour
         if (!collision.CompareTag("Coin"))
             return;
 
-        CoinManager.Instance.ReturnCoinToPool(collision.gameObject);    
+        CoinManager.Instance.CollectCoin(collision.gameObject);    
     }
 }
